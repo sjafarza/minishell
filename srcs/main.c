@@ -6,7 +6,7 @@
 /*   By: saray <saray.jafarzade@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/11 19:03:13 by saray             #+#    #+#             */
-/*   Updated: 2021/11/15 10:48:01 by saray            ###   ########.fr       */
+/*   Updated: 2021/11/17 11:12:05 by saray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,17 +70,20 @@ int	main(int ac, char **av, char **env)
 	i = -1;
 	printf("ac = %d, av[%d] = %s\n", ac, ac - 1, av[ac-1]);
 	//1- recover vaiable env & all of path in PATH
+	printf("1- recovr variable env et PATH by 2 function a_env & a_path\n\n");
 	a_env = ft_recover_env(env);
 	a_path = ft_path(a_env);
 	write(1, "mshell$ ",8);
+	// 2-scan the teminal
 	while (gnl(0, &line) >= 0)
 	{
 		printf("line = %s\n", line);
+		printf("2- Bilding list of Token in function ft_lexer\n\n");
 		ft_lexer(line);
-		printf("1- lexer control error \n");
-		printf("2- parse \n");
-		printf("3- Build AST \n");
-		printf("4- execut \n");
+		printf("3- lexer control error \n");
+		printf("4- parse \n");
+		printf("5- Build AST \n");
+		printf("6- execut \n");
 		write(1, "mshell$ ", 8);
 	}
 	ft_free(a_env, a_path);

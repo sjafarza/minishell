@@ -6,7 +6,7 @@
 /*   By: saray <saray.jafarzade@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/11 17:47:17 by saray             #+#    #+#             */
-/*   Updated: 2021/11/16 14:23:28 by saray            ###   ########.fr       */
+/*   Updated: 2021/11/17 08:59:05 by saray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,6 @@ void	ft_lexer(char *line);
  */
 
 t_tok   *ft_make_list();
-void    ft_add_list(char *s, t_lexer *lex);
+void    ft_add_list(t_tok *head, char *s, t_lexer *lex);
 void    ft_print_list(t_tok *head);
 #endif
