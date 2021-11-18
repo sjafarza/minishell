@@ -6,7 +6,7 @@
 /*   By: saray <saray.jafarzade@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/11 17:47:17 by saray             #+#    #+#             */
-/*   Updated: 2021/11/17 08:59:05 by saray            ###   ########.fr       */
+/*   Updated: 2021/11/18 10:26:39 by saray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ typedef struct s_lexer
 }	t_lexer;
 
 void    ft_free(char    **a_env, char   **a_path);
-void	ft_lexer(char *line);
+int	ft_lexer(char *line);
 
 /*
  ** list
@@ -74,4 +74,9 @@ void	ft_lexer(char *line);
 t_tok   *ft_make_list();
 void    ft_add_list(t_tok *head, char *s, t_lexer *lex);
 void    ft_print_list(t_tok *head);
+
+/*
+ ** error
+ */
+int     ft_find_error(char **line);
 #endif

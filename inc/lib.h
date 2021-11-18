@@ -6,7 +6,7 @@
 /*   By: saray <saray.jafarzade@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/11 17:47:17 by saray             #+#    #+#             */
-/*   Updated: 2021/11/13 23:42:46 by saray            ###   ########.fr       */
+/*   Updated: 2021/11/18 11:49:18 by saray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,4 +34,6 @@ int      str_len(char const *s, char c);
 char	*ft_strdup(const char *s1);
 int     ft_memcmp(const void *s1, const void *s2, size_t n);
 int	ft_strlen(char *s);
+void    ft_del_EmptySpace(char **s);
+
 #endif

@@ -6,7 +6,7 @@
 #    By: saray <saray.jafarzade@gmail.com>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/09/28 22:36:55 by saray             #+#    #+#              #
-#    Updated: 2021/11/16 10:26:33 by saray            ###   ########.fr        #
+#    Updated: 2021/11/18 12:41:34 by saray            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,9 +21,10 @@ HEADER = ./inc/parser.h
 
 
 
-SRC = ./srcs/main.c ./srcs/free.c ./srcs/lexer.c ./srcs/utils_list.c
+SRC = ./srcs/main.c ./srcs/free.c ./srcs/lexer.c ./srcs/utils_list.c ./srcs/error.c
 
-SRCB = ./srcs/lib/get_next_line.c ./srcs/lib/split.c ./srcs/lib/substr.c ./srcs/lib/strdup.c ./srcs/lib/ft_memcmp.c ./srcs/lib/ft_strlen.c
+SRCB = ./srcs/lib/get_next_line.c ./srcs/lib/split.c ./srcs/lib/substr.c ./srcs/lib/strdup.c \
+       ./srcs/lib/ft_memcmp.c ./srcs/lib/ft_strlen.c ./srcs/lib/ft_del_EmptySpace.c
 
 OBJ = $(SRC:c=o) $(SRCB:c=o)
 

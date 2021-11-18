@@ -6,7 +6,7 @@
 /*   By: saray <saray.jafarzade@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/13 17:37:32 by saray             #+#    #+#             */
-/*   Updated: 2021/11/13 23:23:29 by saray            ###   ########.fr       */
+/*   Updated: 2021/11/18 13:45:49 by saray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,4 +30,5 @@ void	ft_free(char	**a_env, char	**a_path)
 			free(a_path[i]);
 	free(a_path);
 	}
+	printf("ft_free is done\n");
 }
