@@ -3,34 +3,56 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: saray <saray.jafarzade@gmail.com>          +#+  +:+       +#+         #
+#    By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/09/28 22:36:55 by saray             #+#    #+#              #
-#    Updated: 2021/11/18 12:41:34 by saray            ###   ########.fr        #
+#    Updated: 2021/11/20 22:27:19 by scarboni         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME = minishell
+NAME 		= minishell
+
+OBJ_PATH	= bin/
+
+CC 			= clang
+
+CFLAGS 		= -W -Wall -Wextra -Werror -g3 -pedantic
+
+HEADER 		= ./inc/parser.h
+
+MINILIB_PATH		= lib/
+SRC_PATH			= ./srcs/
+
+BASE =		main.c \
+			free.c \
+			lexer.c \
+			utils_list.c \
+			error.c
+
+SRC_FILES		= $(BASE)
+
+MINILIB = 	get_next_line.c \
+			split.c \
+			substr.c \
+			strdup.c \
+      		ft_memcmp.c \
+			ft_strlen.c \
+			ft_del_EmptySpace.c
 
 
-CC = clang
+SRC_FILES	+=	$(addprefix $(MINILIB_PATH), $(MINILIB))
 
-CFLAGS = -Wall -Wextra -Werror
+SRC			= 	$(addprefix $(SRC_PATH), $(SRC_FILES))
+OBJ 		= 	$(addprefix $(OBJ_PATH), $(SRC_FILES:c=o))
 
-HEADER = ./inc/parser.h
+OBJ_PATHS_INIT			=	$(addprefix $(OBJ_PATH),$(MINILIB_PATH))
 
-
-
-SRC = ./srcs/main.c ./srcs/free.c ./srcs/lexer.c ./srcs/utils_list.c ./srcs/error.c
-
-SRCB = ./srcs/lib/get_next_line.c ./srcs/lib/split.c ./srcs/lib/substr.c ./srcs/lib/strdup.c \
-       ./srcs/lib/ft_memcmp.c ./srcs/lib/ft_strlen.c ./srcs/lib/ft_del_EmptySpace.c
-
-OBJ = $(SRC:c=o) $(SRCB:c=o)
+all: $(OBJ_PATHS_INIT) $(NAME)
 
 
-all: $(NAME)
-
+$(OBJ_PATHS_INIT)	:
+	@echo "\033[0;33mGenerating bin folder and subfolders"
+	@mkdir -p  $@  
 
 $(NAME): $(OBJ)
 	@echo "\033[0;32m\n\nCompiling minishell..."
@@ -38,18 +60,18 @@ $(NAME): $(OBJ)
 	@echo "\n\033[0mDone !"
 
 
-%.o: %.c
+$(OBJ_PATH)%.o: $(SRC_PATH)%.c $(HEADERS_FILES)
 	@printf "\033[0;33mGenerating minishell objects... %-10.10s\r" $@
 	@${CC} ${CFLAGS} -c $< -o $@
 
 clean:
 	@echo "\033[0;31m\nDeleting objects..."
-	@rm -f $(OBJ)
+	@rm -rf $(OBJ_PATH)
 	@echo "\033[0m"
 
 fclean:
 	@echo "\033[0;31m\nDeleting objects..."
-	@rm -f $(OBJ)
+	@rm -rf $(OBJ_PATH)
 	@echo "\nDeleting executable..."
 	@rm -f $(NAME)
 	@echo "\033[0m"
