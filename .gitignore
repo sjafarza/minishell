@@ -1,4 +1,5 @@
 minishell
+*.swp
 
 # Prerequisites
 *.d
