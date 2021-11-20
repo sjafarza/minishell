@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: saray <saray.jafarzade@gmail.com>          +#+  +:+       +#+        */
+/*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/11 19:03:13 by saray             #+#    #+#             */
-/*   Updated: 2021/11/18 13:27:37 by saray            ###   ########.fr       */
+/*   Updated: 2021/11/20 20:46:59 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,9 @@ char	**ft_recover_env(char	**env)
 	return (a_env);
 }
 
+#define PATH_STR "PATH="
+#define PATH_LEN 5
+
 char	**ft_path(char	**a_env)
 {
 	int	i;
@@ -43,9 +46,9 @@ char	**ft_path(char	**a_env)
 	tmp = NULL;
 	while (a_env[++i])
 	{
-		if (!ft_memcmp(a_env[i], "PATH", 4))
+		if (!ft_memcmp(a_env[i], PATH_STR, PATH_LEN))
 		{
-			tmp = ft_substr(a_env[i], 4, ft_strlen(a_env[i]) - 4);
+			tmp = ft_substr(a_env[i], PATH_LEN, ft_strlen(a_env[i]) - PATH_LEN);
 			break ;
 		}
 	}
