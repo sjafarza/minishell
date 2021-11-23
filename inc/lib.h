@@ -34,6 +34,6 @@ int      str_len(char const *s, char c);
 char	*ft_strdup(const char *s1);
 int     ft_memcmp(const void *s1, const void *s2, size_t n);
 int	ft_strlen(char *s);
-void    ft_del_EmptySpace(char **s);
+void    ft_del_emptyspace(char **s);
 
 #endif

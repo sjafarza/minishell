@@ -87,5 +87,6 @@ char	**ft_split(char const *s, char c)
 		nstr--;
 	}
 	ptr[i] = 0;
+	ft_del_emptyspace(ptr);
 	return (ptr);
 }

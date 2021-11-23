@@ -50,7 +50,7 @@ int	ft_find_error(char **line)
 {
 	int	i;
 
-	ft_del_EmptySpace(line);
+	ft_del_emptyspace(line);
 	i = 0;
 	if (!ft_is_cmd(line[0]))
 	{
