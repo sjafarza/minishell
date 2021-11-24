@@ -6,7 +6,7 @@
 #    By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/09/28 22:36:55 by saray             #+#    #+#              #
-#    Updated: 2021/11/22 14:51:15 by saray            ###   ########.fr        #
+#    Updated: 2021/11/24 11:12:36 by saray            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,12 +28,12 @@ BASE =		main.c \
 			lexer.c \
 			list.c \
 			list_pip.c \
-			error.c
+			error.c \
+			signal.c
 
 SRC_FILES		= $(BASE)
 
-MINILIB = 	get_next_line.c \
-			split.c \
+MINILIB = 	split.c \
 			substr.c \
 			strdup.c \
       		ft_memcmp.c \
@@ -57,7 +57,7 @@ $(OBJ_PATHS_INIT)	:
 
 $(NAME): $(OBJ)
 	@echo "\033[0;32m\n\nCompiling minishell..."
-	@$(CC) $(CFLAGS) -o $(NAME) $(OBJ)
+	@$(CC) $(CFLAGS) -o $(NAME) $(OBJ) -lreadline
 	@echo "\n\033[0mDone !"
 
 

@@ -6,7 +6,7 @@
 /*   By: saray <saray.jafarzade@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/16 09:43:10 by saray             #+#    #+#             */
-/*   Updated: 2021/11/20 22:12:18 by saray            ###   ########.fr       */
+/*   Updated: 2021/11/24 11:04:47 by saray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,8 @@ void	ft_list_pip(char *s, t_tok *tok, t_tok_pip *t_pip_head)
 	i = -1;
 	while (tmp[++i])
 		ft_add_list_pip(t_pip_head, tmp[i]);
-	ft_print_list_pip(t_pip_head);
+	tok->pip += (i - 1);
+	tok->cmd_pip = t_pip_head;
 }
 
 int	ft_type(char *s)
@@ -78,7 +79,7 @@ t_tok	*ft_make_nod(char *s, t_tok_pip	*t_pip_head)
 	new->cmd_pip = NULL;
 	if (ft_serch_pip(s))
 		ft_list_pip(s, new, t_pip_head);
-		//new->type = ft_type(s);
+	//new->type = ft_type(s);
 	return (new);
 }
 
@@ -105,6 +106,8 @@ void	ft_add_list(t_tok *head, char *s, t_lexer *lex)
 	}
 	lex->nb_tok += 1;
 }
+
+void    ft_print_list_pip(t_tok_pip *head);
 	
 void	ft_print_list(t_tok *head)
 {
@@ -113,7 +116,10 @@ void	ft_print_list(t_tok *head)
 	cur = head;
 	while (cur->next)
 	{
-		printf("*cur->data = %s\n", cur->data);
+		if (cur->pip)
+			ft_print_list_pip(cur->cmd_pip);
+		else
+			printf("*cur->data = %s\n", cur->data);
 		cur = cur->next;
 	}
 		printf("*cur->data = %s\n",cur->data);

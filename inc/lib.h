@@ -6,7 +6,7 @@
 /*   By: saray <saray.jafarzade@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/11 17:47:17 by saray             #+#    #+#             */
-/*   Updated: 2021/11/18 11:49:18 by saray            ###   ########.fr       */
+/*   Updated: 2021/11/24 11:13:10 by saray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@
 
 
 
-int	gnl(int fd, char **line);
 char	**ft_split(char const *s, char c);
 char    *ft_substr(char const *s, unsigned int start, int len);
 int      str_len(char const *s, char c);

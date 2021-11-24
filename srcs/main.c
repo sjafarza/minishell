@@ -6,7 +6,7 @@
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/11 19:03:13 by saray             #+#    #+#             */
-/*   Updated: 2021/11/20 20:46:59 by scarboni         ###   ########.fr       */
+/*   Updated: 2021/11/24 11:20:29 by saray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,8 +57,8 @@ char	**ft_path(char	**a_env)
 		a_path = ft_split(tmp, ':');
 		free(tmp);
 	}
-	i = -1;
-/*	while (a_path[++i])
+/*	i = -1;
+	while (a_path[++i])
 		printf("**a_path[%d] = %s\n", i, a_path[i]);*/
 	return (a_path);
 }
@@ -73,16 +73,22 @@ int	main(int ac, char **av, char **env)
 	i = -1;
 	(void)ac;
 	(void)av;
+	line = NULL;
+
 	//1- recover vaiable env & all of path in PATH
 	printf("1- recovr variable env et PATH by 2 function a_env & a_path\n\n");
 	a_env = ft_recover_env(env);
 	a_path = ft_path(a_env);
-	write(1, "mshell$ ",8);
+	signal(SIGQUIT, ft_sig_handler);
+	signal(SIGINT, ft_sig_handler);
 	// 2-scan the teminal
-	while (gnl(0, &line) >= 0)
+	line = readline("mshell$ ");
+	while (line)
 	{
 		printf("line = %s\n", line);
 		printf("2- Bilding list of Token in function ft_lexer\n\n");
+		if (line)
+			add_history(line);
 		if (ft_lexer(line))
 		{
 			printf("3- lexer control error \n");
@@ -90,9 +96,10 @@ int	main(int ac, char **av, char **env)
 			printf("5- Build AST \n");
 			printf("6- execut \n");
 		}
-		write(1, "mshell$ ", 8);
 		free(line);
+	line = readline("mshell$ ");
 	}
+	free(line);
 	ft_free(a_env, a_path);
 	return (1);
 }

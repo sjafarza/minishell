@@ -6,7 +6,7 @@
 /*   By: saray <saray.jafarzade@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/16 09:43:10 by saray             #+#    #+#             */
-/*   Updated: 2021/11/20 18:57:18 by saray            ###   ########.fr       */
+/*   Updated: 2021/11/24 11:07:53 by saray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ void	ft_print_list_pip(t_tok_pip *head)
 	cur = head;
 	while (cur->next)
 	{
-		printf("\niiiiiiiiciiiiiii print of list_pip\n");
+		printf("iiiiiiiiciiiiiii print of list_pip\n");
 		printf("*cur->data = %s\n",cur->cmd);
 		cur = cur->next;
 	}
