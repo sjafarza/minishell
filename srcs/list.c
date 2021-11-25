@@ -6,7 +6,7 @@
 /*   By: saray <saray.jafarzade@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/16 09:43:10 by saray             #+#    #+#             */
-/*   Updated: 2021/11/24 11:04:47 by saray            ###   ########.fr       */
+/*   Updated: 2021/11/25 10:03:14 by saray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,5 +122,8 @@ void	ft_print_list(t_tok *head)
 			printf("*cur->data = %s\n", cur->data);
 		cur = cur->next;
 	}
-		printf("*cur->data = %s\n",cur->data);
+		if (cur->pip)
+			ft_print_list_pip(cur->cmd_pip);
+		else
+			printf("*cur->data = %s\n",cur->data);
 }
