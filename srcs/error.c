@@ -6,7 +6,7 @@
 /*   By: saray <saray.jafarzade@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 09:42:12 by saray             #+#    #+#             */
-/*   Updated: 2021/11/18 13:02:22 by saray            ###   ########.fr       */
+/*   Updated: 2021/11/26 14:37:13 by saray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,19 +45,86 @@ int	ft_is_cmd(char *s)
 	return (0);
 }
 
+int   ft_find_quotes(char *line)
+{       
+        int     i;
+        int     q;
+        int     dq;
 
-int	ft_find_error(char **line)
-{
-	int	i;
+        i = -1;
+        q = 0;
+        dq = 0;
+        while (line[++i])
+        {
+                if (line[i] == '\'')
+                        ++q;
+                if (line[i] == '\"')
+                        ++dq;
+                
+        }
+	if (q == 0 && dq == 0)
+		return (0);
+	return (1);
+}
+int   ft_quotes_is_paire(char *line)
+{       
+        int     i;
+        int     q;
+        int     dq;
 
-	ft_del_emptyspace(line);
-	i = 0;
-	if (!ft_is_cmd(line[0]))
+        i = -1;
+        q = 0;
+        dq = 0;
+        while (line[++i])
+        {
+                if (line[i] == '\'')
+                        ++q;
+                if (line[i] == '\"')
+                        ++dq;
+                
+        }
+	if (q % 2 || dq % 2)
 	{
-		printf ("msh : command not found : %s\n", line[i]);
-		ft_free_line(line);
+		printf ("msh : Not interpret unclosed quotes \n");
 		return (1);
 	}
 	return (0);
+}
+
+int	ft_line_is_vide(char	*s)
+{
+	int	i;
+	int	v;
+
+	i = -1;
+	v = 0;
+	while (s[++i])
+		if(s[i] == ' ' || s[i] == '\t' || s[i] == '\v' \
+                                || s[i] == '\f' || s[i] == '\r')
+                        v++;
+	if (v == ft_strlen(s))
+		return (1);
+	return (0);
+}
+
+
+int	ft_find_error(char *line)
+{
+	int	i;
+
+	//ft_del_emptyspace(line);
+	if (ft_line_is_vide(line))
+		return (0);
+	i = 0;
+	if (ft_quotes_is_paire(line))
+		return (0);
+        //1-3 syntax of comand
+	/*if (!ft_is_cmd(line))
+	{
+		printf ("msh : command not found : %s\n", line);
+		ft_free_line(line);
+		return (1);
+	}*/
+	return (1);
 }
 			

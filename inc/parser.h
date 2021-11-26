@@ -6,7 +6,7 @@
 /*   By: saray <saray.jafarzade@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/11 17:47:17 by saray             #+#    #+#             */
-/*   Updated: 2021/11/23 13:39:13 by saray            ###   ########.fr       */
+/*   Updated: 2021/11/26 14:30:08 by saray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,9 +91,8 @@ typedef struct s_lexer
 
 void    ft_free(char    **a_env, char   **a_path);
 int	ft_lexer(char *line);
-int    ft_serch_pip(char *cmd);
-void    ft_sig_handler(int sig);
-
+int	ft_serch_pip(char *cmd);
+void	ft_sig_handler(int sig);
 
 
 
@@ -113,5 +112,8 @@ t_tok	*ft_make_nod(char *s, t_tok_pip	*t_pip_head);
 /*
  ** error
  */
-int     ft_find_error(char **line);
+int     ft_find_error(char *line);
+int	ft_find_quotes(char *line);
+int	ft_quotes_is_paire(char *line);
+int	ft_line_is_vide(char *s);
 #endif

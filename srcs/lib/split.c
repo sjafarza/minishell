@@ -6,7 +6,7 @@
 /*   By: saray <saray.jafarzade@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 09:27:39 by saray             #+#    #+#             */
-/*   Updated: 2021/11/13 11:38:49 by saray            ###   ########.fr       */
+/*   Updated: 2021/11/26 14:03:34 by saray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,6 @@ char	**ft_split(char const *s, char c)
 		nstr--;
 	}
 	ptr[i] = 0;
-	ft_del_emptyspace(ptr);
+//	ft_del_emptyspace(ptr);
 	return (ptr);
 }

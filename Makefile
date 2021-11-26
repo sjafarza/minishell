@@ -6,7 +6,7 @@
 #    By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/09/28 22:36:55 by saray             #+#    #+#              #
-#    Updated: 2021/11/24 11:12:36 by saray            ###   ########.fr        #
+#    Updated: 2021/11/25 10:51:09 by saray            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,7 +29,7 @@ BASE =		main.c \
 			list.c \
 			list_pip.c \
 			error.c \
-			signal.c
+			signal.c \
 
 SRC_FILES		= $(BASE)
 

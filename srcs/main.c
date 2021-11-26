@@ -6,7 +6,7 @@
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/11 19:03:13 by saray             #+#    #+#             */
-/*   Updated: 2021/11/24 11:20:29 by saray            ###   ########.fr       */
+/*   Updated: 2021/11/26 14:32:43 by saray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,15 +81,16 @@ int	main(int ac, char **av, char **env)
 	a_path = ft_path(a_env);
 	signal(SIGQUIT, ft_sig_handler);
 	signal(SIGINT, ft_sig_handler);
+	
 	// 2-scan the teminal
 	line = readline("mshell$ ");
 	while (line)
 	{
 		printf("line = %s\n", line);
 		printf("2- Bilding list of Token in function ft_lexer\n\n");
-		if (line)
+		if (!ft_line_is_vide(line))
 			add_history(line);
-		if (ft_lexer(line))
+		if (ft_find_error(line) && ft_lexer(line))
 		{
 			printf("3- lexer control error \n");
 			printf("4- parse \n");
@@ -97,7 +98,7 @@ int	main(int ac, char **av, char **env)
 			printf("6- execut \n");
 		}
 		free(line);
-	line = readline("mshell$ ");
+		line = readline("mshell$ ");
 	}
 	free(line);
 	ft_free(a_env, a_path);
