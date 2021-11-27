@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: saray <saray.jafarzade@gmail.com>          +#+  +:+       +#+        */
+/*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/11 17:47:17 by saray             #+#    #+#             */
-/*   Updated: 2021/11/26 14:30:08 by saray            ###   ########.fr       */
+/*   Updated: 2021/11/27 12:22:20 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,68 @@
 # include <readline/history.h>
 # include "./lib.h"
 
+
+/* ************************************************************************** */
+/* 									CMDS 									  */
+/* ************************************************************************** */
+
+typedef struct s_str{
+	char	*str;
+	int		len;
+} t_str;
+
+typedef struct s_cmd{
+	t_str	code;
+	int		(*fun)(char* cmd, char** args);
+} t_cmd;
+
+#define ID_BASH_CMD	0
+#define ID_ECHO		1
+#define ID_CD		2
+#define ID_PWD		3
+#define ID_EXPORT	4
+#define ID_UNSET	5
+#define ID_ENV		6
+#define ID_EXIT		7
+
+#define CODE_ECHO		"echo"
+#define LEN_ECHO		4
+#define CODE_CD			"cd"
+#define LEN_CD			2
+#define CODE_PWD		"pwd"
+#define LEN_PWD			3
+#define CODE_EXPORT		"export"
+#define LEN_EXPORT		6
+#define CODE_UNSET		"unset"
+#define LEN_UNSET		5
+#define CODE_ENV		"env"
+#define LEN_ENV			3
+#define CODE_EXIT		"exit"
+#define LEN_EXIT		4
+#define MAX_CMD			8
+
+typedef struct s_env {
+	int test;
+} t_env;
+
+int		mock_cmd(char *cmd, char **args);
+int		bash_cmd(char *cmd, char **args);
+int		select_right_cmd(t_env *env, const char *cmd, const char** args);
+
+static const t_cmd g_cmd_dictionary[MAX_CMD] = {
+	(t_cmd){(t_str){"", 0}, &bash_cmd},
+	(t_cmd){(t_str){CODE_ECHO, LEN_ECHO}, &mock_cmd},
+	(t_cmd){(t_str){CODE_CD, LEN_CD}, &mock_cmd},
+	(t_cmd){(t_str){CODE_PWD, LEN_PWD}, &mock_cmd},
+	(t_cmd){(t_str){CODE_EXPORT, LEN_EXPORT}, &mock_cmd},
+	(t_cmd){(t_str){CODE_UNSET, LEN_UNSET}, &mock_cmd},
+	(t_cmd){(t_str){CODE_ENV, LEN_ENV}, &mock_cmd},
+	(t_cmd){(t_str){CODE_EXIT, LEN_EXIT}, &mock_cmd}
+};
+
+/* ************************************************************************** */
+/* 									     									  */
+/* ************************************************************************** */
 
 enum TokenType
 {

@@ -6,7 +6,7 @@
 #    By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/09/28 22:36:55 by saray             #+#    #+#              #
-#    Updated: 2021/11/25 10:51:09 by saray            ###   ########.fr        #
+#    Updated: 2021/11/27 12:19:41 by scarboni         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,6 +21,7 @@ CFLAGS 		= -W -Wall -Wextra -Werror -g3 -pedantic
 HEADER 		= ./inc/parser.h
 
 MINILIB_PATH		= lib/
+CMDS_PATH			= cmds/
 SRC_PATH			= ./srcs/
 
 BASE =		main.c \
@@ -39,6 +40,10 @@ MINILIB = 	split.c \
       		ft_memcmp.c \
 			ft_strlen.c \
 			ft_del_EmptySpace.c
+
+CMDS 	 = 	bash_cmd.c \
+			mock_cmd.c \
+			select_right_cmd.c
 
 
 SRC_FILES	+=	$(addprefix $(MINILIB_PATH), $(MINILIB))
