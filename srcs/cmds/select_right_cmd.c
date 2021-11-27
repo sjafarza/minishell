@@ -6,7 +6,7 @@
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 09:42:12 by saray             #+#    #+#             */
-/*   Updated: 2021/11/27 12:31:55 by scarboni         ###   ########.fr       */
+/*   Updated: 2021/11/27 19:13:08 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,8 @@ int	select_right_cmd(t_env *env, const char *cmd, const char** args)
 		if (ft_strncmp(g_cmd_dictionary[i].code.str, cmd,
 				g_cmd_dictionary[i].code.len) == 0)
 		{
-			g_cmd_dictionary[i].fun(cmd, args);
-			return (EXIT_SUCCESS);
+			return (g_cmd_dictionary[i].fun(cmd, args));
 		}
 	}
-	return (-EXIT_FAILURE);
+	return (EXIT_FAILURE);
 }
