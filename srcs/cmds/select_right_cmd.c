@@ -6,7 +6,7 @@
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 09:42:12 by saray             #+#    #+#             */
-/*   Updated: 2021/11/27 12:21:44 by scarboni         ###   ########.fr       */
+/*   Updated: 2021/11/27 12:31:55 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 int	select_right_cmd(t_env *env, const char *cmd, const char** args)
 {
+	(void)env;
 	int	i;
 
 	i = MAX_CMD;

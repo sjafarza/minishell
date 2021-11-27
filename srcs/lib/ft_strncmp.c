@@ -3,20 +3,29 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strncmp.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sdesseau <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/01/04 13:37:24 by sdesseau          #+#    #+#             */
-/*   Updated: 2021/01/04 13:37:26 by sdesseau         ###   ########.fr       */
+/*   Created: 2019/11/05 10:38:18 by scarboni          #+#    #+#             */
+/*   Updated: 2021/11/27 12:30:01 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/lib.h"
 
-int	ft_strncmp(const char *s1, const char *s2, size_t n)
+int	ft_strncmp(const char *s1, const char *s2, size_t len_mx)
 {
-	if (n > ft_strlen(s1))
-		n = ft_strlen(s1) + 1;
-	if (n > ft_strlen(s2))
-		n = ft_strlen(s2) + 1;
-	return (ft_memcmp(s1, s2, n));
+	size_t			i;
+	unsigned char	*us1;
+	unsigned char	*us2;
+
+	us1 = (unsigned char *)s1;
+	us2 = (unsigned char *)s2;
+	i = 0;
+	while (i < len_mx && (us1[i] || us2[i]))
+	{
+		if (us1[i] != us2[i])
+			return (us1[i] - us2[i]);
+		i++;
+	}
+	return ((unsigned char)0);
 }

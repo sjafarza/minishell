@@ -6,7 +6,7 @@
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/11 17:47:17 by saray             #+#    #+#             */
-/*   Updated: 2021/11/27 12:22:20 by scarboni         ###   ########.fr       */
+/*   Updated: 2021/11/27 12:31:40 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ typedef struct s_str{
 
 typedef struct s_cmd{
 	t_str	code;
-	int		(*fun)(char* cmd, char** args);
+	int		(*fun)(const char* cmd, const char** args);
 } t_cmd;
 
 #define ID_BASH_CMD	0
@@ -70,8 +70,8 @@ typedef struct s_env {
 	int test;
 } t_env;
 
-int		mock_cmd(char *cmd, char **args);
-int		bash_cmd(char *cmd, char **args);
+int		mock_cmd(const char *cmd, const char **args);
+int		bash_cmd(const char *cmd, const char **args);
 int		select_right_cmd(t_env *env, const char *cmd, const char** args);
 
 static const t_cmd g_cmd_dictionary[MAX_CMD] = {
@@ -86,8 +86,12 @@ static const t_cmd g_cmd_dictionary[MAX_CMD] = {
 };
 
 /* ************************************************************************** */
-/* 									     									  */
+/* 									LIB   									  */
 /* ************************************************************************** */
+
+int	ft_strncmp(const char *s1, const char *s2, size_t len_mx);
+
+
 
 enum TokenType
 {
