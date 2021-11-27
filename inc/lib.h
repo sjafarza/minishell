@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lib.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: saray <saray.jafarzade@gmail.com>          +#+  +:+       +#+        */
+/*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/11 17:47:17 by saray             #+#    #+#             */
-/*   Updated: 2021/11/26 10:44:52 by saray            ###   ########.fr       */
+/*   Updated: 2021/11/27 21:41:20 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 # define LIB_H
 
 # include <stdlib.h>
+# include <stddef.h>
+# include <stdbool.h>
 # include <unistd.h>
 # include <stdio.h>
 # include <string.h>
@@ -25,15 +27,9 @@
 #  define BUFFER_SIZE 42
 # endif
 
-
-
-char	**ft_split(char const *s, char c);
-char    *ft_substr(char const *s, unsigned int start, int len);
 int      str_len(char const *s, char c);
-char	*ft_strdup(const char *s1);
-int     ft_memcmp(const void *s1, const void *s2, size_t n);
-int	ft_strlen(char *s);
 //void    ft_del_emptyspace(char **s);
 void    ft_del_emptyspace(char *s);
+int		ft_is_blank(char c);
 
 #endif

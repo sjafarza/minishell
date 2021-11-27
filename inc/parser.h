@@ -6,7 +6,7 @@
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/11 17:47:17 by saray             #+#    #+#             */
-/*   Updated: 2021/11/27 12:31:40 by scarboni         ###   ########.fr       */
+/*   Updated: 2021/11/27 21:28:03 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include "./lib.h"
+# include "../libft/libft.h"
 
 
 /* ************************************************************************** */
@@ -66,8 +67,16 @@ typedef struct s_cmd{
 #define LEN_EXIT		4
 #define MAX_CMD			8
 
+
+
+typedef struct s_env_var {
+	t_str	name;
+	t_str	value;
+} t_env_var;
+
 typedef struct s_env {
-	int test;
+	t_env_var	*env_vars;
+	int			env_vars_max;
 } t_env;
 
 int		mock_cmd(const char *cmd, const char **args);
@@ -86,10 +95,24 @@ static const t_cmd g_cmd_dictionary[MAX_CMD] = {
 };
 
 /* ************************************************************************** */
+/* 									DATAS  									  */
+/* ************************************************************************** */
+
+void		clean_env_vars(t_env *env);
+t_env_var	*find_env_vars_t_str(t_env *env, t_str var);
+t_env_var	*find_env_vars(t_env *env, char* var_name);
+int			init_env_vars(t_env *env, char **raw_env);
+int			init_path(t_env *env);
+void		print_vars(t_env *env);
+int			init_t_str(t_str *obj, char* s);
+int			replace_in_str(t_env *env, char **str);
+
+/* ************************************************************************** */
 /* 									LIB   									  */
 /* ************************************************************************** */
 
 int	ft_strncmp(const char *s1, const char *s2, size_t len_mx);
+int	ft_strchr_index(const char *s, int c);
 
 
 

@@ -1,31 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strncmp.c                                       :+:      :+:    :+:   */
+/*   ft_isdigit.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/05 10:38:18 by scarboni          #+#    #+#             */
-/*   Updated: 2021/11/27 12:30:01 by scarboni         ###   ########.fr       */
+/*   Updated: 2021/08/10 20:13:54 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/lib.h"
+#include "libft.h"
 
-int	ft_strncmp(const char *s1, const char *s2, size_t len_mx)
+static int	ft_isbetween(int c, int min, int max)
 {
-	size_t			i;
-	unsigned char	*us1;
-	unsigned char	*us2;
+	if (c >= min && c <= max)
+		return (1);
+	return (0);
+}
 
-	us1 = (unsigned char *)s1;
-	us2 = (unsigned char *)s2;
-	i = 0;
-	while (i < len_mx && (us1[i] || us2[i]))
-	{
-		if (us1[i] != us2[i])
-			return (us1[i] - us2[i]);
-		i++;
-	}
-	return ((unsigned char)0);
+int	ft_isdigit(int c)
+{
+	return (ft_isbetween(c, '0', '9'));
 }

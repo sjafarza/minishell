@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_del_EmptySpace.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: saray <saray.jafarzade@gmail.com>          +#+  +:+       +#+        */
+/*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 12:31:19 by saray             #+#    #+#             */
-/*   Updated: 2021/11/26 14:09:45 by saray            ###   ########.fr       */
+/*   Updated: 2021/11/27 21:44:10 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,19 +18,19 @@ void	ft_del_emptyspace(char *s)
 	int		i;
 	int		j;
 	int		k;
+	int		len;
 
 	i = 0;
 	printf("line in ft_de_empty = %s\n", s);
-	while (s[i] == ' ' || s[i] == '\t' || s[i] == '\v' \
-				|| s[i] == '\f' || s[i] == '\r')
+	while (ft_is_blank(s[i]))
 			i++;
-	 k= ft_strlen(s) - 1;
-	while (s[k] == ' ' || s[i] == '\t' || s[i] == '\v' \
-				|| s[i] == '\f' || s[i] == '\r')
+	len = (int)ft_strlen(s);
+	k = len - 1;
+	while (ft_is_blank(s[k]))
 			k--;
-	if (i != 0 || k != ft_strlen(s) - 1)
+	if (i != 0 || k != (len - 1))
 	{
-		r = (char *)malloc(sizeof(char) * (ft_strlen(s) - (k -i + 1) + 1));
+		r = (char *)malloc(sizeof(char) * (len - (k -i + 1) + 1));
 		if (!r)
 			return ;
 		j = -1;

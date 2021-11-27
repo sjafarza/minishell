@@ -1,23 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   ft_bzero.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sdesseau <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/01/04 13:37:12 by sdesseau          #+#    #+#             */
-/*   Updated: 2021/11/13 23:34:08 by saray            ###   ########.fr       */
+/*   Created: 2019/11/05 10:38:18 by scarboni          #+#    #+#             */
+/*   Updated: 2019/11/07 10:24:32 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/lib.h"
+#include "libft.h"
 
-int	ft_strlen(char *s)
+void	ft_bzero(void *memory_space, size_t len)
 {
-	int	i;
-
-	i = 0;
-	while (s[i])
-		i++;
-	return (i);
+	ft_memset(memory_space, '\0', len);
 }

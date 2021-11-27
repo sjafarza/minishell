@@ -6,31 +6,31 @@
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/11 19:03:13 by saray             #+#    #+#             */
-/*   Updated: 2021/11/26 14:32:43 by saray            ###   ########.fr       */
+/*   Updated: 2021/11/27 21:47:29 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/parser.h"
 
-char	**ft_recover_env(char	**env)
-{
-	int	i;
-	char	**a_env;
+// char	**ft_recover_env(char	**env)
+// {
+// 	int	i;
+// 	char	**a_env;
 
-	i = -1;
-	while (env[++i]);
-	a_env = (char **)malloc(sizeof(char *) * (i + 1));
-	if (!a_env)
-		return (NULL);
-	i = -1;
-	while (env[++i])
-		a_env[i] = ft_strdup(env[i]);
-	a_env[i] = NULL;
-	/*i = -1;
-	while (a_env[++i])
-		printf("a_env[%d]= %s\n", i, a_env[i]);*/
-	return (a_env);
-}
+// 	i = -1;
+// 	while (env[++i]);
+// 	a_env = (char **)malloc(sizeof(char *) * (i + 1));
+// 	if (!a_env)
+// 		return (NULL);
+// 	i = -1;
+// 	while (env[++i])
+// 		a_env[i] = ft_strdup(env[i]);
+// 	a_env[i] = NULL;
+// 	/*i = -1;
+// 	while (a_env[++i])
+// 		printf("a_env[%d]= %s\n", i, a_env[i]);*/
+// 	return (a_env);
+// }
 
 #define PATH_STR "PATH="
 #define PATH_LEN 5
@@ -63,12 +63,13 @@ char	**ft_path(char	**a_env)
 	return (a_path);
 }
 
-int	main(int ac, char **av, char **env)
+int	main(int ac, char **av, char **env_bash)
 {
 	int	i;
-	char	**a_env;
+	// char	**a_env;
 	char	**a_path;
 	char	*line;
+	t_env	env;
 
 	i = -1;
 	(void)ac;
@@ -77,8 +78,12 @@ int	main(int ac, char **av, char **env)
 
 	//1- recover vaiable env & all of path in PATH
 	printf("1- recovr variable env et PATH by 2 function a_env & a_path\n\n");
-	a_env = ft_recover_env(env);
-	a_path = ft_path(a_env);
+	// a_env = ft_recover_env(env);
+
+	if(init_env_vars(&env, env_bash) != EXIT_SUCCESS)
+		printf("AN ERROR OCCURED\n");
+	init_path(&env);
+	a_path = ft_path(env_bash);
 	signal(SIGQUIT, ft_sig_handler);
 	signal(SIGINT, ft_sig_handler);
 	
@@ -90,6 +95,9 @@ int	main(int ac, char **av, char **env)
 		printf("2- Bilding list of Token in function ft_lexer\n\n");
 		if (!ft_line_is_vide(line))
 			add_history(line);
+		printf("LINE BEFORE [%s]\n", line);
+		replace_in_str(&env, &line);
+		printf("LINE AFTER [%s]\n", line);
 		if (ft_find_error(line) && ft_lexer(line))
 		{
 			printf("3- lexer control error \n");
@@ -101,6 +109,6 @@ int	main(int ac, char **av, char **env)
 		line = readline("mshell$ ");
 	}
 	free(line);
-	ft_free(a_env, a_path);
+	// ft_free(a_env, a_path);
 	return (1);
 }

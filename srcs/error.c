@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: saray <saray.jafarzade@gmail.com>          +#+  +:+       +#+        */
+/*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 09:42:12 by saray             #+#    #+#             */
-/*   Updated: 2021/11/26 14:37:13 by saray            ###   ########.fr       */
+/*   Updated: 2021/11/27 21:44:56 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,14 +93,13 @@ int   ft_quotes_is_paire(char *line)
 
 int	ft_line_is_vide(char	*s)
 {
-	int	i;
-	int	v;
+	int		i;
+	size_t	v;
 
 	i = -1;
 	v = 0;
 	while (s[++i])
-		if(s[i] == ' ' || s[i] == '\t' || s[i] == '\v' \
-                                || s[i] == '\f' || s[i] == '\r')
+		if(ft_is_blank(s[i]))
                         v++;
 	if (v == ft_strlen(s))
 		return (1);
