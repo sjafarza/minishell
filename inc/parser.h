@@ -6,7 +6,7 @@
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/11 17:47:17 by saray             #+#    #+#             */
-/*   Updated: 2021/11/27 21:28:03 by scarboni         ###   ########.fr       */
+/*   Updated: 2021/11/28 13:37:58 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,6 +113,7 @@ int			replace_in_str(t_env *env, char **str);
 
 int	ft_strncmp(const char *s1, const char *s2, size_t len_mx);
 int	ft_strchr_index(const char *s, int c);
+int	ft_strchr_index_until_i(const char *s, int c, int i_max);
 
 
 
