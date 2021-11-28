@@ -6,7 +6,7 @@
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/11 17:47:17 by saray             #+#    #+#             */
-/*   Updated: 2021/11/28 13:37:58 by scarboni         ###   ########.fr       */
+/*   Updated: 2021/11/28 14:14:52 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,9 @@
 # include "./lib.h"
 # include "../libft/libft.h"
 
+
+#define PATH_STR "PATH="
+#define PATH_LEN 5
 
 /* ************************************************************************** */
 /* 									CMDS 									  */
@@ -77,6 +80,7 @@ typedef struct s_env_var {
 typedef struct s_env {
 	t_env_var	*env_vars;
 	int			env_vars_max;
+	char		**paths;
 } t_env;
 
 int		mock_cmd(const char *cmd, const char **args);
@@ -99,6 +103,7 @@ static const t_cmd g_cmd_dictionary[MAX_CMD] = {
 /* ************************************************************************** */
 
 void		clean_env_vars(t_env *env);
+int			find_and_update_env_var(t_env *env, char *var_name, char* new_value);
 t_env_var	*find_env_vars_t_str(t_env *env, t_str var);
 t_env_var	*find_env_vars(t_env *env, char* var_name);
 int			init_env_vars(t_env *env, char **raw_env);
@@ -106,6 +111,7 @@ int			init_path(t_env *env);
 void		print_vars(t_env *env);
 int			init_t_str(t_str *obj, char* s);
 int			replace_in_str(t_env *env, char **str);
+int			replace_in_str_until_i(t_env *env, char **str, int max_i);
 
 /* ************************************************************************** */
 /* 									LIB   									  */

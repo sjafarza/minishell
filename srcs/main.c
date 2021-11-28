@@ -6,7 +6,7 @@
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/11 19:03:13 by saray             #+#    #+#             */
-/*   Updated: 2021/11/27 21:47:29 by scarboni         ###   ########.fr       */
+/*   Updated: 2021/11/28 14:07:33 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,6 @@
 // 		printf("a_env[%d]= %s\n", i, a_env[i]);*/
 // 	return (a_env);
 // }
-
-#define PATH_STR "PATH="
-#define PATH_LEN 5
 
 char	**ft_path(char	**a_env)
 {
@@ -67,7 +64,7 @@ int	main(int ac, char **av, char **env_bash)
 {
 	int	i;
 	// char	**a_env;
-	char	**a_path;
+	// char	**a_path;
 	char	*line;
 	t_env	env;
 
@@ -82,8 +79,9 @@ int	main(int ac, char **av, char **env_bash)
 
 	if(init_env_vars(&env, env_bash) != EXIT_SUCCESS)
 		printf("AN ERROR OCCURED\n");
-	init_path(&env);
-	a_path = ft_path(env_bash);
+	if(init_path(&env) != EXIT_SUCCESS)
+		printf("AN ERROR OCCURED WITH PATH\n");
+	// a_path = ft_path(env_bash);
 	signal(SIGQUIT, ft_sig_handler);
 	signal(SIGINT, ft_sig_handler);
 	
