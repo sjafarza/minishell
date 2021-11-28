@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: saray <saray.jafarzade@gmail.com>          +#+  +:+       +#+        */
+/*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/21 20:27:41 by saray             #+#    #+#             */
-/*   Updated: 2021/11/26 13:57:18 by saray            ###   ########.fr       */
+/*   Updated: 2021/11/28 17:31:08 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,10 @@ void	ft_sig_handler(int sig)
 		write (1, "\033[2D\033[0K", 8);
 	if (sig == SIGINT)
 	{
-		write (1, "\b\b  \b\b", 5);
-		write(1, "\nmshell$ ", 9);
+		rl_on_new_line();
+		write(STDOUT_FILENO, "\n", 1);
+		rl_replace_line("", 1);
+		rl_redisplay();
 	}
 
 	if ((sig == SIGINT || sig == SIGQUIT) && g_pid != 0)

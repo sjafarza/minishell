@@ -6,7 +6,7 @@
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/11 17:47:17 by saray             #+#    #+#             */
-/*   Updated: 2021/11/28 14:14:52 by scarboni         ###   ########.fr       */
+/*   Updated: 2021/11/28 17:05:22 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,10 @@
 # include "./lib.h"
 # include "../libft/libft.h"
 
+#define PATH_STR "PATH"
+#define PATH_LEN 4
 
-#define PATH_STR "PATH="
-#define PATH_LEN 5
+static char *g_test_line = NULL;
 
 /* ************************************************************************** */
 /* 									CMDS 									  */
@@ -106,6 +107,8 @@ void		clean_env_vars(t_env *env);
 int			find_and_update_env_var(t_env *env, char *var_name, char* new_value);
 t_env_var	*find_env_vars_t_str(t_env *env, t_str var);
 t_env_var	*find_env_vars(t_env *env, char* var_name);
+void		free_array(char **arr);
+void		free_t_env(t_env *env);
 int			init_env_vars(t_env *env, char **raw_env);
 int			init_path(t_env *env);
 void		print_vars(t_env *env);

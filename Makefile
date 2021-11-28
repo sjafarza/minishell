@@ -6,7 +6,7 @@
 #    By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/09/28 22:36:55 by saray             #+#    #+#              #
-#    Updated: 2021/11/28 14:14:20 by scarboni         ###   ########.fr        #
+#    Updated: 2021/11/28 15:50:28 by scarboni         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,7 @@ CFLAGS 		= -W -Wall -Wextra -Werror -g3 -pedantic
 
 LDFLAGS		=	-L$(LIBFTPATH) -lft  -lreadline
 
-HEADER 		= ./inc/parser.h
+HEADER 		= ./inc/parser.h ./inc/lib.h
 
 MINILIB_PATH		= lib/
 CMDS_PATH			= cmds/
@@ -56,6 +56,8 @@ SRC_FILES	+=	$(addprefix $(CMDS_PATH), $(CMDS))
 DATAS 	 = 	clean_env_vars.c \
 			find_and_update_env_var.c \
 			find_env_var.c \
+			free_array.c \
+			free_t_env.c \
 			init_env_vars.c \
 			init_path.c \
 			print_vars.c \
