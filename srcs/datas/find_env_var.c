@@ -6,7 +6,7 @@
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 09:42:12 by saray             #+#    #+#             */
-/*   Updated: 2021/11/29 10:25:13 by scarboni         ###   ########.fr       */
+/*   Updated: 2021/11/29 10:26:42 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ t_env_var	*find_env_vars_t_str(t_env *env, t_str var)
 	while (i < env->env_vars_max)
 	{
 		if (env->env_vars[i].name.len == var.len &&
-		ft_strncmp(env->env_vars[i].name.str, var.str, var.len) == 0)
+				ft_strncmp(env->env_vars[i].name.str, var.str, var.len) == 0)
 			return (&env->env_vars[i]);
 		i++;
 	}
