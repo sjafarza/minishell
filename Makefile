@@ -6,7 +6,7 @@
 #    By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/09/28 22:36:55 by saray             #+#    #+#              #
-#    Updated: 2021/11/28 15:50:28 by scarboni         ###   ########.fr        #
+#    Updated: 2021/11/29 18:23:04 by scarboni         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -58,6 +58,7 @@ DATAS 	 = 	clean_env_vars.c \
 			find_env_var.c \
 			free_array.c \
 			free_t_env.c \
+			init_cwd.c \
 			init_env_vars.c \
 			init_path.c \
 			print_vars.c \

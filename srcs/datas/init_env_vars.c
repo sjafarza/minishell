@@ -6,7 +6,7 @@
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 09:42:12 by saray             #+#    #+#             */
-/*   Updated: 2021/11/28 15:24:49 by scarboni         ###   ########.fr       */
+/*   Updated: 2021/11/29 11:46:36 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,16 +37,22 @@ int	init_env_vars(t_env *env, char **raw_env)
 	env->env_vars_max = get_array_size(raw_env);
 	if (env->env_vars_max == NO_ARRAY || env->env_vars_max == 0)
 		return (-EXIT_FAILURE);
+	env->env_vars_max++;
 	env->env_vars = (t_env_var*)malloc(sizeof(t_env_var) * env->env_vars_max);
 	if (!env->env_vars)
 		return (-EXIT_FAILURE);
+	name_tmp = ft_strdup("?");
+	value_tmp = ft_strdup("0");
+	if (init_t_str(&env->env_vars[i].name, name_tmp) != EXIT_SUCCESS || init_t_str(&env->env_vars[i].value, value_tmp) != EXIT_SUCCESS)
+		return (-EXIT_FAILURE);
+	i++;
 	while (i < env->env_vars_max)
 	{
-		separator_index = ft_strchr_index(raw_env[i], '=');
+		separator_index = ft_strchr_index(raw_env[i - 1], '=');
 		if(separator_index < 0)
 			return (-EXIT_FAILURE);
-		name_tmp = ft_substr(raw_env[i], 0, separator_index);
-		value_tmp = ft_substr(raw_env[i], separator_index + 1, ft_strlen(raw_env[i]));
+		name_tmp = ft_substr(raw_env[i - 1], 0, separator_index);
+		value_tmp = ft_substr(raw_env[i - 1], separator_index + 1, ft_strlen(raw_env[i - 1]));
 		if (init_t_str(&env->env_vars[i].name, name_tmp) != EXIT_SUCCESS || init_t_str(&env->env_vars[i].value, value_tmp) != EXIT_SUCCESS)
 			return (-EXIT_FAILURE);
 		i++;

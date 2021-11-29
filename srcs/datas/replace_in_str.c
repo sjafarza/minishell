@@ -6,7 +6,7 @@
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 09:42:12 by saray             #+#    #+#             */
-/*   Updated: 2021/11/28 14:45:54 by scarboni         ###   ########.fr       */
+/*   Updated: 2021/11/29 18:23:51 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,6 @@ int	replace_in_str_until_i(t_env *env, char **str, int max_i)
 		}
 		i++;
 	}
-	printf("LAST I %d\n", i);
 	return (replaced_q);
 }
 

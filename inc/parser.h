@@ -6,7 +6,7 @@
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/11 17:47:17 by saray             #+#    #+#             */
-/*   Updated: 2021/11/28 17:40:31 by scarboni         ###   ########.fr       */
+/*   Updated: 2021/11/29 18:26:02 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,7 @@ typedef struct s_env {
 	t_env_var	*env_vars;
 	int			env_vars_max;
 	char		**paths;
+	char		*cwd;
 } t_env;
 
 int		mock_cmd(const char *cmd, const char **args);
@@ -107,6 +108,7 @@ t_env_var	*find_env_vars_t_str(t_env *env, t_str var);
 t_env_var	*find_env_vars(t_env *env, char* var_name);
 void		free_array(char **arr);
 void		free_t_env(t_env *env);
+int			init_cwd(t_env *env);
 int			init_env_vars(t_env *env, char **raw_env);
 int			init_path(t_env *env);
 void		print_vars(t_env *env);
