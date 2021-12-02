@@ -6,7 +6,7 @@
 #    By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/09/28 22:36:55 by saray             #+#    #+#              #
-#    Updated: 2021/11/29 18:23:04 by scarboni         ###   ########.fr        #
+#    Updated: 2021/12/01 22:10:52 by scarboni         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,6 +28,7 @@ HEADER 		= ./inc/parser.h ./inc/lib.h
 MINILIB_PATH		= lib/
 CMDS_PATH			= cmds/
 DATAS_PATH			= datas/
+PIPEX_PATH			= pipex/
 SRC_PATH			= ./srcs/
 LIBFT_PATH			= libft/
 
@@ -43,6 +44,7 @@ SRC_FILES		= $(BASE)
 
 MINILIB = 	ft_strchr_index.c \
 			ft_is_blank.c \
+			ft_strcat.c \
 			ft_del_EmptySpace.c
 
 SRC_FILES	+=	$(addprefix $(MINILIB_PATH), $(MINILIB))
@@ -61,16 +63,23 @@ DATAS 	 = 	clean_env_vars.c \
 			init_cwd.c \
 			init_env_vars.c \
 			init_path.c \
-			print_vars.c \
 			init_t_str.c \
+			parse_char_on_line.c \
+			parse_line.c \
+			print_vars.c \
 			replace_in_str.c
 
 SRC_FILES	+=	$(addprefix $(DATAS_PATH), $(DATAS))
 
+PIPEX 	 = 	pipex_stack_exe.c \
+			pipex_stack.c
+
+SRC_FILES	+=	$(addprefix $(PIPEX_PATH), $(PIPEX))
+
 SRC			= 	$(addprefix $(SRC_PATH), $(SRC_FILES))
 OBJ 		= 	$(addprefix $(OBJ_PATH), $(SRC_FILES:c=o))
 
-OBJ_PATHS_INIT			=	$(addprefix $(OBJ_PATH), $(MINILIB_PATH) $(CMDS_PATH) $(DATAS_PATH))
+OBJ_PATHS_INIT			=	$(addprefix $(OBJ_PATH), $(MINILIB_PATH) $(CMDS_PATH) $(DATAS_PATH) $(PIPEX_PATH))
 
 all: $(OBJ_PATHS_INIT) $(MAKE_LIBFT)  $(NAME)
 

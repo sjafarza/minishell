@@ -6,7 +6,7 @@
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/11 17:47:17 by saray             #+#    #+#             */
-/*   Updated: 2021/11/29 18:26:02 by scarboni         ###   ########.fr       */
+/*   Updated: 2021/12/02 10:06:34 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,19 @@ typedef struct s_cmd{
 
 
 
+
+typedef struct s_cell
+{
+	char	**args;
+}	t_cell;
+
+typedef struct s_stack
+{
+	t_list_double	*head;
+	t_list_double	*tail;
+	int				total_item;
+}	t_stack;
+
 typedef struct s_env_var {
 	t_str	name;
 	t_str	value;
@@ -81,6 +94,7 @@ typedef struct s_env {
 	int			env_vars_max;
 	char		**paths;
 	char		*cwd;
+	t_stack		pipex_stack;
 } t_env;
 
 int		mock_cmd(const char *cmd, const char **args);
@@ -98,9 +112,38 @@ static const t_cmd g_cmd_dictionary[MAX_CMD] = {
 	(t_cmd){(t_str){CODE_EXIT, LEN_EXIT}, &mock_cmd}
 };
 
+typedef struct s_parser{
+	t_str	code;
+	int		(*fun)(char** line_edited, int *i);
+	
+} t_parser;
+
+int		parse_back_slash(char **line_edited, int *i);
+int		parse_double_quote(char **line_edited, int *i);
+int		parse_simple_quote(char **line_edited, int *i);
+int		parse_pipe(char **line_edited, int *i);
+int		parse_input1(char **line_edited, int *i);
+int		parse_input2(char **line_edited, int *i);
+int		parse_output1(char **line_edited, int *i);
+int		parse_output2(char **line_edited, int *i);
+
+#define MAX_PARSER			8
+static const t_parser g_parser_dictionary[MAX_PARSER] = {
+	(t_parser){(t_str){"\\", 1}, &parse_back_slash},
+	(t_parser){(t_str){"\"", 1}, &parse_double_quote},
+	(t_parser){(t_str){"\'", 1}, &parse_simple_quote},
+	(t_parser){(t_str){"|", 1}, &parse_pipe},
+	(t_parser){(t_str){"<", 1}, &parse_input1},
+	(t_parser){(t_str){">", 1}, &parse_output1},
+	(t_parser){(t_str){"<<'", 1}, &parse_input2},
+	(t_parser){(t_str){">>'", 1}, &parse_output2}
+};
+
 /* ************************************************************************** */
 /* 									DATAS  									  */
 /* ************************************************************************** */
+
+#define INCOMPLETE_PATTERN -2
 
 void		clean_env_vars(t_env *env);
 int			find_and_update_env_var(t_env *env, char *var_name, char* new_value);
@@ -115,6 +158,17 @@ void		print_vars(t_env *env);
 int			init_t_str(t_str *obj, char* s);
 int			replace_in_str(t_env *env, char **str);
 int			replace_in_str_until_i(t_env *env, char **str, int max_i);
+
+int			extract_args(char **line, char ***arg);
+
+/* ************************************************************************** */
+/* 									PIPEX  									  */
+/* ************************************************************************** */
+
+void	clear_pipex_stack(t_env *env);
+int		add_back_pipex_stack(t_env *env, char **args);
+void	print_pipex_stack(t_env *env);
+void	execute_pipex_stack(t_env *env);
 
 /* ************************************************************************** */
 /* 									LIB   									  */
