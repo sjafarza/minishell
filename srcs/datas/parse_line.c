@@ -6,7 +6,7 @@
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 09:42:12 by saray             #+#    #+#             */
-/*   Updated: 2021/12/03 21:05:45 by scarboni         ###   ########.fr       */
+/*   Updated: 2021/12/03 21:37:41 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,49 +61,9 @@ int	go_to_next_needed_i(char *line, int(*keep_going)(char), int i)
 // int	extract_next_arg(char *line, int *i, char **arg)
 
 
-int	extract_next_arg(t_line line_handle, t_tmp_parsed tmp_parsed)//, int i, char ***arg, int ac, int *type)
+int	init_array_once_ready(t_line line_handle, t_tmp_parsed tmp_parsed, int i)
 {
-	int	i;
-	int	parse_i;
-	int ret;
 
-	ret = EXIT_SUCCESS;
-	i = go_to_next_needed_i((*line_handle.line), &is_not_valid, tmp_parsed.start);
-	tmp_parsed.start = i;
-	while ((*line_handle.line)[i])
-	{
-		if (is_not_valid((*line_handle.line)[i]))
-		{
-			ret = extract_next_arg(line_handle, (t_tmp_parsed) {tmp_parsed.arg, tmp_parsed.ac + 1, tmp_parsed.type, i + 1, tmp_parsed.high_level_start});
-			if (ret != EXIT_SUCCESS)
-				return (ret);
-			(*line_handle.line)[i] = '\0';
-			(*tmp_parsed.arg)[tmp_parsed.ac] = ft_strdup((*line_handle.line) + tmp_parsed.start);
-			if (!(*tmp_parsed.arg)[tmp_parsed.ac])
-			{
-				free_array((*tmp_parsed.arg) + tmp_parsed.ac + 1);
-				*tmp_parsed.arg = NULL;
-				return (-EXIT_FAILURE);
-			}
-			return (EXIT_SUCCESS);
-		}
-		parse_i = 0;
-		while (parse_i < MAX_PARSER)
-		{
-			if (ft_strncmp(g_parser_dictionary[parse_i].code.str, (*line_handle.line) + i,
-					g_parser_dictionary[parse_i].code.len) == 0)
-			{
-				ret = g_parser_dictionary[parse_i].fun(&line_handle, &tmp_parsed, &i, parse_i);
-				if (ret != EXIT_SUCCESS && ret != PARSE_CUT)
-					return (ret);
-				break;
-			}
-			parse_i++;
-		}
-		if (ret == PARSE_CUT)
-			break;
-		i++;
-	}
 	if (tmp_parsed.start == i && tmp_parsed.ac == 0)
 		return (EXIT_SUCCESS);
 	if (tmp_parsed.start == i)
@@ -127,6 +87,72 @@ int	extract_next_arg(t_line line_handle, t_tmp_parsed tmp_parsed)//, int i, char
 	if (i > (*line_handle.i))
 		*line_handle.i = i;
 	return (EXIT_SUCCESS);
+}
+
+int	check_parsing(t_line line_handle, t_tmp_parsed tmp_parsed, int *i)
+{
+	int	parse_i;
+
+	parse_i = 0;
+	while (parse_i < MAX_PARSER)
+	{
+		if (ft_strncmp(g_parser_dictionary[parse_i].code.str, (*line_handle.line) + (*i),
+				g_parser_dictionary[parse_i].code.len) == 0)
+			return (g_parser_dictionary[parse_i].fun(&line_handle, &tmp_parsed, i, parse_i));
+		parse_i++;
+	}
+	return (EXIT_SUCCESS);
+}
+
+int	extract_next_arg(t_line line_handle, t_tmp_parsed tmp_parsed)//, int i, char ***arg, int ac, int *type)
+{
+	int	i;
+	// int	parse_i;
+	int ret;
+
+	ret = EXIT_SUCCESS;
+	i = go_to_next_needed_i((*line_handle.line), &is_not_valid, tmp_parsed.start);
+	tmp_parsed.start = i;
+	while ((*line_handle.line)[i])
+	{
+		if (is_not_valid((*line_handle.line)[i]))
+		{
+			ret = extract_next_arg(line_handle, (t_tmp_parsed) {tmp_parsed.arg, tmp_parsed.ac + 1, tmp_parsed.type, i + 1, tmp_parsed.high_level_start});
+			if (ret != EXIT_SUCCESS)
+				return (ret);
+			(*line_handle.line)[i] = '\0';
+			(*tmp_parsed.arg)[tmp_parsed.ac] = ft_strdup((*line_handle.line) + tmp_parsed.start);
+			if (!(*tmp_parsed.arg)[tmp_parsed.ac])
+			{
+				free_array((*tmp_parsed.arg) + tmp_parsed.ac + 1);
+				*tmp_parsed.arg = NULL;
+				return (-EXIT_FAILURE);
+			}
+			return (EXIT_SUCCESS);
+		}
+		ret = check_parsing(line_handle, tmp_parsed, &i);
+		if (ret == PARSE_CUT)
+			break;
+		if (ret != EXIT_SUCCESS)
+			return (ret);
+		// parse_i = 0;
+		// while (parse_i < MAX_PARSER)
+		// {
+		// 	if (ft_strncmp(g_parser_dictionary[parse_i].code.str, (*line_handle.line) + i,
+		// 			g_parser_dictionary[parse_i].code.len) == 0)
+		// 	{
+		// 		ret = g_parser_dictionary[parse_i].fun(&line_handle, &tmp_parsed, &i, parse_i);
+		// 		if (ret != EXIT_SUCCESS && ret != PARSE_CUT)
+		// 			return (ret);
+		// 		break;
+		// 	}
+		// 	parse_i++;
+		// }
+		// if (ret == PARSE_CUT)
+		// 	break;
+		i++;
+	}
+	return init_array_once_ready(line_handle, tmp_parsed, i);
 }
 
 char	**init_array_with_one_str(char *s)

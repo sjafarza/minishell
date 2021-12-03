@@ -6,7 +6,7 @@
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 09:42:12 by saray             #+#    #+#             */
-/*   Updated: 2021/12/03 21:10:13 by scarboni         ###   ########.fr       */
+/*   Updated: 2021/12/03 21:37:07 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,9 +61,12 @@ int		parse_type_wa(t_line *line_handle, t_tmp_parsed *tmp_parsed, int *i, int pa
 
 int		parse_type_w1a(t_line *line_handle, t_tmp_parsed *tmp_parsed, int *i, int parse_i)
 {
-	(void)line_handle;
-	(void)tmp_parsed;
-	(void)parse_i;
-	(void)i;
+	if (tmp_parsed->ac != 0)
+		return (PARSE_CUT);
+
+		
+	(*line_handle->line)[(*i)] = '\0';
+	*tmp_parsed->type = parse_i;
+	*line_handle->i = (*i) + 1;
 	return (PARSE_CUT);
 }
