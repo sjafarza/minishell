@@ -6,7 +6,7 @@
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 09:42:12 by saray             #+#    #+#             */
-/*   Updated: 2021/12/03 09:35:32 by scarboni         ###   ########.fr       */
+/*   Updated: 2021/12/03 20:32:28 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,16 @@ int is_not_valid(char c)
 		return true;
 	return false;
 }
-
-int	go_to_next_valid_i(char *line, int i)
+int is_valid(char c)
 {
-	while (is_not_valid(line[i]))
+	if (c && !is_not_valid(c))
+		return true;
+	return false;
+}
+
+int	go_to_next_needed_i(char *line, int(*keep_going)(char), int i)
+{
+	while (keep_going(line[i]))
 		i++;
 	return (i);
 }
@@ -53,73 +59,170 @@ int	go_to_next_valid_i(char *line, int i)
 // }
 
 // int	extract_next_arg(char *line, int *i, char **arg)
-int	extract_next_arg(char **line, int i, char ***arg, int ac)
+
+typedef struct s_line
 {
-	int	start;
+	char	**line;
+	int		*i;
+} t_line;
+
+typedef struct s_tmp_parsed
+{
+	char	***arg;
+	int		ac;
+	int		*type;
+	int		start;
+	int		*high_level_start;
+} t_tmp_parsed;
+
+
+int	extract_next_arg(t_line line_handle, t_tmp_parsed tmp_parsed)//, int i, char ***arg, int ac, int *type)
+{
+	int	i;
 	int	parse_i;
 	int ret;
 
-	i = go_to_next_valid_i((*line), i);
-	start = i;
-	while ((*line)[i])
+	ret = EXIT_SUCCESS;
+	i = go_to_next_needed_i((*line_handle.line), &is_not_valid, tmp_parsed.start);
+	tmp_parsed.start = i;
+	while ((*line_handle.line)[i])
 	{
-		if (is_not_valid((*line)[i]))
+		if (is_not_valid((*line_handle.line)[i]))
 		{
-			ret = extract_next_arg(line, i + 1, arg, ac + 1);
+			ret = extract_next_arg(line_handle, (t_tmp_parsed) {tmp_parsed.arg, tmp_parsed.ac + 1, tmp_parsed.type, i + 1, tmp_parsed.high_level_start});
 			if (ret != EXIT_SUCCESS)
 				return (ret);
-			(*line)[i] = '\0';
-			(*arg)[ac] = ft_strdup((*line) + start);
-			if (!(*arg)[ac])
+			(*line_handle.line)[i] = '\0';
+			(*tmp_parsed.arg)[tmp_parsed.ac] = ft_strdup((*line_handle.line) + tmp_parsed.start);
+			if (!(*tmp_parsed.arg)[tmp_parsed.ac])
 			{
-				free_array((*arg) + ac + 1);
+				free_array((*tmp_parsed.arg) + tmp_parsed.ac + 1);
+				*tmp_parsed.arg = NULL;
 				return (-EXIT_FAILURE);
 			}
 			return (EXIT_SUCCESS);
 		}
 		parse_i = 0;
-		printf("GOES HERE %d:%d\n", ac, i);
-		if(i > 10)
-			return -EXIT_FAILURE;
 		while (parse_i < MAX_PARSER)
 		{
-		printf("GOES HERE parse_i:%d\n", parse_i);
-			if (ft_strncmp(g_parser_dictionary[parse_i].code.str, (*line) + i,
+			if (ft_strncmp(g_parser_dictionary[parse_i].code.str, (*line_handle.line) + i,
 					g_parser_dictionary[parse_i].code.len) == 0)
 			{
-				if (g_parser_dictionary[parse_i].fun(line, &i) != EXIT_SUCCESS)
-					return (INCOMPLETE_PATTERN);
+				ret = g_parser_dictionary[parse_i].fun(line_handle.line, &i);
+				if (ret == SET_TYPE)
+				{	
+					*tmp_parsed.type = parse_i;
+					*line_handle.i = i;
+					*tmp_parsed.high_level_start = tmp_parsed.start;
+					tmp_parsed.start = i;
+				}
+				else if (ret == SET_TYPE_WITHOUT_ARGS)
+				{	
+					(*line_handle.line)[i] = '\0';
+					*tmp_parsed.type = parse_i;
+					*line_handle.i = i + 1;
+				}
+				else if (ret != EXIT_SUCCESS)
+					return (ret);
 				break;
 			}
 			parse_i++;
 		}
+		if (ret == SET_TYPE || ret == SET_TYPE_WITHOUT_ARGS)
+			break;
 		i++;
 	}
-	if (start == i && ac == 0)
+	if (tmp_parsed.start == i && tmp_parsed.ac == 0)
 		return (EXIT_SUCCESS);
-	if (start == i)
-		*arg = malloc(sizeof(char *) * (ac + 1));
+	if (tmp_parsed.start == i)
+		*tmp_parsed.arg = malloc(sizeof(char *) * (tmp_parsed.ac + 1));
 	else
-		*arg = malloc(sizeof(char *) * (ac + 2));
-	if (!(*arg))
+		*tmp_parsed.arg = malloc(sizeof(char *) * (tmp_parsed.ac + 2));
+	if (!(*tmp_parsed.arg))
 		return (-EXIT_FAILURE);
-	if (start != i)
+	if (tmp_parsed.start != i)
 	{
-		(*arg)[ac] = ft_strdup((*line) + start);
-		if (!((*arg)[ac]))
+		(*tmp_parsed.arg)[tmp_parsed.ac] = ft_strdup((*line_handle.line) + tmp_parsed.start);
+		if (!((*tmp_parsed.arg)[tmp_parsed.ac]))
 		{
-			free(*arg);
+			free(*tmp_parsed.arg);
+			*tmp_parsed.arg = NULL;
 			return (-EXIT_FAILURE);
 		}
-		ac++;
+		tmp_parsed.ac++;
 	}
-	(*arg)[ac] = NULL;
+	(*tmp_parsed.arg)[tmp_parsed.ac] = NULL;
+	if (i > (*line_handle.i))
+		*line_handle.i = i;
 	return (EXIT_SUCCESS);
 }
 
-int	extract_args(char **line, char ***arg)
+char	**init_array_with_one_str(char *s)
 {
-	return (extract_next_arg(line, 0, arg, 0));
+	char	**result;
+
+	if(!s)
+		return (NULL);
+	result = malloc(2 * sizeof(char *));
+	if(!result)
+		return (NULL);
+	result[0] = s;
+	result[1] = NULL;
+	return (result);
+}
+
+int	extract_parsed_groups(t_env *env, char **line)
+{
+	char **args;
+	int	i;
+	int	start;
+	int type;
+	int ret;
+	char	tmp;
+
+	i = 0;
+	while ((*line)[i])
+	{
+		i = go_to_next_needed_i((*line), &is_not_valid, i);
+		start = i;
+		type = TYPE_CMD;
+		args = NULL;
+		ret = extract_next_arg((t_line){line, &i}, (t_tmp_parsed){&args, 0, &type, i, &start});
+		if (ret == -EXIT_FAILURE)
+			return (ret);
+		if (args != NULL)
+		{
+			if (add_back_parsed_groups_stack(env, args, TYPE_CMD) == -EXIT_FAILURE)
+				return (-EXIT_FAILURE);
+		}
+		if(type == TYPE_PIPE)
+		{
+			args = init_array_with_one_str(ft_strdup("|"));
+			if (!args)
+				return (-EXIT_FAILURE);
+			add_back_parsed_groups_stack(env, args, type);
+		}
+		else if (type != TYPE_CMD) 
+		{
+			// args = malloc(2 * sizeof(char *));
+			i = go_to_next_needed_i((*line), &is_valid, i);
+			// if (!args)
+			// 	return (-EXIT_FAILURE);
+			tmp = (*line)[i];
+			(*line)[i] = '\0';
+
+			args = init_array_with_one_str(ft_strdup((*line) + start));
+			if (!args)
+				return (-EXIT_FAILURE);
+			// args[0] = ft_strdup((*line) + start);
+			// args[1] = NULL;
+			// if (!args[0])
+			// 	return (-EXIT_FAILURE);
+			add_back_parsed_groups_stack(env, args, type);
+			(*line)[i] = tmp;
+		}
+	}
+	return (EXIT_SUCCESS);
 }
 
 // int	get_next_args_rec(char *line, int *i, char ***args, int count)

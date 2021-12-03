@@ -6,17 +6,17 @@
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/22 18:54:29 by scarboni          #+#    #+#             */
-/*   Updated: 2021/12/01 22:09:57 by scarboni         ###   ########.fr       */
+/*   Updated: 2021/12/03 16:40:41 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/parser.h"
 
-static void	free_cell(void *v_cell)
+static void	free_cell_pipex(void *v_cell)
 {
-	t_cell *cell;
+	t_cell_pipex *cell;
 
-	cell = (t_cell*)v_cell;
+	cell = (t_cell_pipex*)v_cell;
 	if (cell->args)
 		free_array(cell->args);
 	free(cell);
@@ -24,16 +24,18 @@ static void	free_cell(void *v_cell)
 
 void	clear_pipex_stack(t_env *env)
 {
-	ft_lstdbclear(&env->pipex_stack.head, &free_cell);
+	ft_lstdbclear(&env->pipex_stack.head, &free_cell_pipex);
+	env->pipex_stack.total_item = 0;
+	env->pipex_stack.tail = NULL;
 }
 
 int	add_back_pipex_stack(t_env *env, char **args)
 {
-	t_cell	*content;
+	t_cell_pipex	*content;
 
 	if (!args || !args[0])
 		return (-EXIT_FAILURE);
-	content = (t_cell *)malloc(sizeof(t_cell));
+	content = (t_cell_pipex *)malloc(sizeof(t_cell_pipex));
 	if (!content)
 		return (-EXIT_FAILURE);
 	content->args = args;
@@ -48,14 +50,15 @@ int	add_back_pipex_stack(t_env *env, char **args)
 static void	print_pipex_stack_int(void *v_content)
 {
 	int		i;
-	t_cell	*content;
+	t_cell_pipex	*content;
 
-	content = (t_cell*)v_content;
+	content = (t_cell_pipex*)v_content;
 	i = 0;
 	printf("PRINT CELL :\n");
 	while (content->args[i])
 	{
 		printf("%d[%s]\n", i, content->args[i]);
+		i++;
 	}
 }
 

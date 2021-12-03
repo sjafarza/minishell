@@ -6,7 +6,7 @@
 #    By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/09/28 22:36:55 by saray             #+#    #+#              #
-#    Updated: 2021/12/01 22:10:52 by scarboni         ###   ########.fr        #
+#    Updated: 2021/12/03 16:29:22 by scarboni         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,6 +28,7 @@ HEADER 		= ./inc/parser.h ./inc/lib.h
 MINILIB_PATH		= lib/
 CMDS_PATH			= cmds/
 DATAS_PATH			= datas/
+PARSED_GROUPS_PATH	= parsed_groups/
 PIPEX_PATH			= pipex/
 SRC_PATH			= ./srcs/
 LIBFT_PATH			= libft/
@@ -76,10 +77,15 @@ PIPEX 	 = 	pipex_stack_exe.c \
 
 SRC_FILES	+=	$(addprefix $(PIPEX_PATH), $(PIPEX))
 
+PARSED_GROUPS 	 = 	parsed_groups_stack_exe.c \
+					parsed_groups_stack.c
+
+SRC_FILES	+=	$(addprefix $(PARSED_GROUPS_PATH), $(PARSED_GROUPS))
+
 SRC			= 	$(addprefix $(SRC_PATH), $(SRC_FILES))
 OBJ 		= 	$(addprefix $(OBJ_PATH), $(SRC_FILES:c=o))
 
-OBJ_PATHS_INIT			=	$(addprefix $(OBJ_PATH), $(MINILIB_PATH) $(CMDS_PATH) $(DATAS_PATH) $(PIPEX_PATH))
+OBJ_PATHS_INIT			=	$(addprefix $(OBJ_PATH), $(MINILIB_PATH) $(CMDS_PATH) $(DATAS_PATH) $(PIPEX_PATH) $(PARSED_GROUPS_PATH))
 
 all: $(OBJ_PATHS_INIT) $(MAKE_LIBFT)  $(NAME)
 

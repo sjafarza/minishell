@@ -6,7 +6,7 @@
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/11 17:47:17 by saray             #+#    #+#             */
-/*   Updated: 2021/12/03 10:09:26 by scarboni         ###   ########.fr       */
+/*   Updated: 2021/12/03 20:30:30 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,11 +71,15 @@ typedef struct s_cmd{
 
 
 
+typedef struct s_cell_parsed_group{
+	char	**args;
+	int		type;
+} t_cell_parsed_group;
 
-typedef struct s_cell
+typedef struct s_cell_pipex
 {
 	char	**args;
-}	t_cell;
+}	t_cell_pipex;
 
 typedef struct s_stack
 {
@@ -95,6 +99,7 @@ typedef struct s_env {
 	char		**paths;
 	char		*cwd;
 	t_stack		pipex_stack;
+	t_stack		parsed_groups_stack;
 } t_env;
 
 int		mock_cmd(const char *cmd, const char **args);
@@ -121,27 +126,28 @@ typedef struct s_parser{
 int		parse_back_slash(char **line_edited, int *i);
 int		parse_double_quote(char **line_edited, int *i);
 int		parse_simple_quote(char **line_edited, int *i);
-int		parse_pipe(char **line_edited, int *i);
-int		parse_input1(char **line_edited, int *i);
-int		parse_input2(char **line_edited, int *i);
-int		parse_output1(char **line_edited, int *i);
-int		parse_output2(char **line_edited, int *i);
+int		parse_type_wa(char **line_edited, int *i);
+int		parse_type(char **line_edited, int *i);
 
-typedef struct s_parsed_group{
-	char	**args;
-	int		type;
-} t_parsed_group;
+#define SET_TYPE_WITHOUT_ARGS	43
+#define SET_TYPE				42
+#define TYPE_INPUT2				0
+#define TYPE_OUTPUT2			1
+#define TYPE_PIPE				2
+#define TYPE_INPUT1				3
+#define TYPE_OUTPUT1			4
+#define TYPE_CMD				5
+#define MAX_PARSER				8
 
-#define MAX_PARSER			8
 static const t_parser g_parser_dictionary[MAX_PARSER] = {
+	(t_parser){(t_str){"<<", 2}, &parse_type},
+	(t_parser){(t_str){">>", 2}, &parse_type},
+	(t_parser){(t_str){"|", 1}, &parse_type_wa},
+	(t_parser){(t_str){"<", 1}, &parse_type},
+	(t_parser){(t_str){">", 1}, &parse_type},
 	(t_parser){(t_str){"\\", 1}, &parse_back_slash},
 	(t_parser){(t_str){"\"", 1}, &parse_double_quote},
-	(t_parser){(t_str){"\'", 1}, &parse_simple_quote},
-	(t_parser){(t_str){"|", 1}, &parse_pipe},
-	(t_parser){(t_str){"<", 1}, &parse_input1},
-	(t_parser){(t_str){">", 1}, &parse_output1},
-	(t_parser){(t_str){"<<", 2}, &parse_input2},
-	(t_parser){(t_str){">>", 2}, &parse_output2}
+	(t_parser){(t_str){"\'", 1}, &parse_simple_quote}
 };
 
 /* ************************************************************************** */
@@ -163,8 +169,7 @@ void		print_vars(t_env *env);
 int			init_t_str(t_str *obj, char* s);
 int			replace_in_str(t_env *env, char **str);
 int			replace_in_str_until_i(t_env *env, char **str, int max_i);
-
-int			extract_args(char **line, char ***arg);
+int			extract_parsed_groups(t_env *env, char **line);
 
 /* ************************************************************************** */
 /* 									PIPEX  									  */
@@ -174,6 +179,15 @@ void	clear_pipex_stack(t_env *env);
 int		add_back_pipex_stack(t_env *env, char **args);
 void	print_pipex_stack(t_env *env);
 void	execute_pipex_stack(t_env *env);
+
+/* ************************************************************************** */
+/* 									PARSED_GROUPS							  */
+/* ************************************************************************** */
+
+void	execute_parsed_groups_stack(t_env *env);
+void	clear_parsed_groups_stack(t_env *env);
+int	add_back_parsed_groups_stack(t_env *env, char **args, int type);
+void	print_parsed_group_stack(t_env *env);
 
 /* ************************************************************************** */
 /* 									LIB   									  */
