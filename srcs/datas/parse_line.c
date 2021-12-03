@@ -6,7 +6,7 @@
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 09:42:12 by saray             #+#    #+#             */
-/*   Updated: 2021/12/03 20:32:28 by scarboni         ###   ########.fr       */
+/*   Updated: 2021/12/03 21:05:45 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,21 +60,6 @@ int	go_to_next_needed_i(char *line, int(*keep_going)(char), int i)
 
 // int	extract_next_arg(char *line, int *i, char **arg)
 
-typedef struct s_line
-{
-	char	**line;
-	int		*i;
-} t_line;
-
-typedef struct s_tmp_parsed
-{
-	char	***arg;
-	int		ac;
-	int		*type;
-	int		start;
-	int		*high_level_start;
-} t_tmp_parsed;
-
 
 int	extract_next_arg(t_line line_handle, t_tmp_parsed tmp_parsed)//, int i, char ***arg, int ac, int *type)
 {
@@ -108,27 +93,14 @@ int	extract_next_arg(t_line line_handle, t_tmp_parsed tmp_parsed)//, int i, char
 			if (ft_strncmp(g_parser_dictionary[parse_i].code.str, (*line_handle.line) + i,
 					g_parser_dictionary[parse_i].code.len) == 0)
 			{
-				ret = g_parser_dictionary[parse_i].fun(line_handle.line, &i);
-				if (ret == SET_TYPE)
-				{	
-					*tmp_parsed.type = parse_i;
-					*line_handle.i = i;
-					*tmp_parsed.high_level_start = tmp_parsed.start;
-					tmp_parsed.start = i;
-				}
-				else if (ret == SET_TYPE_WITHOUT_ARGS)
-				{	
-					(*line_handle.line)[i] = '\0';
-					*tmp_parsed.type = parse_i;
-					*line_handle.i = i + 1;
-				}
-				else if (ret != EXIT_SUCCESS)
+				ret = g_parser_dictionary[parse_i].fun(&line_handle, &tmp_parsed, &i, parse_i);
+				if (ret != EXIT_SUCCESS && ret != PARSE_CUT)
 					return (ret);
 				break;
 			}
 			parse_i++;
 		}
-		if (ret == SET_TYPE || ret == SET_TYPE_WITHOUT_ARGS)
+		if (ret == PARSE_CUT)
 			break;
 		i++;
 	}

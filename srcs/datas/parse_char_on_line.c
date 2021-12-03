@@ -6,44 +6,64 @@
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 09:42:12 by saray             #+#    #+#             */
-/*   Updated: 2021/12/03 16:43:44 by scarboni         ###   ########.fr       */
+/*   Updated: 2021/12/03 21:10:13 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/parser.h"
 
-int		parse_back_slash(char **line_edited, int *i)
+int		parse_back_slash(t_line *line_handle, t_tmp_parsed *tmp_parsed, int *i, int parse_i)
 {
-	(void)line_edited;
+	(void)line_handle;
+	(void)tmp_parsed;
+	(void)parse_i;
 	(void)i;
+	if (!(*line_handle->line)[(*i) + 1])
+		return (PARSE_INCOMPLETE);
 	(*i)++;
 	return (EXIT_SUCCESS);
 }
 
-int		parse_double_quote(char **line_edited, int *i)
+int		parse_double_quote(t_line *line_handle, t_tmp_parsed *tmp_parsed, int *i, int parse_i)
 {
-	(void)line_edited;
+	(void)line_handle;
+	(void)tmp_parsed;
+	(void)parse_i;
 	(void)i;
 	return (EXIT_SUCCESS);
 }
 
-int		parse_simple_quote(char **line_edited, int *i)
+int		parse_simple_quote(t_line *line_handle, t_tmp_parsed *tmp_parsed, int *i, int parse_i)
 {
-	(void)line_edited;
+	(void)line_handle;
+	(void)tmp_parsed;
+	(void)parse_i;
 	(void)i;
 	return (EXIT_SUCCESS);
 }
 
-int		parse_type(char **line_edited, int *i)
+int		parse_type(t_line *line_handle, t_tmp_parsed *tmp_parsed, int *i, int parse_i)
 {
-	(void)line_edited;
-	(void)i;
-	return (SET_TYPE);
+	*tmp_parsed->type = parse_i;
+	*line_handle->i = *i;
+	*tmp_parsed->high_level_start = tmp_parsed->start;
+	tmp_parsed->start = *i;
+	return (PARSE_CUT);
 }
 
-int		parse_type_wa(char **line_edited, int *i)
+int		parse_type_wa(t_line *line_handle, t_tmp_parsed *tmp_parsed, int *i, int parse_i)
 {
-	(void)line_edited;
+	(*line_handle->line)[(*i)] = '\0';
+	*tmp_parsed->type = parse_i;
+	*line_handle->i = (*i) + 1;
+	return (PARSE_CUT);
+}
+
+int		parse_type_w1a(t_line *line_handle, t_tmp_parsed *tmp_parsed, int *i, int parse_i)
+{
+	(void)line_handle;
+	(void)tmp_parsed;
+	(void)parse_i;
 	(void)i;
-	return (SET_TYPE_WITHOUT_ARGS);
+	return (PARSE_CUT);
 }

@@ -6,7 +6,7 @@
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/11 17:47:17 by saray             #+#    #+#             */
-/*   Updated: 2021/12/03 20:30:30 by scarboni         ###   ########.fr       */
+/*   Updated: 2021/12/03 21:07:52 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,18 +117,36 @@ static const t_cmd g_cmd_dictionary[MAX_CMD] = {
 	(t_cmd){(t_str){CODE_EXIT, LEN_EXIT}, &mock_cmd}
 };
 
+typedef struct s_line
+{
+	char	**line;
+	int		*i;
+} t_line;
+
+typedef struct s_tmp_parsed
+{
+	char	***arg;
+	int		ac;
+	int		*type;
+	int		start;
+	int		*high_level_start;
+} t_tmp_parsed;
+
 typedef struct s_parser{
 	t_str	code;
-	int		(*fun)(char** line_edited, int *i);
-	
+	int		(*fun)(t_line *, t_tmp_parsed *, int *, int);	
 } t_parser;
 
-int		parse_back_slash(char **line_edited, int *i);
-int		parse_double_quote(char **line_edited, int *i);
-int		parse_simple_quote(char **line_edited, int *i);
-int		parse_type_wa(char **line_edited, int *i);
-int		parse_type(char **line_edited, int *i);
+int		parse_back_slash(t_line *line_handle, t_tmp_parsed *tmp_parsed, int *i, int parse_i);
+int		parse_double_quote(t_line *line_handle, t_tmp_parsed *tmp_parsed, int *i, int parse_i);
+int		parse_simple_quote(t_line *line_handle, t_tmp_parsed *tmp_parsed, int *i, int parse_i);
+int		parse_type_wa(t_line *line_handle, t_tmp_parsed *tmp_parsed, int *i, int parse_i);
+int		parse_type_w1a(t_line *line_handle, t_tmp_parsed *tmp_parsed, int *i, int parse_i);
+int		parse_type(t_line *line_handle, t_tmp_parsed *tmp_parsed, int *i, int parse_i);
 
+
+#define PARSE_CUT				45
+#define PARSE_INCOMPLETE		48
 #define SET_TYPE_WITHOUT_ARGS	43
 #define SET_TYPE				42
 #define TYPE_INPUT2				0
@@ -141,10 +159,10 @@ int		parse_type(char **line_edited, int *i);
 
 static const t_parser g_parser_dictionary[MAX_PARSER] = {
 	(t_parser){(t_str){"<<", 2}, &parse_type},
-	(t_parser){(t_str){">>", 2}, &parse_type},
+	(t_parser){(t_str){">>", 2}, &parse_type_w1a},
 	(t_parser){(t_str){"|", 1}, &parse_type_wa},
 	(t_parser){(t_str){"<", 1}, &parse_type},
-	(t_parser){(t_str){">", 1}, &parse_type},
+	(t_parser){(t_str){">", 1}, &parse_type_w1a},
 	(t_parser){(t_str){"\\", 1}, &parse_back_slash},
 	(t_parser){(t_str){"\"", 1}, &parse_double_quote},
 	(t_parser){(t_str){"\'", 1}, &parse_simple_quote}
