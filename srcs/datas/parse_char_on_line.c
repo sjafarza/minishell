@@ -6,7 +6,7 @@
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 09:42:12 by saray             #+#    #+#             */
-/*   Updated: 2021/12/02 10:27:11 by scarboni         ###   ########.fr       */
+/*   Updated: 2021/12/03 09:24:44 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,12 +46,12 @@ int		replace_by_spaced(char **line_edited, int *i, char *replace)
 		return (-EXIT_FAILURE);
 	free(*line_edited);
 	*line_edited = tmp;
-	*i = (*i) + ft_strlen(replace_ptr);
 	return (EXIT_SUCCESS);
 }
 
 int		parse_pipe(char **line_edited, int *i)
 {
+	printf("AH QUE CC BOB \n");
 	return (replace_by_spaced(line_edited, i, " | "));
 }
 

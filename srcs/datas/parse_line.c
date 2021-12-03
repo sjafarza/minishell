@@ -6,7 +6,7 @@
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 09:42:12 by saray             #+#    #+#             */
-/*   Updated: 2021/12/01 22:20:32 by scarboni         ###   ########.fr       */
+/*   Updated: 2021/12/03 09:35:32 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,8 @@ int	go_to_next_valid_i(char *line, int i)
 int	extract_next_arg(char **line, int i, char ***arg, int ac)
 {
 	int	start;
+	int	parse_i;
+	int ret;
 
 	i = go_to_next_valid_i((*line), i);
 	start = i;
@@ -63,8 +65,9 @@ int	extract_next_arg(char **line, int i, char ***arg, int ac)
 	{
 		if (is_not_valid((*line)[i]))
 		{
-			if (extract_next_arg(line, i + 1, arg, ac + 1) != EXIT_SUCCESS)
-				return (-EXIT_FAILURE);
+			ret = extract_next_arg(line, i + 1, arg, ac + 1);
+			if (ret != EXIT_SUCCESS)
+				return (ret);
 			(*line)[i] = '\0';
 			(*arg)[ac] = ft_strdup((*line) + start);
 			if (!(*arg)[ac])
@@ -74,17 +77,43 @@ int	extract_next_arg(char **line, int i, char ***arg, int ac)
 			}
 			return (EXIT_SUCCESS);
 		}
-		if (ft_strncmp(g_parser_dictionary[i].code.str, *line,
-				g_parser_dictionary[i].code.len) == 0)
-			if (g_parser_dictionary[i].fun(line, &i) != EXIT_SUCCESS)
-				return (INCOMPLETE_PATTERN);
+		parse_i = 0;
+		printf("GOES HERE %d:%d\n", ac, i);
+		if(i > 10)
+			return -EXIT_FAILURE;
+		while (parse_i < MAX_PARSER)
+		{
+		printf("GOES HERE parse_i:%d\n", parse_i);
+			if (ft_strncmp(g_parser_dictionary[parse_i].code.str, (*line) + i,
+					g_parser_dictionary[parse_i].code.len) == 0)
+			{
+				if (g_parser_dictionary[parse_i].fun(line, &i) != EXIT_SUCCESS)
+					return (INCOMPLETE_PATTERN);
+				break;
+			}
+			parse_i++;
+		}
 		i++;
 	}
-	*arg = malloc(sizeof(char *) * ac + 2);
+	if (start == i && ac == 0)
+		return (EXIT_SUCCESS);
+	if (start == i)
+		*arg = malloc(sizeof(char *) * (ac + 1));
+	else
+		*arg = malloc(sizeof(char *) * (ac + 2));
 	if (!(*arg))
 		return (-EXIT_FAILURE);
-	(*arg)[ac] = ft_strdup(*line + start);
-	(*arg)[ac + 1] = NULL;
+	if (start != i)
+	{
+		(*arg)[ac] = ft_strdup((*line) + start);
+		if (!((*arg)[ac]))
+		{
+			free(*arg);
+			return (-EXIT_FAILURE);
+		}
+		ac++;
+	}
+	(*arg)[ac] = NULL;
 	return (EXIT_SUCCESS);
 }
 

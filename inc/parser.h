@@ -6,7 +6,7 @@
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/11 17:47:17 by saray             #+#    #+#             */
-/*   Updated: 2021/12/02 10:06:34 by scarboni         ###   ########.fr       */
+/*   Updated: 2021/12/03 10:09:26 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,6 +127,11 @@ int		parse_input2(char **line_edited, int *i);
 int		parse_output1(char **line_edited, int *i);
 int		parse_output2(char **line_edited, int *i);
 
+typedef struct s_parsed_group{
+	char	**args;
+	int		type;
+} t_parsed_group;
+
 #define MAX_PARSER			8
 static const t_parser g_parser_dictionary[MAX_PARSER] = {
 	(t_parser){(t_str){"\\", 1}, &parse_back_slash},
@@ -135,8 +140,8 @@ static const t_parser g_parser_dictionary[MAX_PARSER] = {
 	(t_parser){(t_str){"|", 1}, &parse_pipe},
 	(t_parser){(t_str){"<", 1}, &parse_input1},
 	(t_parser){(t_str){">", 1}, &parse_output1},
-	(t_parser){(t_str){"<<'", 1}, &parse_input2},
-	(t_parser){(t_str){">>'", 1}, &parse_output2}
+	(t_parser){(t_str){"<<", 2}, &parse_input2},
+	(t_parser){(t_str){">>", 2}, &parse_output2}
 };
 
 /* ************************************************************************** */
