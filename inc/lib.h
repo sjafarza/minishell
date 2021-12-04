@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   lib.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sjafarza <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/11 17:47:17 by saray             #+#    #+#             */
 /*   Updated: 2021/12/02 08:19:53 by scarboni         ###   ########.fr       */
@@ -21,7 +21,7 @@
 # include <string.h>
 # include <signal.h>
 # include <errno.h>
-# include "./parser.h"
+# include "./minishell.h"
 
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 42

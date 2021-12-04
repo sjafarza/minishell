@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/parser.h"
+#include "../../inc/minishell.h"
 
 t_env_var	*find_env_vars_t_str(t_env *env, t_str var)
 {

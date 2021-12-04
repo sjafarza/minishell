@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sjafarza <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/11 17:47:17 by saray             #+#    #+#             */
 /*   Updated: 2021/12/02 10:06:34 by scarboni         ###   ########.fr       */
@@ -29,21 +29,43 @@
 
 #define PATH_STR "PATH"
 #define PATH_LEN 4
+/* ************************************************************************** */
+/* 									ENV					    				  */
+/* ************************************************************************** */
+typedef struct s_str{
+	char	*str;
+	int		len;
+}t_str;
+
+typedef struct s_env_var {
+	t_str	name;
+	t_str	value;
+} t_env_var;
+
+typedef struct s_stack
+{
+	t_list_double	*head;
+	t_list_double	*tail;
+	int				total_item;
+}	t_stack;
+
+
+typedef struct s_env {
+	t_env_var	*env_vars;
+	int			env_vars_max;
+	char		**paths;
+	char		*cwd;
+	t_stack		pipex_stack;
+} t_env; 
+
+int		mock_cmd(t_env *env, const char *cmd, const char **args);
+int		echo_cmd(t_env *env, const char *cmd, const char **args);
+int		bash_cmd(t_env *env, const char *cmd, const char **args);
+int		select_right_cmd(t_env *env, const char *cmd, const char** args);
 
 /* ************************************************************************** */
 /* 									CMDS 									  */
 /* ************************************************************************** */
-
-typedef struct s_str{
-	char	*str;
-	int		len;
-} t_str;
-
-typedef struct s_cmd{
-	t_str	code;
-	int		(*fun)(const char* cmd, const char** args);
-} t_cmd;
-
 #define ID_BASH_CMD	0
 #define ID_ECHO		1
 #define ID_CD		2
@@ -69,41 +91,19 @@ typedef struct s_cmd{
 #define LEN_EXIT		4
 #define MAX_CMD			8
 
-
-
-
 typedef struct s_cell
 {
 	char	**args;
 }	t_cell;
 
-typedef struct s_stack
-{
-	t_list_double	*head;
-	t_list_double	*tail;
-	int				total_item;
-}	t_stack;
-
-typedef struct s_env_var {
-	t_str	name;
-	t_str	value;
-} t_env_var;
-
-typedef struct s_env {
-	t_env_var	*env_vars;
-	int			env_vars_max;
-	char		**paths;
-	char		*cwd;
-	t_stack		pipex_stack;
-} t_env;
-
-int		mock_cmd(const char *cmd, const char **args);
-int		bash_cmd(const char *cmd, const char **args);
-int		select_right_cmd(t_env *env, const char *cmd, const char** args);
+typedef struct s_cmd{
+	t_str	code;
+	int		(*fun)(t_env *env, const char *cmd, const char **args);
+} t_cmd;
 
 static const t_cmd g_cmd_dictionary[MAX_CMD] = {
 	(t_cmd){(t_str){"", 0}, &bash_cmd},
-	(t_cmd){(t_str){CODE_ECHO, LEN_ECHO}, &mock_cmd},
+	(t_cmd){(t_str){CODE_ECHO, LEN_ECHO}, &echo_cmd},
 	(t_cmd){(t_str){CODE_CD, LEN_CD}, &mock_cmd},
 	(t_cmd){(t_str){CODE_PWD, LEN_PWD}, &mock_cmd},
 	(t_cmd){(t_str){CODE_EXPORT, LEN_EXPORT}, &mock_cmd},
@@ -111,6 +111,10 @@ static const t_cmd g_cmd_dictionary[MAX_CMD] = {
 	(t_cmd){(t_str){CODE_ENV, LEN_ENV}, &mock_cmd},
 	(t_cmd){(t_str){CODE_EXIT, LEN_EXIT}, &mock_cmd}
 };
+
+/* ************************************************************************** */
+/* 									PARSER 									  */
+/* ************************************************************************** */
 
 typedef struct s_parser{
 	t_str	code;
@@ -128,6 +132,7 @@ int		parse_output1(char **line_edited, int *i);
 int		parse_output2(char **line_edited, int *i);
 
 #define MAX_PARSER			8
+
 static const t_parser g_parser_dictionary[MAX_PARSER] = {
 	(t_parser){(t_str){"\\", 1}, &parse_back_slash},
 	(t_parser){(t_str){"\"", 1}, &parse_double_quote},
@@ -158,7 +163,6 @@ void		print_vars(t_env *env);
 int			init_t_str(t_str *obj, char* s);
 int			replace_in_str(t_env *env, char **str);
 int			replace_in_str_until_i(t_env *env, char **str, int max_i);
-
 int			extract_args(char **line, char ***arg);
 
 /* ************************************************************************** */
@@ -177,96 +181,10 @@ void	execute_pipex_stack(t_env *env);
 int	ft_strncmp(const char *s1, const char *s2, size_t len_mx);
 int	ft_strchr_index(const char *s, int c);
 int	ft_strchr_index_until_i(const char *s, int c, int i_max);
+/* ************************************************************************** */
+/* 									SIG  									  */
+/* ************************************************************************** */
 
-
-
-enum TokenType
-{
-	CHAR_GENERAL = -1,
-	CHAR_PIPE = '|',
-	CHAR_AMPERSAND = '&',
-	CHAR_QOUTE = '\'',
-	CHAR_DQUOTE = '\"',
-	CHAR_SEMICOLON = ';',
-	CHAR_WHITESPACE = ' ',
-	CHAR_ESCAPESEQUENCE = '\\',
-	CHAR_TAB = '\t',
-	CHAR_NEWLINE = '\n',
-	CHAR_GREATER = '>',
-	CHAR_LESSER = '<',
-	CHAR_NULL = 0,
-
-	TOKEN	= -1,
-};
-
-enum 
-{
-	STATE_IN_DQUOTE,
-	STATE_IN_QUOTE,
-	STATE_IN_ESCAPESEQ,
-	STATE_GENERAL,
-};
-
-/*typedef struct s_sig
-{
-	pid_t	pid;
-	int	error;
-	int	status;
-	int	test;
-}	t_sig;*/
-
-pid_t	g_pid;
-
-
-typedef struct	s_tok
-{
-	char				*data;
-	int					type;
-	int					pip;
-	int					nb_pip;
-	struct s_tok_pip	*cmd_pip;
-	struct s_tok		*next;
-} t_tok;
-
-typedef struct	s_tok_pip
-{
-	char				*cmd;
-	int					type;
-	//int					nb;
-	struct s_tok_pip	*next;
-} t_tok_pip;
-
-typedef struct s_lexer
-{
-		struct s_tok	*token;
-		int				nb_tok;
-}	t_lexer;
-
-void    ft_free(char    **a_env, char   **a_path);
-int	ft_lexer(char *line);
-int	ft_serch_pip(char *cmd);
 void	ft_sig_handler(int sig);
 
-
-
-/*
- ** list
- */
-
-t_tok   *ft_make_list();
-t_tok_pip	*ft_make_list_pip(t_tok_pip	*l);
-void    ft_add_list(t_tok *head, char *s, t_lexer *lex);
-void	ft_add_list_pip(t_tok_pip *head, char *s);
-void    ft_print_list(t_tok *head);
-void	ft_print_list_pip(t_tok_pip *head);
-t_tok	*ft_make_nod(char *s, t_tok_pip	*t_pip_head);
-
-
-/*
- ** error
- */
-int     ft_find_error(char *line);
-int	ft_find_quotes(char *line);
-int	ft_quotes_is_paire(char *line);
-int	ft_line_is_vide(char *s);
 #endif

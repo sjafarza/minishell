@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/lib.h"
+#include "../../inc/minishell.h"
 
 void	ft_del_emptyspace(char *s)
 {

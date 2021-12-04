@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/parser.h"
+#include "../../inc/minishell.h"
 
 int		parse_back_slash(char **line_edited, int *i)
 {

@@ -1,21 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_is_blank.c                                      :+:      :+:    :+:   */
+/*   exit_cmd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sjafarza <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/18 12:31:19 by saray             #+#    #+#             */
-/*   Updated: 2021/11/27 21:45:03 by scarboni         ###   ########.fr       */
+/*   Created: 2021/12/03 13:55:54 by sjafarza          #+#    #+#             */
+/*   Updated: 2021/12/03 13:56:04 by sjafarza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-int	ft_is_blank(char c)
+int		exit_cmd(t_env *env, const char *cmd, const char **args)
 {
-	if (c == ' ' || c == '\t' || c == '\v' \
-				|| c == '\f' || c == '\r')
-		return (true);
-	return (false);
+    (void)cmd;
+	(void)args;
+	(void)env;
+
+	return (EXIT_SUCCESS);
 }

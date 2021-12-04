@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/parser.h"
+#include "../../inc/minishell.h"
 
 static int	replace_in_str_int(t_env *env, char **str, int *max_i, int *i)
 {

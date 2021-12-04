@@ -1,0 +1,46 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   echo_cmd.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sjafarza <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/12/03 10:47:48 by sjafarza          #+#    #+#             */
+/*   Updated: 2021/12/04 09:55:36 by sjafarza         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../../inc/minishell.h"
+
+int		echo_cmd(t_env *env, const char *cmd, const char **args)
+{
+	(void)cmd;
+	(void)env;
+	int		i;
+
+	i = 1;
+	printf("I am in echo_cmd\n");
+	if (args[1] && !ft_strncmp(args[1], "-n", 2))
+	{
+		i++;
+		while (args[i] && !ft_strncmp(args[i], "-n", 2))
+			i++;
+	}
+	while (args[i])
+	{
+		if (!ft_strncmp(args[i], "<<" , 2) || !ft_strncmp(args[i], ">>" , 2) || \
+			!ft_strncmp(args[i], "<" , 1) || !ft_strncmp(args[i], "<" , 1))
+			printf("\nMust redirection\n");
+		else
+		{
+			printf("%s", args[i]);
+			if (args[i + 1])
+				printf(" ");
+		}
+	++i;
+	}
+	if ( args[1] && !ft_strncmp(args[1], "-n" , 2))
+		return (EXIT_SUCCESS);
+	printf("\n");
+	return (EXIT_SUCCESS);
+}

@@ -6,7 +6,7 @@
 #    By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/09/28 22:36:55 by saray             #+#    #+#              #
-#    Updated: 2021/12/01 22:10:52 by scarboni         ###   ########.fr        #
+#    Updated: 2021/12/04 09:23:06 by sjafarza         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,7 @@ CFLAGS 		= -W -Wall -Wextra -Werror -g3 -pedantic
 
 LDFLAGS		=	-L$(LIBFTPATH) -lft  -lreadline
 
-HEADER 		= ./inc/parser.h ./inc/lib.h
+HEADER 		= ./inc/minishell.h ./inc/lib.h
 
 MINILIB_PATH		= lib/
 CMDS_PATH			= cmds/
@@ -33,11 +33,6 @@ SRC_PATH			= ./srcs/
 LIBFT_PATH			= libft/
 
 BASE =		main.c \
-			free.c \
-			lexer.c \
-			list.c \
-			list_pip.c \
-			error.c \
 			signal.c \
 
 SRC_FILES		= $(BASE)
@@ -51,6 +46,7 @@ SRC_FILES	+=	$(addprefix $(MINILIB_PATH), $(MINILIB))
 
 CMDS 	 = 	bash_cmd.c \
 			mock_cmd.c \
+			echo_cmd.c \
 			select_right_cmd.c
 
 SRC_FILES	+=	$(addprefix $(CMDS_PATH), $(CMDS))
