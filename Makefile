@@ -47,6 +47,9 @@ SRC_FILES	+=	$(addprefix $(MINILIB_PATH), $(MINILIB))
 CMDS 	 = 	bash_cmd.c \
 			mock_cmd.c \
 			echo_cmd.c \
+			exit_cmd.c \
+			env_cmd.c \
+			unset_cmd.c \
 			select_right_cmd.c
 
 SRC_FILES	+=	$(addprefix $(CMDS_PATH), $(CMDS))
@@ -63,7 +66,8 @@ DATAS 	 = 	clean_env_vars.c \
 			parse_char_on_line.c \
 			parse_line.c \
 			print_vars.c \
-			replace_in_str.c
+			replace_in_str.c \
+			del_env_var.c \
 
 SRC_FILES	+=	$(addprefix $(DATAS_PATH), $(DATAS))
 

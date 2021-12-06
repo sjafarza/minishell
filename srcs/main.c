@@ -27,8 +27,7 @@ int	main(int ac, char **av, char **env_bash)
 	env = (t_env){0};
 
 	//1- recover vaiable env & all of path in PATH
-	printf("1- recovr variable env et PATH by 2 function a_env & a_path\n\n");
-
+	
 	if (init_env_vars(&env, env_bash) != EXIT_SUCCESS)
 		printf("AN ERROR OCCURED\n");
 	if (init_path(&env) != EXIT_SUCCESS)

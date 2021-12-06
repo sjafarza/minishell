@@ -14,10 +14,10 @@
 
 int		echo_cmd(t_env *env, const char *cmd, const char **args)
 {
-	(void)cmd;
-	(void)env;
 	int		i;
 
+	(void)cmd;
+	(void)env;
 	i = 1;
 	printf("I am in echo_cmd\n");
 	if (args[1] && !ft_strncmp(args[1], "-n", 2))

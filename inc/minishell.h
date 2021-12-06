@@ -58,10 +58,6 @@ typedef struct s_env {
 	t_stack		pipex_stack;
 } t_env; 
 
-int		mock_cmd(t_env *env, const char *cmd, const char **args);
-int		echo_cmd(t_env *env, const char *cmd, const char **args);
-int		bash_cmd(t_env *env, const char *cmd, const char **args);
-int		select_right_cmd(t_env *env, const char *cmd, const char** args);
 
 /* ************************************************************************** */
 /* 									CMDS 									  */
@@ -101,15 +97,23 @@ typedef struct s_cmd{
 	int		(*fun)(t_env *env, const char *cmd, const char **args);
 } t_cmd;
 
+int		mock_cmd(t_env *env, const char *cmd, const char **args);
+int		echo_cmd(t_env *env, const char *cmd, const char **args);
+int		exit_cmd(t_env *env, const char *cmd, const char **args);
+int		env_cmd(t_env *env, const char *cmd, const char **args);
+int		unset_cmd(t_env *env, const char *cmd, const char **args);
+int		bash_cmd(t_env *env, const char *cmd, const char **args);
+int		select_right_cmd(t_env *env, const char *cmd, const char** args);
+
 static const t_cmd g_cmd_dictionary[MAX_CMD] = {
 	(t_cmd){(t_str){"", 0}, &bash_cmd},
 	(t_cmd){(t_str){CODE_ECHO, LEN_ECHO}, &echo_cmd},
 	(t_cmd){(t_str){CODE_CD, LEN_CD}, &mock_cmd},
 	(t_cmd){(t_str){CODE_PWD, LEN_PWD}, &mock_cmd},
 	(t_cmd){(t_str){CODE_EXPORT, LEN_EXPORT}, &mock_cmd},
-	(t_cmd){(t_str){CODE_UNSET, LEN_UNSET}, &mock_cmd},
-	(t_cmd){(t_str){CODE_ENV, LEN_ENV}, &mock_cmd},
-	(t_cmd){(t_str){CODE_EXIT, LEN_EXIT}, &mock_cmd}
+	(t_cmd){(t_str){CODE_UNSET, LEN_UNSET}, &unset_cmd},
+	(t_cmd){(t_str){CODE_ENV, LEN_ENV}, &env_cmd},
+	(t_cmd){(t_str){CODE_EXIT, LEN_EXIT}, &exit_cmd}
 };
 
 /* ************************************************************************** */
@@ -164,6 +168,7 @@ int			init_t_str(t_str *obj, char* s);
 int			replace_in_str(t_env *env, char **str);
 int			replace_in_str_until_i(t_env *env, char **str, int max_i);
 int			extract_args(char **line, char ***arg);
+int		del_env_var(t_env   *env, char  *var_name);
 
 /* ************************************************************************** */
 /* 									PIPEX  									  */
