@@ -6,7 +6,7 @@
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/11 17:47:17 by saray             #+#    #+#             */
-/*   Updated: 2021/12/03 21:25:15 by scarboni         ###   ########.fr       */
+/*   Updated: 2021/12/04 12:40:29 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,6 +142,7 @@ int		parse_double_quote(t_line *line_handle, t_tmp_parsed *tmp_parsed, int *i, i
 int		parse_simple_quote(t_line *line_handle, t_tmp_parsed *tmp_parsed, int *i, int parse_i);
 int		parse_type_wa(t_line *line_handle, t_tmp_parsed *tmp_parsed, int *i, int parse_i);
 int		parse_type_w1a(t_line *line_handle, t_tmp_parsed *tmp_parsed, int *i, int parse_i);
+int		parse_type_w1a_only(t_line *line_handle, t_tmp_parsed *tmp_parsed, int *i, int parse_i);
 int		parse_type(t_line *line_handle, t_tmp_parsed *tmp_parsed, int *i, int parse_i);
 
 
@@ -154,14 +155,18 @@ int		parse_type(t_line *line_handle, t_tmp_parsed *tmp_parsed, int *i, int parse
 #define TYPE_PIPE				2
 #define TYPE_INPUT1				3
 #define TYPE_OUTPUT1			4
-#define TYPE_CMD				5
+#define TYPE_BACK_SLASH			5
+#define TYPE_DOUBLE_QUOTE		6
+#define TYPE_QUOTE				7
+#define TYPE_CMD				8
 #define MAX_PARSER				8
+#define START_AUTHORISED_W1A	5
 
 static const t_parser g_parser_dictionary[MAX_PARSER] = {
-	(t_parser){(t_str){"<<", 2}, &parse_type},
+	(t_parser){(t_str){"<<", 2}, &parse_type_wa},
 	(t_parser){(t_str){">>", 2}, &parse_type_w1a},
 	(t_parser){(t_str){"|", 1}, &parse_type_wa},
-	(t_parser){(t_str){"<", 1}, &parse_type},
+	(t_parser){(t_str){"<", 1}, &parse_type_w1a_only},
 	(t_parser){(t_str){">", 1}, &parse_type_w1a},
 	(t_parser){(t_str){"\\", 1}, &parse_back_slash},
 	(t_parser){(t_str){"\"", 1}, &parse_double_quote},
@@ -188,6 +193,9 @@ int			init_t_str(t_str *obj, char* s);
 int			replace_in_str(t_env *env, char **str);
 int			replace_in_str_until_i(t_env *env, char **str, int max_i);
 int			extract_parsed_groups(t_env *env, char **line);
+int			is_not_valid(char c);
+int			is_valid(char c);
+int			go_to_next_needed_i(char *line, int(*keep_going)(char), int i);
 
 /* ************************************************************************** */
 /* 									PIPEX  									  */

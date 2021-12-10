@@ -6,7 +6,7 @@
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 09:42:12 by saray             #+#    #+#             */
-/*   Updated: 2021/12/03 21:37:41 by scarboni         ###   ########.fr       */
+/*   Updated: 2021/12/04 14:33:51 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,25 +33,6 @@
 // 	return (i);
 // }
 
-int is_not_valid(char c)
-{
-	if (c && (ft_is_blank(c) || !ft_isprint(c)))
-		return true;
-	return false;
-}
-int is_valid(char c)
-{
-	if (c && !is_not_valid(c))
-		return true;
-	return false;
-}
-
-int	go_to_next_needed_i(char *line, int(*keep_going)(char), int i)
-{
-	while (keep_going(line[i]))
-		i++;
-	return (i);
-}
 // int	go_to_next_need_for_process_i(char *line, int i)
 // {
 // 	while (line[i] || line[i] == '\'' || line[i] == '"' || line[i] == '|');
@@ -63,8 +44,7 @@ int	go_to_next_needed_i(char *line, int(*keep_going)(char), int i)
 
 int	init_array_once_ready(t_line line_handle, t_tmp_parsed tmp_parsed, int i)
 {
-
-	if (tmp_parsed.start == i && tmp_parsed.ac == 0)
+	if ((tmp_parsed.start == i && tmp_parsed.ac == 0) || *tmp_parsed.arg)
 		return (EXIT_SUCCESS);
 	if (tmp_parsed.start == i)
 		*tmp_parsed.arg = malloc(sizeof(char *) * (tmp_parsed.ac + 1));
@@ -74,7 +54,7 @@ int	init_array_once_ready(t_line line_handle, t_tmp_parsed tmp_parsed, int i)
 		return (-EXIT_FAILURE);
 	if (tmp_parsed.start != i)
 	{
-		(*tmp_parsed.arg)[tmp_parsed.ac] = ft_strdup((*line_handle.line) + tmp_parsed.start);
+		(*tmp_parsed.arg)[tmp_parsed.ac] = ft_substr((*line_handle.line), tmp_parsed.start, i - tmp_parsed.start);
 		if (!((*tmp_parsed.arg)[tmp_parsed.ac]))
 		{
 			free(*tmp_parsed.arg);
@@ -120,8 +100,10 @@ int	extract_next_arg(t_line line_handle, t_tmp_parsed tmp_parsed)//, int i, char
 			ret = extract_next_arg(line_handle, (t_tmp_parsed) {tmp_parsed.arg, tmp_parsed.ac + 1, tmp_parsed.type, i + 1, tmp_parsed.high_level_start});
 			if (ret != EXIT_SUCCESS)
 				return (ret);
-			(*line_handle.line)[i] = '\0';
-			(*tmp_parsed.arg)[tmp_parsed.ac] = ft_strdup((*line_handle.line) + tmp_parsed.start);
+			// (*line_handle.line)[i] = '\0';
+	// printf("CUTTING %d:%d:%s\n", tmp_parsed.start, i, ft_substr(*line_handle.line, tmp_parsed.start, i));
+			(*tmp_parsed.arg)[tmp_parsed.ac] = ft_substr(*line_handle.line, tmp_parsed.start, i - tmp_parsed.start);
+			// (*tmp_parsed.arg)[tmp_parsed.ac] = ft_strdup((*line_handle.line) + tmp_parsed.start);
 			if (!(*tmp_parsed.arg)[tmp_parsed.ac])
 			{
 				free_array((*tmp_parsed.arg) + tmp_parsed.ac + 1);
@@ -152,7 +134,8 @@ int	extract_next_arg(t_line line_handle, t_tmp_parsed tmp_parsed)//, int i, char
 		// 	break;
 		i++;
 	}
-	return init_array_once_ready(line_handle, tmp_parsed, i);
+	printf("HELLO %d \n", i)
+;	return (init_array_once_ready(line_handle, tmp_parsed, i));
 }
 
 char	**init_array_with_one_str(char *s)
@@ -176,7 +159,7 @@ int	extract_parsed_groups(t_env *env, char **line)
 	int	start;
 	int type;
 	int ret;
-	char	tmp;
+	// char	tmp;
 
 	i = 0;
 	while ((*line)[i])
@@ -188,37 +171,41 @@ int	extract_parsed_groups(t_env *env, char **line)
 		ret = extract_next_arg((t_line){line, &i}, (t_tmp_parsed){&args, 0, &type, i, &start});
 		if (ret == -EXIT_FAILURE)
 			return (ret);
-		if (args != NULL)
+		if(type == TYPE_PIPE || type == TYPE_INPUT2)
+		{
+			if (args != NULL)
+				if (add_back_parsed_groups_stack(env, args, TYPE_CMD) == -EXIT_FAILURE)
+					return (-EXIT_FAILURE);
+			args = init_array_with_one_str(ft_strdup(g_parser_dictionary->code.str));
+			if (!args)
+				return (-EXIT_FAILURE);
+			add_back_parsed_groups_stack(env, args, type);
+		}
+		else if(args != NULL)
 		{
 			if (add_back_parsed_groups_stack(env, args, TYPE_CMD) == -EXIT_FAILURE)
 				return (-EXIT_FAILURE);
 		}
-		if(type == TYPE_PIPE)
-		{
-			args = init_array_with_one_str(ft_strdup("|"));
-			if (!args)
-				return (-EXIT_FAILURE);
-			add_back_parsed_groups_stack(env, args, type);
-		}
-		else if (type != TYPE_CMD) 
-		{
-			// args = malloc(2 * sizeof(char *));
-			i = go_to_next_needed_i((*line), &is_valid, i);
-			// if (!args)
-			// 	return (-EXIT_FAILURE);
-			tmp = (*line)[i];
-			(*line)[i] = '\0';
+		printf("i is %d:%s:%s\n", i, (*line), (*line)+i);
+		// else if (type != TYPE_CMD) 
+		// {
+		// 	// args = malloc(2 * sizeof(char *));
+		// 	i = go_to_next_needed_i((*line), &is_valid, i);
+		// 	// if (!args)
+		// 	// 	return (-EXIT_FAILURE);
+		// 	tmp = (*line)[i];
+		// 	(*line)[i] = '\0';
 
-			args = init_array_with_one_str(ft_strdup((*line) + start));
-			if (!args)
-				return (-EXIT_FAILURE);
-			// args[0] = ft_strdup((*line) + start);
-			// args[1] = NULL;
-			// if (!args[0])
-			// 	return (-EXIT_FAILURE);
-			add_back_parsed_groups_stack(env, args, type);
-			(*line)[i] = tmp;
-		}
+		// 	args = init_array_with_one_str(ft_strdup((*line) + start));
+		// 	if (!args)
+		// 		return (-EXIT_FAILURE);
+		// 	// args[0] = ft_strdup((*line) + start);
+		// 	// args[1] = NULL;
+		// 	// if (!args[0])
+		// 	// 	return (-EXIT_FAILURE);
+		// 	add_back_parsed_groups_stack(env, args, type);
+		// 	(*line)[i] = tmp;
+		// }
 	}
 	return (EXIT_SUCCESS);
 }

@@ -6,7 +6,7 @@
 #    By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/09/28 22:36:55 by saray             #+#    #+#              #
-#    Updated: 2021/12/03 16:29:22 by scarboni         ###   ########.fr        #
+#    Updated: 2021/12/03 22:24:32 by scarboni         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -59,6 +59,7 @@ SRC_FILES	+=	$(addprefix $(CMDS_PATH), $(CMDS))
 DATAS 	 = 	clean_env_vars.c \
 			find_and_update_env_var.c \
 			find_env_var.c \
+			find_next_i.c \
 			free_array.c \
 			free_t_env.c \
 			init_cwd.c \
