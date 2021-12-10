@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/parser.h"
+#include "../../inc/minishell.h"
 
 static void	execute_pipex_stack_int(t_env *env, t_list_double *action)
 {

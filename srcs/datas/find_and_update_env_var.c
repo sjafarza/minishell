@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/parser.h"
+#include "../../inc/minishell.h"
 
 int	find_and_update_env_var(t_env *env, char *var_name, char* new_value)
 {
