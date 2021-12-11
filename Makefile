@@ -52,6 +52,8 @@ CMDS 	 = 	bash_cmd.c \
 			env_cmd.c \
 			unset_cmd.c \
 			export_cmd.c \
+			pwd_cmd.c \
+			cd_cmd.c \
 			select_right_cmd.c
 
 SRC_FILES	+=	$(addprefix $(CMDS_PATH), $(CMDS))
