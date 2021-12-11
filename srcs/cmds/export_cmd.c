@@ -27,8 +27,7 @@ int	export_cmd(t_env *env, const char *cmd, const char **args)
 		{
 			if (args[i][0] == '=')
 			{		
-				printf("minishell: export: << %s >> : \
-						identifiant non valable\n", args[i]);
+				printf("minishell: export: ( %s ):identifiant non valable\n", args[i]);
 				return (-EXIT_FAILURE);
 			}
 			return (add_env_var(env, (char *)args[i]));
