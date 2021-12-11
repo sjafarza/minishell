@@ -25,7 +25,7 @@ int	dup_tmp_to_env(t_env *env, t_env *tmp, int i)
 {
 	env->env_vars = (t_env_var *)malloc(sizeof(t_env_var) * tmp->env_vars_max);
 	if (!env->env_vars)
-		return (-EXIT_FAILURE);
+		return (-EXIT_FAILURE);	
 	env->env_vars_max = tmp->env_vars_max;
 	while (++i < env->env_vars_max)
 		if (init_str(&env->env_vars[i].name, tmp->env_vars[i].name.str) \

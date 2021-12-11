@@ -41,7 +41,7 @@ SRC_FILES		= $(BASE)
 MINILIB = 	ft_strchr_index.c \
 			ft_is_blank.c \
 			ft_strcat.c \
-			ft_del_EmptySpace.c
+			ft_del_EmptySpace.c \
 
 SRC_FILES	+=	$(addprefix $(MINILIB_PATH), $(MINILIB))
 
@@ -51,6 +51,7 @@ CMDS 	 = 	bash_cmd.c \
 			exit_cmd.c \
 			env_cmd.c \
 			unset_cmd.c \
+			export_cmd.c \
 			select_right_cmd.c
 
 SRC_FILES	+=	$(addprefix $(CMDS_PATH), $(CMDS))
@@ -70,6 +71,7 @@ DATAS 	 = 	clean_env_vars.c \
 			print_vars.c \
 			replace_in_str.c \
 			del_env_var.c \
+			add_env_var.c
 
 SRC_FILES	+=	$(addprefix $(DATAS_PATH), $(DATAS))
 

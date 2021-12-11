@@ -115,6 +115,7 @@ int		echo_cmd(t_env *env, const char *cmd, const char **args);
 int		exit_cmd(t_env *env, const char *cmd, const char **args);
 int		env_cmd(t_env *env, const char *cmd, const char **args);
 int		unset_cmd(t_env *env, const char *cmd, const char **args);
+int		export_cmd(t_env *env, const char *cmd, const char **args);
 int		bash_cmd(t_env *env, const char *cmd, const char **args);
 int		select_right_cmd(t_env *env, const char *cmd, const char** args);
 
@@ -123,7 +124,7 @@ static const t_cmd g_cmd_dictionary[MAX_CMD] = {
 	(t_cmd){(t_str){CODE_ECHO, LEN_ECHO}, &echo_cmd},
 	(t_cmd){(t_str){CODE_CD, LEN_CD}, &mock_cmd},
 	(t_cmd){(t_str){CODE_PWD, LEN_PWD}, &mock_cmd},
-	(t_cmd){(t_str){CODE_EXPORT, LEN_EXPORT}, &mock_cmd},
+	(t_cmd){(t_str){CODE_EXPORT, LEN_EXPORT}, &export_cmd},
 	(t_cmd){(t_str){CODE_UNSET, LEN_UNSET}, &unset_cmd},
 	(t_cmd){(t_str){CODE_ENV, LEN_ENV}, &env_cmd},
 	(t_cmd){(t_str){CODE_EXIT, LEN_EXIT}, &exit_cmd}
@@ -212,6 +213,10 @@ int			is_not_valid(char c);
 int			is_valid(char c);
 int			go_to_next_needed_i(char *line, int(*keep_going)(char), int i);
 int			del_env_var(t_env   *env, char  *var_name);
+int			fill_tmp(t_env *env, t_env *tmp, char *var_name, int i);
+int			init_str(t_str *obj, char *s);
+int			add_env_var(t_env *env, char *var);
+int			dup_tmp_to_env(t_env *env, t_env *tmp, int i);
 
 /* ************************************************************************** */
 /* 									PIPEX  									  */
