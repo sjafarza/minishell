@@ -6,7 +6,7 @@
 #    By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/09/28 22:36:55 by saray             #+#    #+#              #
-#    Updated: 2021/12/04 09:23:06 by sjafarza         ###   ########.fr        #
+#    Updated: 2021/12/12 19:39:29 by scarboni         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -58,7 +58,9 @@ CMDS 	 = 	bash_cmd.c \
 
 SRC_FILES	+=	$(addprefix $(CMDS_PATH), $(CMDS))
 
-DATAS 	 = 	clean_env_vars.c \
+DATAS 	 = 	add_env_var.c \
+			clean_env_vars.c \
+			del_env_var.c \
 			find_and_update_env_var.c \
 			find_env_var.c \
 			find_next_i.c \
@@ -68,12 +70,11 @@ DATAS 	 = 	clean_env_vars.c \
 			init_env_vars.c \
 			init_path.c \
 			init_t_str.c \
+			is_sequence_equal_to_parser_code.c \
 			parse_char_on_line.c \
 			parse_line.c \
 			print_vars.c \
-			replace_in_str.c \
-			del_env_var.c \
-			add_env_var.c
+			replace_in_str.c
 
 SRC_FILES	+=	$(addprefix $(DATAS_PATH), $(DATAS))
 

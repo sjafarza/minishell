@@ -6,7 +6,7 @@
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 09:42:12 by saray             #+#    #+#             */
-/*   Updated: 2021/12/12 19:10:29 by scarboni         ###   ########.fr       */
+/*   Updated: 2021/12/12 19:43:20 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,8 +73,7 @@ int	check_parsing(t_line line_handle, t_tmp_parsed tmp_parsed, int *i, int parse
 {
 	while (parse_i < MAX_PARSER)
 	{
-		if (ft_strncmp(g_parser_dictionary[parse_i].code.str, (*line_handle.line) + (*i),
-				g_parser_dictionary[parse_i].code.len) == 0)
+		if (is_sequence_equal_to_parser_code(parse_i, (*line_handle.line) + (*i)))
 			return (g_parser_dictionary[parse_i].fun(&line_handle, &tmp_parsed, i, parse_i));
 		parse_i++;
 	}

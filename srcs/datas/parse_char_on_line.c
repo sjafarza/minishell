@@ -6,39 +6,99 @@
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 09:42:12 by saray             #+#    #+#             */
-/*   Updated: 2021/12/12 19:09:48 by scarboni         ###   ########.fr       */
+/*   Updated: 2021/12/12 22:03:32 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-int		parse_back_slash(t_line *line_handle, t_tmp_parsed *tmp_parsed, int *i, int parse_i)
+int	parse_back_slash_int(char *line, int *i)
 {
-	(void)line_handle;
-	(void)tmp_parsed;
-	(void)parse_i;
-	(void)i;
-	if (!(*line_handle->line)[(*i) + 1])
+	if (!line[(*i) + 1])
 		return (PARSE_INCOMPLETE);
 	(*i)++;
 	return (EXIT_SUCCESS);
 }
 
+int		parse_back_slash(t_line *line_handle, t_tmp_parsed *tmp_parsed, int *i, int parse_i)
+{
+	(void)tmp_parsed;
+	(void)parse_i;
+	// if (!(*line_handle->line)[(*i) + 1])
+	// 	return (PARSE_INCOMPLETE);
+	// (*i)++;
+	// return (EXIT_SUCCESS);
+	return (parse_back_slash_int(*line_handle->line, i));
+}
+
+int	find_next__quote(int id_quote, char *line, int i)
+{
+	if (is_sequence_equal_to_parser_code(TYPE_BACK_SLASH, line + i))
+		if (parse_back_slash_int(line, &i) != EXIT_SUCCESS){
+			printf("HERE %d\n", i);
+			return (INCOMPLETE_PATTERN);}
+	while (line[i] && !is_sequence_equal_to_parser_code(id_quote, line + i))
+	{
+		if (is_sequence_equal_to_parser_code(TYPE_BACK_SLASH, line + i))
+			if (parse_back_slash_int(line, &i) != EXIT_SUCCESS){
+				printf("THERE %d\n", i);
+				return (INCOMPLETE_PATTERN);}
+		i++;
+	}
+	if (!is_sequence_equal_to_parser_code(id_quote, line + i)){
+				printf("THhhhERE %d\n", i);
+				return (INCOMPLETE_PATTERN);}
+	return (i);
+}
+
+
+typedef struct s_parse_quote_utils{
+	int *i;
+	int parse_i;
+} t_parse_quote_utils ;
+
+int		parse__quote(t_line *line_handle, t_tmp_parsed *tmp_parsed, t_parse_quote_utils pqu, int (*fun)(t_line *, t_tmp_parsed *, int *i))
+{
+	int first;
+	int last;
+
+	first = *pqu.i;
+	ft_strlcpy((*line_handle->line) + first, (*line_handle->line) + first + 1, ft_strlen((*line_handle->line) + first));
+	last = find_next__quote(pqu.parse_i, *line_handle->line, first );
+	if (last == INCOMPLETE_PATTERN)
+		return (INCOMPLETE_PATTERN);
+	
+	ft_strlcpy((*line_handle->line) + last, (*line_handle->line) + last + 1, ft_strlen((*line_handle->line) + last));
+	if(fun)
+		fun(line_handle, tmp_parsed, pqu.i);
+	return (EXIT_SUCCESS);
+}
+
+
 int		parse_double_quote(t_line *line_handle, t_tmp_parsed *tmp_parsed, int *i, int parse_i)
 {
+
 	(void)line_handle;
 	(void)tmp_parsed;
 	(void)parse_i;
 	(void)i;
-	return (EXIT_SUCCESS);
+	return (parse__quote(line_handle, tmp_parsed, (t_parse_quote_utils){i, parse_i}, NULL));
 }
 
 int		parse_simple_quote(t_line *line_handle, t_tmp_parsed *tmp_parsed, int *i, int parse_i)
 {
+	int first;
+	int last;
+
 	(void)line_handle;
 	(void)tmp_parsed;
 	(void)parse_i;
 	(void)i;
+	first = *i;
+	last = find_next__quote(parse_i, *line_handle->line, first + 1);
+	printf("FIRST AND LAST %d:%d\n", first, last);
+	if (last == INCOMPLETE_PATTERN)
+		return (INCOMPLETE_PATTERN);
 	return (EXIT_SUCCESS);
 }
 
