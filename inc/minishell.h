@@ -160,7 +160,7 @@ int		parse_back_slash(t_line *line_handle, t_tmp_parsed *tmp_parsed, int *i, int
 int		parse_double_quote(t_line *line_handle, t_tmp_parsed *tmp_parsed, int *i, int parse_i);
 int		parse_simple_quote(t_line *line_handle, t_tmp_parsed *tmp_parsed, int *i, int parse_i);
 int		parse_type_wa(t_line *line_handle, t_tmp_parsed *tmp_parsed, int *i, int parse_i);
-int		parse_type_w1a(t_line *line_handle, t_tmp_parsed *tmp_parsed, int *i, int parse_i);
+// int		parse_type_w1a(t_line *line_handle, t_tmp_parsed *tmp_parsed, int *i, int parse_i);
 int		parse_type_w1a_only(t_line *line_handle, t_tmp_parsed *tmp_parsed, int *i, int parse_i);
 int		parse_type(t_line *line_handle, t_tmp_parsed *tmp_parsed, int *i, int parse_i);
 
@@ -182,10 +182,10 @@ int		parse_type(t_line *line_handle, t_tmp_parsed *tmp_parsed, int *i, int parse
 
 static const t_parser g_parser_dictionary[MAX_PARSER] = {
 	(t_parser){(t_str){"<<", 2}, &parse_type_wa},
-	(t_parser){(t_str){">>", 2}, &parse_type_w1a},
+	(t_parser){(t_str){">>", 2}, &parse_type_w1a_only},
 	(t_parser){(t_str){"|", 1}, &parse_type_wa},
 	(t_parser){(t_str){"<", 1}, &parse_type_w1a_only},
-	(t_parser){(t_str){">", 1}, &parse_type_w1a},
+	(t_parser){(t_str){">", 1}, &parse_type_w1a_only},
 	(t_parser){(t_str){"\\", 1}, &parse_back_slash},
 	(t_parser){(t_str){"\"", 1}, &parse_double_quote},
 	(t_parser){(t_str){"\'", 1}, &parse_simple_quote}

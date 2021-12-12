@@ -6,7 +6,7 @@
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 09:42:12 by saray             #+#    #+#             */
-/*   Updated: 2021/12/04 14:33:51 by scarboni         ###   ########.fr       */
+/*   Updated: 2021/12/12 18:37:45 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,6 +134,7 @@ int	extract_next_arg(t_line line_handle, t_tmp_parsed tmp_parsed)//, int i, char
 		// 	break;
 		i++;
 	}
+	if( i != 0)
 	printf("HELLO %d \n", i)
 ;	return (init_array_once_ready(line_handle, tmp_parsed, i));
 }
@@ -176,10 +177,17 @@ int	extract_parsed_groups(t_env *env, char **line)
 			if (args != NULL)
 				if (add_back_parsed_groups_stack(env, args, TYPE_CMD) == -EXIT_FAILURE)
 					return (-EXIT_FAILURE);
-			args = init_array_with_one_str(ft_strdup(g_parser_dictionary->code.str));
+			args = init_array_with_one_str(ft_strdup(g_parser_dictionary[type].code.str));
 			if (!args)
 				return (-EXIT_FAILURE);
-			add_back_parsed_groups_stack(env, args, type);
+			if (add_back_parsed_groups_stack(env, args, type) == -EXIT_FAILURE)
+				return (-EXIT_FAILURE);
+		}
+		else if(type != TYPE_CMD)
+		{
+			if (!args || add_back_parsed_groups_stack(env, args, type) == -EXIT_FAILURE)
+				return (-EXIT_FAILURE);
+			printf("AH QUE COUCOU BOB FOR TYPE %d\n", type);
 		}
 		else if(args != NULL)
 		{

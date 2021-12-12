@@ -6,7 +6,7 @@
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 09:42:12 by saray             #+#    #+#             */
-/*   Updated: 2021/12/04 14:50:29 by scarboni         ###   ########.fr       */
+/*   Updated: 2021/12/12 18:41:15 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,8 +108,7 @@ int get_arg_for_w1a(t_line *line_handle, t_tmp_parsed *tmp_parsed, int *i)
 int		parse_type_w1a_only(t_line *line_handle, t_tmp_parsed *tmp_parsed, int *i, int parse_i)
 {
 	int	ret;
-
-	if (tmp_parsed->ac != 0)
+	if (tmp_parsed->ac != 0 || (*tmp_parsed->high_level_start) != (*i))
 		return (PARSE_CUT);
 	*tmp_parsed->type = parse_i;
 	(*i) += g_parser_dictionary[parse_i].code.len;
@@ -136,42 +135,44 @@ int		parse_type_w1a_only(t_line *line_handle, t_tmp_parsed *tmp_parsed, int *i, 
 	return (PARSE_CUT);
 }
 
-int		parse_type_w1a(t_line *line_handle, t_tmp_parsed *tmp_parsed, int *i, int parse_i)
-{
-	int	ret;
-	printf("HELLO STARTING %s:%d:%d\n", *line_handle->line,*i, tmp_parsed->ac );
+// int		parse_type_w1a(t_line *line_handle, t_tmp_parsed *tmp_parsed, int *i, int parse_i)
+// {
+// 	int	ret;
+// 	if( i != 0)
+// 	printf("HELLO STARTING %s:%d:%d\n", *line_handle->line,*i, tmp_parsed->ac );
 
-	printf("Ah que cc bob %d:%d:%s:%s\n", *i, *tmp_parsed->high_level_start, (*line_handle->line) + *i, (*line_handle->line));
+// 	if( i != 0)
+// 	printf("Ah que cc bob %d:%d:%s:%s\n", *i, *tmp_parsed->high_level_start, (*line_handle->line) + *i, (*line_handle->line));
 
-	if (tmp_parsed->ac != 0)
-	{
-		*i = *tmp_parsed->high_level_start;
-		// *tmp_parsed->high_level_start = *i ;
-		return (PARSE_CUT);
-	}
-	if (tmp_parsed->ac != 0)
-		return (PARSE_CUT);
-	*tmp_parsed->type = parse_i;
-	(*i) += g_parser_dictionary[parse_i].code.len;
-	if (!(*line_handle->line)[(*i)])
-		return (-EXIT_FAILURE);
-	*tmp_parsed->arg = malloc(sizeof(char *) * 3);
-	if (!(*tmp_parsed->arg))
-		return (-EXIT_FAILURE);
-	(*tmp_parsed->arg)[tmp_parsed->ac] = ft_substr(*line_handle->line, tmp_parsed->start, (*i) - tmp_parsed->start);
-	(*tmp_parsed->arg)[tmp_parsed->ac + 1] = NULL;
-	if (!(*tmp_parsed->arg)[tmp_parsed->ac])
-	{
-		free(*tmp_parsed->arg);
-		*tmp_parsed->arg = NULL;
-		return (-EXIT_FAILURE);
-	}
-	tmp_parsed->ac++;
-	*i = go_to_next_needed_i((*line_handle->line), &is_not_valid, *i);
-	ret = get_arg_for_w1a(line_handle, tmp_parsed, i);
-	if (ret == -EXIT_FAILURE)
-		return (-EXIT_FAILURE);
-	if ((*i) > (*line_handle->i))
-		*line_handle->i = (*i);
-	return (PARSE_CUT);
-}
+// 	if (tmp_parsed->ac != 0)
+// 	{
+// 		*i = *tmp_parsed->high_level_start;
+// 		// *tmp_parsed->high_level_start = *i ;
+// 		return (PARSE_CUT);
+// 	}
+// 	if (tmp_parsed->ac != 0)
+// 		return (PARSE_CUT);
+// 	*tmp_parsed->type = parse_i;
+// 	(*i) += g_parser_dictionary[parse_i].code.len;
+// 	if (!(*line_handle->line)[(*i)])
+// 		return (-EXIT_FAILURE);
+// 	*tmp_parsed->arg = malloc(sizeof(char *) * 3);
+// 	if (!(*tmp_parsed->arg))
+// 		return (-EXIT_FAILURE);
+// 	(*tmp_parsed->arg)[tmp_parsed->ac] = ft_substr(*line_handle->line, tmp_parsed->start, (*i) - tmp_parsed->start);
+// 	(*tmp_parsed->arg)[tmp_parsed->ac + 1] = NULL;
+// 	if (!(*tmp_parsed->arg)[tmp_parsed->ac])
+// 	{
+// 		free(*tmp_parsed->arg);
+// 		*tmp_parsed->arg = NULL;
+// 		return (-EXIT_FAILURE);
+// 	}
+// 	tmp_parsed->ac++;
+// 	*i = go_to_next_needed_i((*line_handle->line), &is_not_valid, *i);
+// 	ret = get_arg_for_w1a(line_handle, tmp_parsed, i);
+// 	if (ret == -EXIT_FAILURE)
+// 		return (-EXIT_FAILURE);
+// 	if ((*i) > (*line_handle->i))
+// 		*line_handle->i = (*i);
+// 	return (PARSE_CUT);
+// }
