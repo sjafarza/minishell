@@ -6,7 +6,7 @@
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 09:42:12 by saray             #+#    #+#             */
-/*   Updated: 2021/12/12 18:37:45 by scarboni         ###   ########.fr       */
+/*   Updated: 2021/12/12 18:58:48 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,11 +69,8 @@ int	init_array_once_ready(t_line line_handle, t_tmp_parsed tmp_parsed, int i)
 	return (EXIT_SUCCESS);
 }
 
-int	check_parsing(t_line line_handle, t_tmp_parsed tmp_parsed, int *i)
+int	check_parsing(t_line line_handle, t_tmp_parsed tmp_parsed, int *i, int parse_i)
 {
-	int	parse_i;
-
-	parse_i = 0;
 	while (parse_i < MAX_PARSER)
 	{
 		if (ft_strncmp(g_parser_dictionary[parse_i].code.str, (*line_handle.line) + (*i),
@@ -112,7 +109,7 @@ int	extract_next_arg(t_line line_handle, t_tmp_parsed tmp_parsed)//, int i, char
 			}
 			return (EXIT_SUCCESS);
 		}
-		ret = check_parsing(line_handle, tmp_parsed, &i);
+		ret = check_parsing(line_handle, tmp_parsed, &i, 0);
 		if (ret == PARSE_CUT)
 			break;
 		if (ret != EXIT_SUCCESS)

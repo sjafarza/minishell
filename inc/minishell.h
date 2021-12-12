@@ -159,8 +159,7 @@ typedef struct s_parser{
 int		parse_back_slash(t_line *line_handle, t_tmp_parsed *tmp_parsed, int *i, int parse_i);
 int		parse_double_quote(t_line *line_handle, t_tmp_parsed *tmp_parsed, int *i, int parse_i);
 int		parse_simple_quote(t_line *line_handle, t_tmp_parsed *tmp_parsed, int *i, int parse_i);
-int		parse_type_wa(t_line *line_handle, t_tmp_parsed *tmp_parsed, int *i, int parse_i);
-// int		parse_type_w1a(t_line *line_handle, t_tmp_parsed *tmp_parsed, int *i, int parse_i);
+int		parse_type_without_arg(t_line *line_handle, t_tmp_parsed *tmp_parsed, int *i, int parse_i);
 int		parse_type_w1a_only(t_line *line_handle, t_tmp_parsed *tmp_parsed, int *i, int parse_i);
 int		parse_type(t_line *line_handle, t_tmp_parsed *tmp_parsed, int *i, int parse_i);
 
@@ -181,9 +180,9 @@ int		parse_type(t_line *line_handle, t_tmp_parsed *tmp_parsed, int *i, int parse
 #define START_AUTHORISED_W1A	5
 
 static const t_parser g_parser_dictionary[MAX_PARSER] = {
-	(t_parser){(t_str){"<<", 2}, &parse_type_wa},
+	(t_parser){(t_str){"<<", 2}, &parse_type_without_arg},
 	(t_parser){(t_str){">>", 2}, &parse_type_w1a_only},
-	(t_parser){(t_str){"|", 1}, &parse_type_wa},
+	(t_parser){(t_str){"|", 1}, &parse_type_without_arg},
 	(t_parser){(t_str){"<", 1}, &parse_type_w1a_only},
 	(t_parser){(t_str){">", 1}, &parse_type_w1a_only},
 	(t_parser){(t_str){"\\", 1}, &parse_back_slash},
@@ -219,6 +218,8 @@ int			fill_tmp(t_env *env, t_env *tmp, char *var_name, int i);
 int			init_str(t_str *obj, char *s);
 int			add_env_var(t_env *env, char *var);
 int			dup_tmp_to_env(t_env *env, t_env *tmp, int i);
+int			check_parsing(t_line line_handle, t_tmp_parsed tmp_parsed, int *i, int parse_i);
+
 
 /* ************************************************************************** */
 /* 									PIPEX  									  */
