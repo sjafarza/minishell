@@ -6,7 +6,7 @@
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 09:42:12 by saray             #+#    #+#             */
-/*   Updated: 2021/12/12 18:58:48 by scarboni         ###   ########.fr       */
+/*   Updated: 2021/12/12 19:10:29 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,7 +167,7 @@ int	extract_parsed_groups(t_env *env, char **line)
 		type = TYPE_CMD;
 		args = NULL;
 		ret = extract_next_arg((t_line){line, &i}, (t_tmp_parsed){&args, 0, &type, i, &start});
-		if (ret == -EXIT_FAILURE)
+		if (ret != EXIT_SUCCESS)
 			return (ret);
 		if(type == TYPE_PIPE || type == TYPE_INPUT2)
 		{

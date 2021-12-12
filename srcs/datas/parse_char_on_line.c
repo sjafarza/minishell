@@ -6,7 +6,7 @@
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 09:42:12 by saray             #+#    #+#             */
-/*   Updated: 2021/12/12 19:03:25 by scarboni         ###   ########.fr       */
+/*   Updated: 2021/12/12 19:09:48 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,11 +53,6 @@ int		parse_type(t_line *line_handle, t_tmp_parsed *tmp_parsed, int *i, int parse
 
 int		parse_type_without_arg(t_line *line_handle, t_tmp_parsed *tmp_parsed, int *i, int parse_i)
 {
-	// (*line_handle->line)[(*i)] = '\0';
-	(void)line_handle;
-	(void)tmp_parsed;
-	(void)parse_i;
-	(void)i;
 	*tmp_parsed->type = parse_i;
 	*line_handle->i = (*i) + g_parser_dictionary[parse_i].code.len;
 	return (PARSE_CUT);
@@ -71,9 +66,8 @@ int	is_code_authorized_w1a(t_line *line_handle, int i)
 	while (parse_i < START_AUTHORISED_W1A)
 	{
 		if (ft_strncmp(g_parser_dictionary[parse_i].code.str, (*line_handle->line) + i,
-				g_parser_dictionary[parse_i].code.len) == 0){
-					printf("QUITTING BECAUSE ? %d:%s\n", i, *line_handle->line);
-				return (-EXIT_FAILURE);}
+				g_parser_dictionary[parse_i].code.len) == 0)
+				return (-EXIT_FAILURE);
 		parse_i++;
 	}
 	return (parse_i);
@@ -96,26 +90,6 @@ int get_arg_for_w1a(t_line *line_handle, t_tmp_parsed *tmp_parsed, int *i)
 			break;
 		if (ret != EXIT_SUCCESS)
 			return (ret);
-
-		// while (parse_i < START_AUTHORISED_W1A)
-		// {
-
-		// 	if (ft_strncmp(g_parser_dictionary[parse_i].code.str, *line_handle->line,
-		// 			g_parser_dictionary[parse_i].code.len) == 0)
-		// 		return (-EXIT_FAILURE);
-		// 	parse_i++;
-		// }
-		// while (parse_i < MAX_PARSER)
-		// {
-		// 	if (ft_strncmp(g_parser_dictionary[parse_i].code.str, *line_handle->line,
-		// 			g_parser_dictionary[parse_i].code.len) == 0)
-		// 	{
-		// 		ret = g_parser_dictionary[parse_i].fun(line_handle, tmp_parsed, i, parse_i);
-		// 		if (ret != EXIT_SUCCESS)
-		// 			return (ret);
-		// 	}
-		// 	parse_i++;
-		// }
 		(*i)++;
 	}
 	(*tmp_parsed->arg)[tmp_parsed->ac + 1] = NULL;
