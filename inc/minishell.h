@@ -151,17 +151,23 @@ typedef struct s_tmp_parsed
 	int		*high_level_start;
 } t_tmp_parsed;
 
+typedef struct s_parse_utils{
+	t_env	*env;
+	int		*i;
+	int		parse_i;
+} t_parse_utils ;
+
 typedef struct s_parser{
 	t_str	code;
-	int		(*fun)(t_line *, t_tmp_parsed *, int *, int);	
+	int		(*fun)(t_line *, t_tmp_parsed *, t_parse_utils);	
 } t_parser;
 
-int		parse_back_slash(t_line *line_handle, t_tmp_parsed *tmp_parsed, int *i, int parse_i);
-int		parse_double_quote(t_line *line_handle, t_tmp_parsed *tmp_parsed, int *i, int parse_i);
-int		parse_simple_quote(t_line *line_handle, t_tmp_parsed *tmp_parsed, int *i, int parse_i);
-int		parse_type_without_arg(t_line *line_handle, t_tmp_parsed *tmp_parsed, int *i, int parse_i);
-int		parse_type_w1a_only(t_line *line_handle, t_tmp_parsed *tmp_parsed, int *i, int parse_i);
-int		parse_type(t_line *line_handle, t_tmp_parsed *tmp_parsed, int *i, int parse_i);
+int		parse_back_slash(t_line *line_handle, t_tmp_parsed *tmp_parsed, t_parse_utils pqu);
+int		parse_double_quote(t_line *line_handle, t_tmp_parsed *tmp_parsed, t_parse_utils pqu);
+int		parse_simple_quote(t_line *line_handle, t_tmp_parsed *tmp_parsed, t_parse_utils pqu);
+int		parse_type_without_arg(t_line *line_handle, t_tmp_parsed *tmp_parsed, t_parse_utils pqu);
+int		parse_type_w1a_only(t_line *line_handle, t_tmp_parsed *tmp_parsed, t_parse_utils pqu);
+int		parse_type(t_line *line_handle, t_tmp_parsed *tmp_parsed, t_parse_utils pqu);
 
 #define PARSE_CUT				45
 #define PARSE_INCOMPLETE		48
@@ -208,7 +214,7 @@ int			init_path(t_env *env);
 void		print_vars(t_env *env);
 int			init_t_str(t_str *obj, char* s);
 int			replace_in_str(t_env *env, char **str);
-int			replace_in_str_until_i(t_env *env, char **str, int max_i);
+int			replace_in_str_between_min_i_and_max_i(t_env *env, char **str, int min_i, int max_i);
 int			extract_parsed_groups(t_env *env, char **line);
 int			is_not_valid(char c);
 int			is_valid(char c);
@@ -218,7 +224,7 @@ int			fill_tmp(t_env *env, t_env *tmp, char *var_name, int i);
 int			init_str(t_str *obj, char *s);
 int			add_env_var(t_env *env, char *var);
 int			dup_tmp_to_env(t_env *env, t_env *tmp, int i);
-int			check_parsing(t_line line_handle, t_tmp_parsed tmp_parsed, int *i, int parse_i);
+int			check_parsing(t_line line_handle, t_tmp_parsed tmp_parsed, t_parse_utils p_utils);
 int			is_sequence_equal_to_parser_code(int type_code, char *seq)
 ;
 

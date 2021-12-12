@@ -6,7 +6,7 @@
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 09:42:12 by saray             #+#    #+#             */
-/*   Updated: 2021/12/12 19:43:20 by scarboni         ###   ########.fr       */
+/*   Updated: 2021/12/12 22:35:36 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,18 +69,18 @@ int	init_array_once_ready(t_line line_handle, t_tmp_parsed tmp_parsed, int i)
 	return (EXIT_SUCCESS);
 }
 
-int	check_parsing(t_line line_handle, t_tmp_parsed tmp_parsed, int *i, int parse_i)
+int	check_parsing(t_line line_handle, t_tmp_parsed tmp_parsed, t_parse_utils p_utils)
 {
-	while (parse_i < MAX_PARSER)
+	while (p_utils.parse_i < MAX_PARSER)
 	{
-		if (is_sequence_equal_to_parser_code(parse_i, (*line_handle.line) + (*i)))
-			return (g_parser_dictionary[parse_i].fun(&line_handle, &tmp_parsed, i, parse_i));
-		parse_i++;
+		if (is_sequence_equal_to_parser_code(p_utils.parse_i, (*line_handle.line) + (*p_utils.i)))
+			return (g_parser_dictionary[p_utils.parse_i].fun(&line_handle, &tmp_parsed, p_utils));
+		p_utils.parse_i++;
 	}
 	return (EXIT_SUCCESS);
 }
 
-int	extract_next_arg(t_line line_handle, t_tmp_parsed tmp_parsed)//, int i, char ***arg, int ac, int *type)
+int	extract_next_arg(t_env *env, t_line line_handle, t_tmp_parsed tmp_parsed)//, int i, char ***arg, int ac, int *type)
 {
 	int	i;
 	// int	parse_i;
@@ -93,7 +93,7 @@ int	extract_next_arg(t_line line_handle, t_tmp_parsed tmp_parsed)//, int i, char
 	{
 		if (is_not_valid((*line_handle.line)[i]))
 		{
-			ret = extract_next_arg(line_handle, (t_tmp_parsed) {tmp_parsed.arg, tmp_parsed.ac + 1, tmp_parsed.type, i + 1, tmp_parsed.high_level_start});
+			ret = extract_next_arg(env, line_handle, (t_tmp_parsed) {tmp_parsed.arg, tmp_parsed.ac + 1, tmp_parsed.type, i + 1, tmp_parsed.high_level_start});
 			if (ret != EXIT_SUCCESS)
 				return (ret);
 			// (*line_handle.line)[i] = '\0';
@@ -108,7 +108,7 @@ int	extract_next_arg(t_line line_handle, t_tmp_parsed tmp_parsed)//, int i, char
 			}
 			return (EXIT_SUCCESS);
 		}
-		ret = check_parsing(line_handle, tmp_parsed, &i, 0);
+		ret = check_parsing(line_handle, tmp_parsed, (t_parse_utils){env, &i, 0});
 		if (ret == PARSE_CUT)
 			break;
 		if (ret != EXIT_SUCCESS)
@@ -165,7 +165,7 @@ int	extract_parsed_groups(t_env *env, char **line)
 		start = i;
 		type = TYPE_CMD;
 		args = NULL;
-		ret = extract_next_arg((t_line){line, &i}, (t_tmp_parsed){&args, 0, &type, i, &start});
+		ret = extract_next_arg(env, (t_line){line, &i}, (t_tmp_parsed){&args, 0, &type, i, &start});
 		if (ret != EXIT_SUCCESS)
 			return (ret);
 		if(type == TYPE_PIPE || type == TYPE_INPUT2)

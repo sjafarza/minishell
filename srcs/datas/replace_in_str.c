@@ -6,7 +6,7 @@
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 09:42:12 by saray             #+#    #+#             */
-/*   Updated: 2021/11/29 18:23:51 by scarboni         ###   ########.fr       */
+/*   Updated: 2021/12/12 22:12:34 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,32 +53,30 @@ static int	replace_in_str_int(t_env *env, char **str, int *max_i, int *i)
 	return (EXIT_SUCCESS);
 }
 
-int	replace_in_str_until_i(t_env *env, char **str, int max_i)
+int	replace_in_str_between_min_i_and_max_i(t_env *env, char **str, int min_i, int max_i)
 {
 	int			replaced_q;
-	int			i;
 
-	i = 0;
 	replaced_q = 0;
-	while (i < max_i && (*str)[i] != '\0')
+	while (min_i < max_i && (*str)[min_i] != '\0')
 	{
-		if ((*str)[i] == '$')
+		if ((*str)[min_i] == '$')
 		{
-			i++;
-			if (ft_isprint((*str)[i]) == false || ft_is_blank((*str)[i]) == true)
+			min_i++;
+			if (ft_isprint((*str)[min_i]) == false || ft_is_blank((*str)[min_i]) == true)
 				continue;
 
-			if (replace_in_str_int(env, str, &max_i, &i) != EXIT_SUCCESS)
+			if (replace_in_str_int(env, str, &max_i, &min_i) != EXIT_SUCCESS)
 				return (-EXIT_FAILURE);
 			replaced_q++;
 			continue;
 		}
-		i++;
+		min_i++;
 	}
 	return (replaced_q);
 }
 
 int	replace_in_str(t_env *env, char **str)
 {
-	return (replace_in_str_until_i(env, str, ft_strlen(*str)));
+	return (replace_in_str_between_min_i_and_max_i(env, str, ft_strlen(*str), 0));
 }
