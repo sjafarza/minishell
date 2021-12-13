@@ -6,7 +6,7 @@
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 09:42:12 by saray             #+#    #+#             */
-/*   Updated: 2021/12/12 22:48:46 by scarboni         ###   ########.fr       */
+/*   Updated: 2021/12/13 08:16:09 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,25 +47,27 @@ int		parse__quote(t_line *line_handle, t_tmp_parsed *tmp_parsed, t_parse_utils p
 {
 	int first;
 	int last;
-	int ret;
 
 	(void)tmp_parsed;
-	ret = EXIT_SUCCESS;
 	first = *p_utils.i;
 	ft_strlcpy((*line_handle->line) + first, (*line_handle->line) + first + 1, ft_strlen((*line_handle->line) + first));
 	last = find_next__quote(p_utils.parse_i, *line_handle->line, first);
 	if (last == INCOMPLETE_PATTERN)
 		return (INCOMPLETE_PATTERN);
 	ft_strlcpy((*line_handle->line) + last, (*line_handle->line) + last + 1, ft_strlen((*line_handle->line) + last));
-	last--;
+		printf("RESULTsbef %s:%d:%d:%d\n", *line_handle->line, first, last, (*p_utils.i));
 	if(fun)
-		ret = fun(p_utils.env, line_handle->line, first, last);
+		last = fun(p_utils.env, line_handle->line, first, last);
+	if (last == -EXIT_FAILURE)
+		return (last);
 
-	printf("WHAT IS IT %d:%d:%d\n",*p_utils.i, first, last);
+	printf("RESULTd %d\n", last);
+	printf("RESULTs %s\n", *line_handle->line);
+	printf("WHAT IS IT %d:%d:%d:%d\n",*p_utils.i, first, last, (*p_utils.i));
 
-	*p_utils.i = last;
+	(*p_utils.i) = last - 1;
 
-	return (ret);
+	return (EXIT_SUCCESS);
 }
 
 
