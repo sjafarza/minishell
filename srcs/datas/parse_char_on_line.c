@@ -6,7 +6,7 @@
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 09:42:12 by saray             #+#    #+#             */
-/*   Updated: 2021/12/13 12:49:12 by scarboni         ###   ########.fr       */
+/*   Updated: 2021/12/13 18:03:48 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ int		parse__quote(t_line *line_handle, t_tmp_parsed *tmp_parsed, t_parse_utils p
 	(void)tmp_parsed;
 	first = *p_utils.i;
 	ft_strlcpy((*line_handle->line) + first, (*line_handle->line) + first + 1, ft_strlen((*line_handle->line) + first));
-	last = find_next__quote(p_utils.parse_i, *line_handle->line, first);
+	last = find_next__quote(*p_utils.parse_i, *line_handle->line, first);
 	if (last == INCOMPLETE_PATTERN)
 		return (INCOMPLETE_PATTERN);
 	ft_strlcpy((*line_handle->line) + last, (*line_handle->line) + last + 1, ft_strlen((*line_handle->line) + last));
@@ -77,7 +77,7 @@ int		parse_simple_quote(t_line *line_handle, t_tmp_parsed *tmp_parsed, t_parse_u
 
 int		parse_type(t_line *line_handle, t_tmp_parsed *tmp_parsed, t_parse_utils p_utils)
 {
-	*tmp_parsed->type = p_utils.parse_i;
+	*tmp_parsed->type = *p_utils.parse_i;
 	*line_handle->i = *p_utils.i;
 	*tmp_parsed->high_level_start = tmp_parsed->start;
 	tmp_parsed->start = *p_utils.i;
@@ -86,8 +86,8 @@ int		parse_type(t_line *line_handle, t_tmp_parsed *tmp_parsed, t_parse_utils p_u
 
 int		parse_type_without_arg(t_line *line_handle, t_tmp_parsed *tmp_parsed, t_parse_utils p_utils)
 {
-	*tmp_parsed->type = p_utils.parse_i;
-	*line_handle->i = (*p_utils.i) + g_parser_dictionary[p_utils.parse_i].code.len;
+	*tmp_parsed->type = *p_utils.parse_i;
+	*line_handle->i = (*p_utils.i) + g_parser_dictionary[*p_utils.parse_i].code.len;
 	return (PARSE_CUT);
 }
 
@@ -110,18 +110,22 @@ int get_arg_for_w1a(t_line *line_handle, t_tmp_parsed *tmp_parsed, t_parse_utils
 {
 	int	parse_i;
 	int	ret;
-	int start;
+	int	start;
+	int	did_find_parsing;
 
+	did_find_parsing = false;
 	start = *p_utils.i;
 	while ((*line_handle->line)[*p_utils.i] && is_valid((*line_handle->line)[*p_utils.i]))
 	{
 		parse_i = is_code_authorized_w1a(line_handle, *p_utils.i);
 		if (parse_i == -EXIT_FAILURE)
 			break;
-		ret = check_parsing(*line_handle, *tmp_parsed, p_utils);
+		ret = check_parsing(*line_handle, *tmp_parsed, (t_parse_utils){p_utils.env, p_utils.i, &parse_i});
 		if (ret == PARSE_CUT)
 			break;
-		if (ret != EXIT_SUCCESS)
+		if (parse_i != DID_NOTHING)
+			did_find_parsing = true;
+		else if (ret != EXIT_SUCCESS)
 			return (ret);
 		(*p_utils.i)++;
 	}
@@ -147,8 +151,8 @@ int		parse_type_w1a_only(t_line *line_handle, t_tmp_parsed *tmp_parsed, t_parse_
 	int	ret;
 	if (tmp_parsed->ac != 0 || (*tmp_parsed->high_level_start) != (*p_utils.i))
 		return (PARSE_CUT);
-	*tmp_parsed->type = p_utils.parse_i;
-	(*p_utils.i) += g_parser_dictionary[p_utils.parse_i].code.len;
+	*tmp_parsed->type = *p_utils.parse_i;
+	(*p_utils.i) += g_parser_dictionary[*p_utils.parse_i].code.len;
 	if (!(*line_handle->line)[(*p_utils.i)])
 		return (-EXIT_FAILURE);
 	*tmp_parsed->arg = malloc(sizeof(char *) * 3);

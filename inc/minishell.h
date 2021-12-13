@@ -154,7 +154,7 @@ typedef struct s_tmp_parsed
 typedef struct s_parse_utils{
 	t_env	*env;
 	int		*i;
-	int		parse_i;
+	int		*parse_i;
 } t_parse_utils ;
 
 typedef struct s_parser{
@@ -162,6 +162,7 @@ typedef struct s_parser{
 	int		(*fun)(t_line *, t_tmp_parsed *, t_parse_utils);	
 } t_parser;
 
+int		find_next__quote(int id_quote, char *line, int i);
 int		parse_back_slash(t_line *line_handle, t_tmp_parsed *tmp_parsed, t_parse_utils pqu);
 int		parse_double_quote(t_line *line_handle, t_tmp_parsed *tmp_parsed, t_parse_utils pqu);
 int		parse_simple_quote(t_line *line_handle, t_tmp_parsed *tmp_parsed, t_parse_utils pqu);
@@ -169,6 +170,7 @@ int		parse_type_without_arg(t_line *line_handle, t_tmp_parsed *tmp_parsed, t_par
 int		parse_type_w1a_only(t_line *line_handle, t_tmp_parsed *tmp_parsed, t_parse_utils pqu);
 int		parse_type(t_line *line_handle, t_tmp_parsed *tmp_parsed, t_parse_utils pqu);
 
+#define DID_NOTHING				48
 #define PARSE_CUT				45
 #define SET_TYPE_WITHOUT_ARGS	43
 #define SET_TYPE				42

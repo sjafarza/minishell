@@ -6,7 +6,7 @@
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 09:42:12 by saray             #+#    #+#             */
-/*   Updated: 2021/12/12 22:35:36 by scarboni         ###   ########.fr       */
+/*   Updated: 2021/12/13 18:10:51 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,17 +42,17 @@
 // int	extract_next_arg(char *line, int *i, char **arg)
 
 
-int	init_array_once_ready(t_line line_handle, t_tmp_parsed tmp_parsed, int i)
+int	init_array_once_ready(t_line line_handle, t_tmp_parsed tmp_parsed, int i, int did_find_parsing)
 {
-	if ((tmp_parsed.start == i && tmp_parsed.ac == 0) || *tmp_parsed.arg)
+	if (((tmp_parsed.start == i && tmp_parsed.ac == 0) || *tmp_parsed.arg) && !did_find_parsing)
 		return (EXIT_SUCCESS);
-	if (tmp_parsed.start == i)
+	if (tmp_parsed.start == i && !did_find_parsing)
 		*tmp_parsed.arg = malloc(sizeof(char *) * (tmp_parsed.ac + 1));
 	else
 		*tmp_parsed.arg = malloc(sizeof(char *) * (tmp_parsed.ac + 2));
 	if (!(*tmp_parsed.arg))
 		return (-EXIT_FAILURE);
-	if (tmp_parsed.start != i)
+	if (tmp_parsed.start != i || did_find_parsing)
 	{
 		(*tmp_parsed.arg)[tmp_parsed.ac] = ft_substr((*line_handle.line), tmp_parsed.start, i - tmp_parsed.start);
 		if (!((*tmp_parsed.arg)[tmp_parsed.ac]))
@@ -71,35 +71,39 @@ int	init_array_once_ready(t_line line_handle, t_tmp_parsed tmp_parsed, int i)
 
 int	check_parsing(t_line line_handle, t_tmp_parsed tmp_parsed, t_parse_utils p_utils)
 {
-	while (p_utils.parse_i < MAX_PARSER)
+	while ((*p_utils.parse_i)< MAX_PARSER)
 	{
-		if (is_sequence_equal_to_parser_code(p_utils.parse_i, (*line_handle.line) + (*p_utils.i)))
-			return (g_parser_dictionary[p_utils.parse_i].fun(&line_handle, &tmp_parsed, p_utils));
-		p_utils.parse_i++;
+		if (is_sequence_equal_to_parser_code(*p_utils.parse_i, (*line_handle.line) + (*p_utils.i)))
+		{
+
+			return (g_parser_dictionary[*p_utils.parse_i].fun(&line_handle, &tmp_parsed, p_utils));
+		}
+		(*p_utils.parse_i)++;
 	}
+	*p_utils.parse_i = -DID_NOTHING;
 	return (EXIT_SUCCESS);
 }
 
-int	extract_next_arg(t_env *env, t_line line_handle, t_tmp_parsed tmp_parsed)//, int i, char ***arg, int ac, int *type)
+int	extract_next_arg(t_env *env, t_line line_handle, t_tmp_parsed tmp_parsed)
 {
 	int	i;
-	// int	parse_i;
-	int ret;
+	int	ret;
+	int	did_find_parsing;
+	int	parse_i;
 
 	ret = EXIT_SUCCESS;
+	did_find_parsing = false;
 	i = go_to_next_needed_i((*line_handle.line), &is_not_valid, tmp_parsed.start);
 	tmp_parsed.start = i;
 	while ((*line_handle.line)[i])
 	{
+		parse_i = 0;
 		if (is_not_valid((*line_handle.line)[i]))
 		{
 			ret = extract_next_arg(env, line_handle, (t_tmp_parsed) {tmp_parsed.arg, tmp_parsed.ac + 1, tmp_parsed.type, i + 1, tmp_parsed.high_level_start});
 			if (ret != EXIT_SUCCESS)
 				return (ret);
-			// (*line_handle.line)[i] = '\0';
-	// printf("CUTTING %d:%d:%s\n", tmp_parsed.start, i, ft_substr(*line_handle.line, tmp_parsed.start, i));
 			(*tmp_parsed.arg)[tmp_parsed.ac] = ft_substr(*line_handle.line, tmp_parsed.start, i - tmp_parsed.start);
-			// (*tmp_parsed.arg)[tmp_parsed.ac] = ft_strdup((*line_handle.line) + tmp_parsed.start);
 			if (!(*tmp_parsed.arg)[tmp_parsed.ac])
 			{
 				free_array((*tmp_parsed.arg) + tmp_parsed.ac + 1);
@@ -108,31 +112,17 @@ int	extract_next_arg(t_env *env, t_line line_handle, t_tmp_parsed tmp_parsed)//,
 			}
 			return (EXIT_SUCCESS);
 		}
-		ret = check_parsing(line_handle, tmp_parsed, (t_parse_utils){env, &i, 0});
+		ret = check_parsing(line_handle, tmp_parsed, (t_parse_utils){env, &i, &parse_i});
+		
+		if (parse_i != DID_NOTHING)
+			did_find_parsing = true;
 		if (ret == PARSE_CUT)
 			break;
 		if (ret != EXIT_SUCCESS)
 			return (ret);
-		// parse_i = 0;
-		// while (parse_i < MAX_PARSER)
-		// {
-		// 	if (ft_strncmp(g_parser_dictionary[parse_i].code.str, (*line_handle.line) + i,
-		// 			g_parser_dictionary[parse_i].code.len) == 0)
-		// 	{
-		// 		ret = g_parser_dictionary[parse_i].fun(&line_handle, &tmp_parsed, &i, parse_i);
-		// 		if (ret != EXIT_SUCCESS && ret != PARSE_CUT)
-		// 			return (ret);
-		// 		break;
-		// 	}
-		// 	parse_i++;
-		// }
-		// if (ret == PARSE_CUT)
-		// 	break;
 		i++;
 	}
-	if( i != 0)
-	printf("HELLO %d \n", i)
-;	return (init_array_once_ready(line_handle, tmp_parsed, i));
+	return (init_array_once_ready(line_handle, tmp_parsed, i, did_find_parsing));
 }
 
 char	**init_array_with_one_str(char *s)
@@ -148,6 +138,8 @@ char	**init_array_with_one_str(char *s)
 	result[1] = NULL;
 	return (result);
 }
+
+
 
 int	extract_parsed_groups(t_env *env, char **line)
 {
