@@ -6,7 +6,7 @@
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 09:42:12 by saray             #+#    #+#             */
-/*   Updated: 2021/12/13 12:26:43 by scarboni         ###   ########.fr       */
+/*   Updated: 2021/12/13 12:49:12 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int		parse__quote(t_line *line_handle, t_tmp_parsed *tmp_parsed, t_parse_utils p
 	if (last == INCOMPLETE_PATTERN)
 		return (INCOMPLETE_PATTERN);
 	ft_strlcpy((*line_handle->line) + last, (*line_handle->line) + last + 1, ft_strlen((*line_handle->line) + last));
-	if(fun)
+	if (fun)
 		last = fun(p_utils.env, line_handle->line, first, last);
 	if (last == -EXIT_FAILURE)
 		return (last);
