@@ -6,13 +6,13 @@
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 09:42:12 by saray             #+#    #+#             */
-/*   Updated: 2021/12/13 08:13:55 by scarboni         ###   ########.fr       */
+/*   Updated: 2021/12/13 12:26:33 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-static int	replace_in_str_int(t_env *env, char **str, int *max_i, int *i)
+static int	replace_in_str_int(t_env *env, char **str, int *max_i, int *i, int size_after_max_i)
 {
 	int			new_i;
 	int			len_right;
@@ -24,10 +24,7 @@ static int	replace_in_str_int(t_env *env, char **str, int *max_i, int *i)
 	new_i = (*i);
 	end_var_name = ft_strchr_index_until_i((*str) + (*i), ' ', (*max_i) - (*i));
 	if (end_var_name < 0)
-	{
 		end_var_name = (*max_i) - (*i);
-		printf("DEFINE ERROR MANAGEMENT %d:%d:%d\n", end_var_name, (*max_i), (*i));
-	}
 	var = find_env_vars_t_str(env, (t_str){(*str) + (*i), end_var_name});
 	len_right = (*max_i) - (*i) - end_var_name;
 	(*max_i) -= end_var_name + 1;
@@ -37,7 +34,7 @@ static int	replace_in_str_int(t_env *env, char **str, int *max_i, int *i)
 		new_i += var->value.len;
 		new_str.len += var->value.len;
 	}
-	new_str.len += len_right + 1;
+	new_str.len += len_right + 1 + size_after_max_i;
 	new_str.str = malloc(sizeof(char) * new_str.len);
 	if (!new_str.str)
 		return (-EXIT_FAILURE);
@@ -55,6 +52,9 @@ static int	replace_in_str_int(t_env *env, char **str, int *max_i, int *i)
 
 int	replace_in_str_between_min_i_and_max_i(t_env *env, char **str, int min_i, int max_i)
 {
+	int	size_after_max_i;
+
+	size_after_max_i = ft_strlen((*str) + max_i);
 	while (min_i < max_i && (*str)[min_i] != '\0')
 	{
 		if ((*str)[min_i] == '$')
@@ -62,8 +62,7 @@ int	replace_in_str_between_min_i_and_max_i(t_env *env, char **str, int min_i, in
 			min_i++;
 			if (ft_isprint((*str)[min_i]) == false || ft_is_blank((*str)[min_i]) == true)
 				continue;
-
-			if (replace_in_str_int(env, str, &max_i, &min_i) != EXIT_SUCCESS)
+			if (replace_in_str_int(env, str, &max_i, &min_i, size_after_max_i) != EXIT_SUCCESS)
 				return (-EXIT_FAILURE);
 			continue;
 		}

@@ -170,7 +170,6 @@ int		parse_type_w1a_only(t_line *line_handle, t_tmp_parsed *tmp_parsed, t_parse_
 int		parse_type(t_line *line_handle, t_tmp_parsed *tmp_parsed, t_parse_utils pqu);
 
 #define PARSE_CUT				45
-#define PARSE_INCOMPLETE		48
 #define SET_TYPE_WITHOUT_ARGS	43
 #define SET_TYPE				42
 #define TYPE_INPUT2				0

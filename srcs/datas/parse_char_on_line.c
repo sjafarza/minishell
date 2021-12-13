@@ -6,7 +6,7 @@
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 09:42:12 by saray             #+#    #+#             */
-/*   Updated: 2021/12/13 08:16:09 by scarboni         ###   ########.fr       */
+/*   Updated: 2021/12/13 12:26:43 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int	parse_back_slash_int(char *line, int *i)
 {
 	if (!line[(*i) + 1])
-		return (PARSE_INCOMPLETE);
+		return (INCOMPLETE_PATTERN);
 	(*i)++;
 	return (EXIT_SUCCESS);
 }
@@ -55,18 +55,11 @@ int		parse__quote(t_line *line_handle, t_tmp_parsed *tmp_parsed, t_parse_utils p
 	if (last == INCOMPLETE_PATTERN)
 		return (INCOMPLETE_PATTERN);
 	ft_strlcpy((*line_handle->line) + last, (*line_handle->line) + last + 1, ft_strlen((*line_handle->line) + last));
-		printf("RESULTsbef %s:%d:%d:%d\n", *line_handle->line, first, last, (*p_utils.i));
 	if(fun)
 		last = fun(p_utils.env, line_handle->line, first, last);
 	if (last == -EXIT_FAILURE)
 		return (last);
-
-	printf("RESULTd %d\n", last);
-	printf("RESULTs %s\n", *line_handle->line);
-	printf("WHAT IS IT %d:%d:%d:%d\n",*p_utils.i, first, last, (*p_utils.i));
-
 	(*p_utils.i) = last - 1;
-
 	return (EXIT_SUCCESS);
 }
 
