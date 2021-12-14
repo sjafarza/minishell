@@ -6,7 +6,7 @@
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 09:42:12 by saray             #+#    #+#             */
-/*   Updated: 2021/12/14 17:33:11 by scarboni         ###   ########.fr       */
+/*   Updated: 2021/12/14 17:41:10 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -318,11 +318,11 @@ int		parse_simple_quote(t_line *line_handle, t_tmp_parsed *tmp_parsed, t_parse_u
 	(void)tmp_parsed;
 	first_quote = *p_utils.i;
 	ft_strlcpy((*line_handle->line) + first_quote, (*line_handle->line) + first_quote + 1, ft_strlen((*line_handle->line) + first_quote));
-	last_quote = ft_strchr_index((*line_handle->line) + (*p_utils.i), *(g_parser_dictionary[*p_utils.parse_i].code.str));
+	last_quote = (*p_utils.i) + ft_strchr_index((*line_handle->line) + (*p_utils.i), *(g_parser_dictionary[*p_utils.parse_i].code.str));
 	if (last_quote == -EXIT_FAILURE)
 		return (INCOMPLETE_PATTERN);
 	last_quote = get_rid_of_first_backslash_per_sequence(line_handle->line, first_quote, last_quote);
 	ft_strlcpy((*line_handle->line) + last_quote, (*line_handle->line) + last_quote + 1, ft_strlen((*line_handle->line) + last_quote));
-	(*p_utils.i) = last_quote - 1;
+	(*p_utils.i) = last_quote - 1;	
 	return (EXIT_SUCCESS);
 }
