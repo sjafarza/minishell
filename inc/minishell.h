@@ -231,17 +231,17 @@ static const t_parser g_parser_dictionary_for_doubles_quotes[MAX_PARSER] = {
 	(t_parser){(t_str){"$", 1}, &parse_dollar}
 };
 
-static const t_parser g_parser_dictionary_for_quotes[MAX_PARSER] = {
-	(t_parser){(t_str){"<<", 2}, &jump_parsing},
-	(t_parser){(t_str){">>", 2}, &jump_parsing},
-	(t_parser){(t_str){"|", 1}, &jump_parsing},
-	(t_parser){(t_str){"<", 1}, &jump_parsing},
-	(t_parser){(t_str){">", 1}, &jump_parsing},
-	(t_parser){(t_str){"\\", 1}, &parse_back_slash_inside_quotes},
-	(t_parser){(t_str){"\"", 1}, &jump_parsing},
-	(t_parser){(t_str){"\'", 1}, &forbidden_parsing},
-	(t_parser){(t_str){"$", 1}, &jump_parsing}
-};
+// static const t_parser g_parser_dictionary_for_quotes[MAX_PARSER] = {
+// 	(t_parser){(t_str){"<<", 2}, &jump_parsing},
+// 	(t_parser){(t_str){">>", 2}, &jump_parsing},
+// 	(t_parser){(t_str){"|", 1}, &jump_parsing},
+// 	(t_parser){(t_str){"<", 1}, &jump_parsing},
+// 	(t_parser){(t_str){">", 1}, &jump_parsing},
+// 	(t_parser){(t_str){"\\", 1}, &parse_back_slash_inside_quotes},
+// 	(t_parser){(t_str){"\"", 1}, &jump_parsing},
+// 	(t_parser){(t_str){"\'", 1}, &forbidden_parsing},
+// 	(t_parser){(t_str){"$", 1}, &jump_parsing}
+// };
 
 /* ************************************************************************** */
 /* 									DATAS  									  */
