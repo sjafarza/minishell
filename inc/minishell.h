@@ -163,16 +163,19 @@ typedef struct s_parser{
 } t_parser;
 
 int		find_next__quote(int id_quote, char **line, int i);
-int		parse_back_slash(t_line *line_handle, t_tmp_parsed *tmp_parsed, t_parse_utils pqu);
-int		parse_double_quote(t_line *line_handle, t_tmp_parsed *tmp_parsed, t_parse_utils pqu);
-int		parse_simple_quote(t_line *line_handle, t_tmp_parsed *tmp_parsed, t_parse_utils pqu);
-int		parse_type_without_arg(t_line *line_handle, t_tmp_parsed *tmp_parsed, t_parse_utils pqu);
-int		parse_type_w1a_only(t_line *line_handle, t_tmp_parsed *tmp_parsed, t_parse_utils pqu);
-int		parse_type(t_line *line_handle, t_tmp_parsed *tmp_parsed, t_parse_utils pqu);
-int		parse_dollar(t_line *line_handle, t_tmp_parsed *tmp_parsed, t_parse_utils pqu);
+int		parse_back_slash_outside_quotes(t_line *line_handle, t_tmp_parsed *tmp_parsed, t_parse_utils p_utils);
+int		parse_back_slash_inside_quotes(t_line *line_handle, t_tmp_parsed *tmp_parsed, t_parse_utils p_utils);
+int		parse_back_slash_inside_double_quotes(t_line *line_handle, t_tmp_parsed *tmp_parsed, t_parse_utils p_utils);
+int		parse_double_quote(t_line *line_handle, t_tmp_parsed *tmp_parsed, t_parse_utils p_utils);
+int		parse_simple_quote(t_line *line_handle, t_tmp_parsed *tmp_parsed, t_parse_utils p_utils);
+int		parse_type_without_arg(t_line *line_handle, t_tmp_parsed *tmp_parsed, t_parse_utils p_utils);
+int		parse_type_w1a_only(t_line *line_handle, t_tmp_parsed *tmp_parsed, t_parse_utils p_utils);
+int		parse_type(t_line *line_handle, t_tmp_parsed *tmp_parsed, t_parse_utils p_utils);
+int		parse_dollar(t_line *line_handle, t_tmp_parsed *tmp_parsed, t_parse_utils p_utils);
 
 #define DID_NOTHING				48
 #define PARSE_CUT				45
+#define ALREADY_FILLED			47
 #define SET_TYPE_WITHOUT_ARGS	43
 #define SET_TYPE				42
 #define TYPE_INPUT2				0
@@ -194,11 +197,50 @@ static const t_parser g_parser_dictionary[MAX_PARSER] = {
 	(t_parser){(t_str){"|", 1}, &parse_type_without_arg},
 	(t_parser){(t_str){"<", 1}, &parse_type_w1a_only},
 	(t_parser){(t_str){">", 1}, &parse_type_w1a_only},
-	// (t_parser){(t_str){"\\", 1}, &parse_back_slash_outside_quotes},
-	(t_parser){(t_str){"\\", 1}, &parse_back_slash},
+	(t_parser){(t_str){"\\", 1}, &parse_back_slash_outside_quotes},
 	(t_parser){(t_str){"\"", 1}, &parse_double_quote},
 	(t_parser){(t_str){"\'", 1}, &parse_simple_quote},
 	(t_parser){(t_str){"$", 1}, &parse_dollar}
+};
+
+int		forbidden_parsing(t_line *line_handle, t_tmp_parsed *tmp_parsed, t_parse_utils pqu);
+int		cut_parsing(t_line *line_handle, t_tmp_parsed *tmp_parsed, t_parse_utils pqu);
+int		jump_parsing(t_line *line_handle, t_tmp_parsed *tmp_parsed, t_parse_utils pqu);
+
+static const t_parser g_parser_dictionary_for_w1a[MAX_PARSER] = {
+	(t_parser){(t_str){"<<", 2}, &cut_parsing},
+	(t_parser){(t_str){">>", 2}, &cut_parsing},
+	(t_parser){(t_str){"|", 1}, &cut_parsing},
+	(t_parser){(t_str){"<", 1}, &cut_parsing},
+	(t_parser){(t_str){">", 1}, &cut_parsing},
+	(t_parser){(t_str){"\\", 1}, &parse_back_slash_outside_quotes},
+	(t_parser){(t_str){"\"", 1}, &parse_double_quote},
+	(t_parser){(t_str){"\'", 1}, &parse_simple_quote},
+	(t_parser){(t_str){"$", 1}, &parse_dollar}
+};
+
+static const t_parser g_parser_dictionary_for_doubles_quotes[MAX_PARSER] = {
+	(t_parser){(t_str){"<<", 2}, &jump_parsing},
+	(t_parser){(t_str){">>", 2}, &jump_parsing},
+	(t_parser){(t_str){"|", 1}, &jump_parsing},
+	(t_parser){(t_str){"<", 1}, &jump_parsing},
+	(t_parser){(t_str){">", 1}, &jump_parsing},
+	(t_parser){(t_str){"\\", 1}, &parse_back_slash_inside_double_quotes},
+	(t_parser){(t_str){"\"", 1}, &forbidden_parsing},
+	(t_parser){(t_str){"\'", 1}, &jump_parsing},
+	(t_parser){(t_str){"$", 1}, &parse_dollar}
+};
+
+static const t_parser g_parser_dictionary_for_quotes[MAX_PARSER] = {
+	(t_parser){(t_str){"<<", 2}, &jump_parsing},
+	(t_parser){(t_str){">>", 2}, &jump_parsing},
+	(t_parser){(t_str){"|", 1}, &jump_parsing},
+	(t_parser){(t_str){"<", 1}, &jump_parsing},
+	(t_parser){(t_str){">", 1}, &jump_parsing},
+	(t_parser){(t_str){"\\", 1}, &parse_back_slash_inside_quotes},
+	(t_parser){(t_str){"\"", 1}, &jump_parsing},
+	(t_parser){(t_str){"\'", 1}, &forbidden_parsing},
+	(t_parser){(t_str){"$", 1}, &jump_parsing}
 };
 
 /* ************************************************************************** */
@@ -229,7 +271,7 @@ int			fill_tmp(t_env *env, t_env *tmp, char *var_name, int i);
 int			init_str(t_str *obj, char *s);
 int			add_env_var(t_env *env, char *var);
 int			dup_tmp_to_env(t_env *env, t_env *tmp, int i);
-int			check_parsing(t_line line_handle, t_tmp_parsed tmp_parsed, t_parse_utils p_utils);
+int			check_parsing(const t_parser dictionnary[MAX_PARSER], t_line line_handle, t_tmp_parsed tmp_parsed, t_parse_utils p_utils);
 int			is_sequence_equal_to_parser_code(int type_code, char *seq)
 ;
 

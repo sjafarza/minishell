@@ -6,7 +6,7 @@
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 09:42:12 by saray             #+#    #+#             */
-/*   Updated: 2021/12/14 13:14:00 by scarboni         ###   ########.fr       */
+/*   Updated: 2021/12/14 15:50:56 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,12 +39,12 @@ int	init_array_once_ready(t_line line_handle, t_tmp_parsed tmp_parsed, int i, in
 	return (EXIT_SUCCESS);
 }
 
-int	check_parsing(t_line line_handle, t_tmp_parsed tmp_parsed, t_parse_utils p_utils)
+int	check_parsing(const t_parser dictionnary[MAX_PARSER], t_line line_handle, t_tmp_parsed tmp_parsed, t_parse_utils p_utils)
 {
 	while ((*p_utils.parse_i) < MAX_PARSER)
 	{
 		if (is_sequence_equal_to_parser_code(*p_utils.parse_i, (*line_handle.line) + (*p_utils.i)))
-			return (g_parser_dictionary[*p_utils.parse_i].fun(&line_handle, &tmp_parsed, p_utils));
+			return (dictionnary[*p_utils.parse_i].fun(&line_handle, &tmp_parsed, p_utils));
 		(*p_utils.parse_i)++;
 	}
 	*p_utils.parse_i = -DID_NOTHING;
@@ -64,7 +64,6 @@ int	extract_next_arg(t_env *env, t_line line_handle, t_tmp_parsed tmp_parsed)
 	tmp_parsed.start = i;
 	while ((*line_handle.line)[i])
 	{
-		parse_i = 0;
 		if (is_not_valid((*line_handle.line)[i]))
 		{
 			ret = extract_next_arg(env, line_handle, (t_tmp_parsed) {tmp_parsed.arg, tmp_parsed.ac + 1, tmp_parsed.type, i + 1, tmp_parsed.high_level_start});
@@ -79,8 +78,10 @@ int	extract_next_arg(t_env *env, t_line line_handle, t_tmp_parsed tmp_parsed)
 			}
 			return (EXIT_SUCCESS);
 		}
-		ret = check_parsing(line_handle, tmp_parsed, (t_parse_utils){env, &i, &parse_i});
-		
+		parse_i = 0;
+		ret = check_parsing(g_parser_dictionary, line_handle, tmp_parsed, (t_parse_utils){env, &i, &parse_i});
+		if (ret == ALREADY_FILLED)
+			return (EXIT_SUCCESS);
 		if (parse_i != DID_NOTHING)
 			did_find_parsing = true;
 		if (ret == PARSE_CUT)
