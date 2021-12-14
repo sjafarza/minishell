@@ -6,16 +6,60 @@
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 09:42:12 by saray             #+#    #+#             */
-/*   Updated: 2021/12/13 18:03:48 by scarboni         ###   ########.fr       */
+/*   Updated: 2021/12/14 14:15:53 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-int	parse_back_slash_int(char *line, int *i)
+#define INSIDE_QUOTE_BACKSLASH_ERASERS "$\\"
+
+int	parse_back_slash_inside_quote(char **line, int *i, int quote_id)
 {
-	if (!line[(*i) + 1])
+	int increment;
+	int delete;
+
+	if (!(*line)[(*i) + 1])
 		return (INCOMPLETE_PATTERN);
+	increment = 0;
+	delete = false;
+	while(INSIDE_QUOTE_BACKSLASH_ERASERS[increment])
+	{
+		if (INSIDE_QUOTE_BACKSLASH_ERASERS[increment] == (*line)[(*i) + 1])
+		{
+			delete = true;
+			break;
+		}
+		increment++;
+	}	
+	if (g_parser_dictionary[quote_id].code.str[0] == (*line)[(*i) + 1])
+		delete = true;
+	if (delete)
+		ft_strlcpy((*line) + (*i), (*line) + (*i) + 1, ft_strlen((*line) + (*i)));
+	(*i)++;
+	return (EXIT_SUCCESS);
+}
+
+int	parse_dollar(t_line *line_handle, t_tmp_parsed *tmp_parsed, t_parse_utils p_utils)
+{
+	(void)line_handle;
+	(void)tmp_parsed;
+	(void)p_utils;
+	int end_var_name;
+
+	end_var_name = go_to_next_needed_i((*line_handle->line), &ft_isalnum, (*p_utils.i) + 1);
+	end_var_name = replace_in_str_between_min_i_and_max_i(p_utils.env, line_handle->line, *p_utils.i, end_var_name);
+	if (end_var_name == -EXIT_FAILURE)
+		return (-EXIT_FAILURE);
+	(*p_utils.i) = end_var_name - 1;
+	return (EXIT_SUCCESS);
+}
+
+int	parse_back_slash_outside_quote(char **line, int *i)
+{
+	if (!(*line)[(*i) + 1])
+		return (INCOMPLETE_PATTERN);
+	ft_strlcpy((*line) + (*i), (*line) + (*i) + 1, ft_strlen((*line) + (*i)));
 	(*i)++;
 	return (EXIT_SUCCESS);
 }
@@ -23,56 +67,78 @@ int	parse_back_slash_int(char *line, int *i)
 int		parse_back_slash(t_line *line_handle, t_tmp_parsed *tmp_parsed, t_parse_utils p_utils)
 {
 	(void)tmp_parsed;
-	return (parse_back_slash_int(*line_handle->line, p_utils.i));
+	return (parse_back_slash_outside_quote(line_handle->line, p_utils.i));
 }
 
-int	find_next__quote(int id_quote, char *line, int i)
+int	find_next__quote(int id_quote, char **line, int i)
 {
-	if (is_sequence_equal_to_parser_code(TYPE_BACK_SLASH, line + i))
-		if (parse_back_slash_int(line, &i) != EXIT_SUCCESS)
+	if (is_sequence_equal_to_parser_code(TYPE_BACK_SLASH, (*line) + i))
+		if (parse_back_slash_inside_quote(line, &i, id_quote) != EXIT_SUCCESS)
 			return (INCOMPLETE_PATTERN);
-	while (line[i] && !is_sequence_equal_to_parser_code(id_quote, line + i))
+	while ((*line)[i] && !is_sequence_equal_to_parser_code(id_quote, (*line) + i))
 	{
-		if (is_sequence_equal_to_parser_code(TYPE_BACK_SLASH, line + i))
-			if (parse_back_slash_int(line, &i) != EXIT_SUCCESS)
+		if (is_sequence_equal_to_parser_code(TYPE_BACK_SLASH, (*line) + i))
+			if (parse_back_slash_inside_quote(line, &i, id_quote) != EXIT_SUCCESS)
 				return (INCOMPLETE_PATTERN);
 		i++;
 	}
-	if (!is_sequence_equal_to_parser_code(id_quote, line + i))
+	if (!is_sequence_equal_to_parser_code(id_quote, (*line) + i))
 				return (INCOMPLETE_PATTERN);
 	return (i);
 }
 
-int		parse__quote(t_line *line_handle, t_tmp_parsed *tmp_parsed, t_parse_utils p_utils, int (*fun)(t_env *, char **, int, int))
+// int replace_fun(t_line *line_handle, t_parse_utils p_utils, int first_quote, int last_quote)
+// {
+// 	int end_var_name;
+// 	int	end_var_name_dup;
+
+// 	while (first_quote < last_quote)
+// 	{
+// 		end_var_name = go_to_next_needed_i((*line_handle.line), &is_valid_for_var_name, (*line_handle.i)) - (*line_handle.i);
+// 		end_var_name_dup = end_var_name;
+// 		end_var_name = replace_in_str_between_min_i_and_max_i(p_utils.env, line_handle->line, first_quote, end_var_name);
+// 		if (end_var_name == -EXIT_FAILURE)
+// 			return (-EXIT_FAILURE);
+// 		last_quote += end_var_name - end_var_name_dup;
+// 		first_quote = end_var_name;
+// 	}
+// 	return (last_quote);
+// }
+
+int		parse__quote(t_line *line_handle, t_tmp_parsed *tmp_parsed, t_parse_utils p_utils, int replace)
 {
-	int first;
-	int last;
+	int first_quote;
+	int last_quote;
+	
 
 	(void)tmp_parsed;
-	first = *p_utils.i;
-	ft_strlcpy((*line_handle->line) + first, (*line_handle->line) + first + 1, ft_strlen((*line_handle->line) + first));
-	last = find_next__quote(*p_utils.parse_i, *line_handle->line, first);
-	if (last == INCOMPLETE_PATTERN)
+	first_quote = *p_utils.i;
+	ft_strlcpy((*line_handle->line) + first_quote, (*line_handle->line) + first_quote + 1, ft_strlen((*line_handle->line) + first_quote));
+	last_quote = find_next__quote(*p_utils.parse_i, line_handle->line, first_quote);
+	if (last_quote == INCOMPLETE_PATTERN)
 		return (INCOMPLETE_PATTERN);
-	ft_strlcpy((*line_handle->line) + last, (*line_handle->line) + last + 1, ft_strlen((*line_handle->line) + last));
-	if (fun)
-		last = fun(p_utils.env, line_handle->line, first, last);
-	if (last == -EXIT_FAILURE)
-		return (last);
-	(*p_utils.i) = last - 1;
+	ft_strlcpy((*line_handle->line) + last_quote, (*line_handle->line) + last_quote + 1, ft_strlen((*line_handle->line) + last_quote));
+	if (replace)
+	{
+		// last_quote = replace_fun(line_handle, p_utils, first_quote, last_quote);
+		// if (last_quote == -EXIT_FAILURE)
+		// 	return (last_quote);
+	}
+	(*p_utils.i) = last_quote - 1;
 	return (EXIT_SUCCESS);
 }
 
 
 
+
 int		parse_double_quote(t_line *line_handle, t_tmp_parsed *tmp_parsed, t_parse_utils p_utils)
 {
-	return (parse__quote(line_handle, tmp_parsed, p_utils, replace_in_str_between_min_i_and_max_i));
+	return (parse__quote(line_handle, tmp_parsed, p_utils, true));
 }
 
 int		parse_simple_quote(t_line *line_handle, t_tmp_parsed *tmp_parsed, t_parse_utils p_utils)
 {
-	return (parse__quote(line_handle, tmp_parsed, p_utils, NULL));
+	return (parse__quote(line_handle, tmp_parsed, p_utils, false));
 }
 
 int		parse_type(t_line *line_handle, t_tmp_parsed *tmp_parsed, t_parse_utils p_utils)

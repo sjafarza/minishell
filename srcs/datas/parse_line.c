@@ -6,41 +6,11 @@
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 09:42:12 by saray             #+#    #+#             */
-/*   Updated: 2021/12/13 18:10:51 by scarboni         ###   ########.fr       */
+/*   Updated: 2021/12/14 13:14:00 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
-
-// #define HAS_MORE 1
-// #define HAS_NO_MORE 0
-// #define FOUND_ERROR -1
-// #define FOUND_ERROR_PIPE -2
-
-// int	find_any_from_set(char *line, char *set, int i)
-// {
-// 	int s_i;
-
-// 	while (line[i])
-// 	{
-// 		s_i = 0;
-// 		while (line[i] != set[s_i])
-// 			s_i++;
-// 		if (line[i] == set[s_i])
-// 			return (i);
-// 		i++;
-// 	}
-// 	return (i);
-// }
-
-// int	go_to_next_need_for_process_i(char *line, int i)
-// {
-// 	while (line[i] || line[i] == '\'' || line[i] == '"' || line[i] == '|');
-// 	return (i);
-// }
-
-// int	extract_next_arg(char *line, int *i, char **arg)
-
 
 int	init_array_once_ready(t_line line_handle, t_tmp_parsed tmp_parsed, int i, int did_find_parsing)
 {
@@ -71,13 +41,10 @@ int	init_array_once_ready(t_line line_handle, t_tmp_parsed tmp_parsed, int i, in
 
 int	check_parsing(t_line line_handle, t_tmp_parsed tmp_parsed, t_parse_utils p_utils)
 {
-	while ((*p_utils.parse_i)< MAX_PARSER)
+	while ((*p_utils.parse_i) < MAX_PARSER)
 	{
 		if (is_sequence_equal_to_parser_code(*p_utils.parse_i, (*line_handle.line) + (*p_utils.i)))
-		{
-
 			return (g_parser_dictionary[*p_utils.parse_i].fun(&line_handle, &tmp_parsed, p_utils));
-		}
 		(*p_utils.parse_i)++;
 	}
 	*p_utils.parse_i = -DID_NOTHING;
@@ -139,8 +106,6 @@ char	**init_array_with_one_str(char *s)
 	return (result);
 }
 
-
-
 int	extract_parsed_groups(t_env *env, char **line)
 {
 	char **args;
@@ -148,7 +113,6 @@ int	extract_parsed_groups(t_env *env, char **line)
 	int	start;
 	int type;
 	int ret;
-	// char	tmp;
 
 	i = 0;
 	while ((*line)[i])

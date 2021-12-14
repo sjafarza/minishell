@@ -162,13 +162,14 @@ typedef struct s_parser{
 	int		(*fun)(t_line *, t_tmp_parsed *, t_parse_utils);	
 } t_parser;
 
-int		find_next__quote(int id_quote, char *line, int i);
+int		find_next__quote(int id_quote, char **line, int i);
 int		parse_back_slash(t_line *line_handle, t_tmp_parsed *tmp_parsed, t_parse_utils pqu);
 int		parse_double_quote(t_line *line_handle, t_tmp_parsed *tmp_parsed, t_parse_utils pqu);
 int		parse_simple_quote(t_line *line_handle, t_tmp_parsed *tmp_parsed, t_parse_utils pqu);
 int		parse_type_without_arg(t_line *line_handle, t_tmp_parsed *tmp_parsed, t_parse_utils pqu);
 int		parse_type_w1a_only(t_line *line_handle, t_tmp_parsed *tmp_parsed, t_parse_utils pqu);
 int		parse_type(t_line *line_handle, t_tmp_parsed *tmp_parsed, t_parse_utils pqu);
+int		parse_dollar(t_line *line_handle, t_tmp_parsed *tmp_parsed, t_parse_utils pqu);
 
 #define DID_NOTHING				48
 #define PARSE_CUT				45
@@ -182,8 +183,9 @@ int		parse_type(t_line *line_handle, t_tmp_parsed *tmp_parsed, t_parse_utils pqu
 #define TYPE_BACK_SLASH			5
 #define TYPE_DOUBLE_QUOTE		6
 #define TYPE_QUOTE				7
-#define TYPE_CMD				8
-#define MAX_PARSER				8
+#define TYPE_DOLLAR				8
+#define TYPE_CMD				9
+#define MAX_PARSER				9
 #define START_AUTHORISED_W1A	5
 
 static const t_parser g_parser_dictionary[MAX_PARSER] = {
@@ -192,9 +194,11 @@ static const t_parser g_parser_dictionary[MAX_PARSER] = {
 	(t_parser){(t_str){"|", 1}, &parse_type_without_arg},
 	(t_parser){(t_str){"<", 1}, &parse_type_w1a_only},
 	(t_parser){(t_str){">", 1}, &parse_type_w1a_only},
+	// (t_parser){(t_str){"\\", 1}, &parse_back_slash_outside_quotes},
 	(t_parser){(t_str){"\\", 1}, &parse_back_slash},
 	(t_parser){(t_str){"\"", 1}, &parse_double_quote},
-	(t_parser){(t_str){"\'", 1}, &parse_simple_quote}
+	(t_parser){(t_str){"\'", 1}, &parse_simple_quote},
+	(t_parser){(t_str){"$", 1}, &parse_dollar}
 };
 
 /* ************************************************************************** */
@@ -217,9 +221,9 @@ int			init_t_str(t_str *obj, char* s);
 int			replace_in_str(t_env *env, char **str);
 int			replace_in_str_between_min_i_and_max_i(t_env *env, char **str, int min_i, int max_i);
 int			extract_parsed_groups(t_env *env, char **line);
-int			is_not_valid(char c);
-int			is_valid(char c);
-int			go_to_next_needed_i(char *line, int(*keep_going)(char), int i);
+int			is_not_valid(int c);
+int			is_valid(int c);
+int			go_to_next_needed_i(char *line, int(*keep_going)(int), int i);
 int			del_env_var(t_env   *env, char  *var_name);
 int			fill_tmp(t_env *env, t_env *tmp, char *var_name, int i);
 int			init_str(t_str *obj, char *s);

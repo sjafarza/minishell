@@ -6,18 +6,11 @@
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 09:42:12 by saray             #+#    #+#             */
-/*   Updated: 2021/12/13 13:19:46 by scarboni         ###   ########.fr       */
+/*   Updated: 2021/12/14 14:16:24 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
-
-int is_valid_for_var_name(char c)
-{
-	if (is_valid(c) && g_parser_dictionary[TYPE_BACK_SLASH].code.str[0] != c)
-		return true;
-	return false;
-}
 
 static int	replace_in_str_int(t_env *env, char **str, int *max_i, int *i, int size_after_max_i)
 {
@@ -29,7 +22,7 @@ static int	replace_in_str_int(t_env *env, char **str, int *max_i, int *i, int si
 
 	new_str.len = (*i);
 	new_i = (*i);
-	end_var_name = go_to_next_needed_i((*str), &is_valid_for_var_name, (*i)) - (*i);
+	end_var_name = go_to_next_needed_i((*str), &ft_isalnum, (*i)) - (*i);
 	if (end_var_name < 0 || end_var_name > (*max_i) - (*i))
 		end_var_name = (*max_i) - (*i);
 	var = find_env_vars_t_str(env, (t_str){(*str) + (*i), end_var_name});
@@ -80,5 +73,5 @@ int	replace_in_str_between_min_i_and_max_i(t_env *env, char **str, int min_i, in
 
 int	replace_in_str(t_env *env, char **str)
 {
-	return (replace_in_str_between_min_i_and_max_i(env, str, ft_strlen(*str), 0));
+	return (replace_in_str_between_min_i_and_max_i(env, str, 0, ft_strlen(*str)));
 }
