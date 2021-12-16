@@ -231,17 +231,6 @@ static const t_parser g_parser_dictionary_for_doubles_quotes[MAX_PARSER] = {
 	(t_parser){(t_str){"$", 1}, &parse_dollar}
 };
 
-// static const t_parser g_parser_dictionary_for_quotes[MAX_PARSER] = {
-// 	(t_parser){(t_str){"<<", 2}, &jump_parsing},
-// 	(t_parser){(t_str){">>", 2}, &jump_parsing},
-// 	(t_parser){(t_str){"|", 1}, &jump_parsing},
-// 	(t_parser){(t_str){"<", 1}, &jump_parsing},
-// 	(t_parser){(t_str){">", 1}, &jump_parsing},
-// 	(t_parser){(t_str){"\\", 1}, &parse_back_slash_inside_quotes},
-// 	(t_parser){(t_str){"\"", 1}, &jump_parsing},
-// 	(t_parser){(t_str){"\'", 1}, &forbidden_parsing},
-// 	(t_parser){(t_str){"$", 1}, &jump_parsing}
-// };
 
 /* ************************************************************************** */
 /* 									DATAS  									  */
@@ -253,6 +242,7 @@ void		clean_env_vars(t_env *env);
 int			find_and_update_env_var(t_env *env, char *var_name, char* new_value);
 t_env_var	*find_env_vars_t_str(t_env *env, t_str var);
 t_env_var	*find_env_vars(t_env *env, char* var_name);
+int			array_len(char **arr);
 void		free_array(char **arr);
 void		free_t_env(t_env *env);
 int			init_cwd(t_env *env);
@@ -288,7 +278,7 @@ void	execute_pipex_stack(t_env *env);
 /* 									PARSED_GROUPS							  */
 /* ************************************************************************** */
 
-void	execute_parsed_groups_stack(t_env *env);
+int	execute_parsed_groups_stack(t_env *env);
 void	clear_parsed_groups_stack(t_env *env);
 int	add_back_parsed_groups_stack(t_env *env, char **args, int type);
 void	print_parsed_group_stack(t_env *env);
