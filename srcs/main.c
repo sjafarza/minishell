@@ -6,7 +6,7 @@
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/11 19:03:13 by saray             #+#    #+#             */
-/*   Updated: 2021/12/16 17:12:09 by scarboni         ###   ########.fr       */
+/*   Updated: 2021/12/16 22:51:11 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,14 +50,18 @@ int	main(int ac, char **av, char **env_bash)
 		// select_right_cmd(&env, word[0], (const char**) word);
 		char *line_to_edit = ft_strdup(line);
 		printf("RESULT %d\n", extract_parsed_groups(&env, &line_to_edit));
+		free(line_to_edit);
+		line_to_edit = NULL;
+		free(line);
+		line = NULL;
 		print_parsed_group_stack(&env);
 		printf("RESULT exec parsed %d\n",execute_parsed_groups_stack(&env));
 		print_pipex_stack(&env);
 		execute_pipex_stack(&env);
 		clear_parsed_groups_stack(&env);
 		clear_pipex_stack(&env);
-		free(line_to_edit);
-		free(line);
+		if (env.exit_value == EXIT_MINISHELL)
+			break;
 		line = readline("mshell$ ");
 	}
 	printf("exit\n");

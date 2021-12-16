@@ -6,7 +6,7 @@
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/22 18:54:29 by scarboni          #+#    #+#             */
-/*   Updated: 2021/12/16 17:12:52 by scarboni         ###   ########.fr       */
+/*   Updated: 2021/12/16 22:46:37 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	get_args_length(t_list_double *parsed_group)
 			break;
 		if (tmp_cell->type != TYPE_CMD)
 			continue;
-		len_tmp = array_len(tmp_cell->args);
+		len_tmp = array_len((const char **)tmp_cell->args);
 		if (len_tmp == -EXIT_FAILURE)
 			return (-EXIT_FAILURE);
 		full_len += len_tmp;

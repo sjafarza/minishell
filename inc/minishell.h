@@ -30,6 +30,7 @@
 #define PATH_STR "PATH"
 #define PATH_LEN 4
 #define PROMPT_STR "mshell"
+#define EXIT_MINISHELL 42
 
 
 /* ************************************************************************** */
@@ -71,6 +72,7 @@ typedef struct s_env {
 	char		*cwd;
 	t_stack		pipex_stack;
 	t_stack		parsed_groups_stack;
+	int			exit_value;
 } t_env; 
 
 
@@ -274,7 +276,7 @@ int			is_sequence_equal_to_parser_code(int type_code, char *seq)
 void	clear_pipex_stack(t_env *env);
 int		add_back_pipex_stack(t_env *env, char **args);
 void	print_pipex_stack(t_env *env);
-void	execute_pipex_stack(t_env *env);
+pid_t	execute_pipex_stack(t_env *env);
 
 /* ************************************************************************** */
 /* 									PARSED_GROUPS							  */
