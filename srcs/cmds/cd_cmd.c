@@ -6,15 +6,17 @@
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/11 22:13:42 by saray             #+#    #+#             */
-/*   Updated: 2021/12/16 19:27:56 by scarboni         ###   ########.fr       */
+/*   Updated: 2021/12/16 19:31:29 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
+#define CD_ERROR_NO_FOLDER_OR_FILE_FMT	"%s: cd: %s: Aucun fichier ou dossier\
+ de ce type\n"
 
 int		cd_cmd(t_env *env, const char *cmd, const char **args)
 {
-	int	args_len;
+	int			args_len;
 	t_env_var	*var;
 	(void)cmd;
 	(void)args;
@@ -36,7 +38,7 @@ int		cd_cmd(t_env *env, const char *cmd, const char **args)
 			return (-EXIT_FAILURE);
 		if (chdir(var->value.str) == -EXIT_FAILURE)
 		{
-			printf("%s: cd: %s: Aucun fichier ou dossier de ce type\n", PROMPT_STR, var->value.str);
+			printf(CD_ERROR_NO_FOLDER_OR_FILE_FMT, PROMPT_STR, var->value.str);
 			return (EXIT_SUCCESS);
 		}
 	}
@@ -44,7 +46,7 @@ int		cd_cmd(t_env *env, const char *cmd, const char **args)
 	{
 		if (chdir(args[1]) == -EXIT_FAILURE)
 		{
-			printf("%s: cd: %s: Aucun fichier ou dossier de ce type\n", PROMPT_STR, args[1]);
+			printf(CD_ERROR_NO_FOLDER_OR_FILE_FMT, PROMPT_STR, args[1]);
 			return (EXIT_SUCCESS);
 		}
 	}
