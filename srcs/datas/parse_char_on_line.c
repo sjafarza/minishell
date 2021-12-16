@@ -6,7 +6,7 @@
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 09:42:12 by saray             #+#    #+#             */
-/*   Updated: 2021/12/16 20:00:17 by scarboni         ###   ########.fr       */
+/*   Updated: 2021/12/16 20:03:58 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	parse_dollar(t_line *line_handle, t_tmp_parsed *tmp_parsed, t_parse_utils p_utils)
 {
-	int end_var_name;
+	int	end_var_name;
 
 	(void)tmp_parsed;
 	end_var_name = go_to_next_needed_i((*line_handle->line), &ft_isalnum, (*p_utils.i) + 1);
@@ -26,26 +26,6 @@ int	parse_dollar(t_line *line_handle, t_tmp_parsed *tmp_parsed, t_parse_utils p_
 	(*p_utils.i) = end_var_name - 1;
 	return (EXIT_SUCCESS);
 }
-
-// int replace_fun(t_line *line_handle, t_parse_utils p_utils, int first_quote, int last_quote)
-// {
-// 	int end_var_name;
-// 	int	end_var_name_dup;
-
-// 	while (first_quote < last_quote)
-// 	{
-// 		end_var_name = go_to_next_needed_i((*line_handle.line), &is_valid_for_var_name, (*line_handle.i)) - (*line_handle.i);
-// 		end_var_name_dup = end_var_name;
-// 		end_var_name = replace_in_str_between_min_i_and_max_i(p_utils.env, line_handle->line, first_quote, end_var_name);
-// 		if (end_var_name == -EXIT_FAILURE)
-// 			return (-EXIT_FAILURE);
-// 		last_quote += end_var_name - end_var_name_dup;
-// 		first_quote = end_var_name;
-// 	}
-// 	return (last_quote);
-// }
-
-
 
 int		parse_type(t_line *line_handle, t_tmp_parsed *tmp_parsed, t_parse_utils p_utils)
 {
@@ -104,6 +84,7 @@ int get_arg_for_w1a(t_line *line_handle, t_tmp_parsed *tmp_parsed, t_parse_utils
 int		parse_type_w1a_only(t_line *line_handle, t_tmp_parsed *tmp_parsed, t_parse_utils p_utils)
 {
 	int	ret;
+
 	if (tmp_parsed->ac != 0 || (*tmp_parsed->high_level_start) != (*p_utils.i))
 		return (PARSE_CUT);
 	*tmp_parsed->type = *p_utils.parse_i;
@@ -131,8 +112,6 @@ int		parse_type_w1a_only(t_line *line_handle, t_tmp_parsed *tmp_parsed, t_parse_
 	return (ALREADY_FILLED);
 }
 
-
-
 int		forbidden_parsing(t_line *line_handle, t_tmp_parsed *tmp_parsed, t_parse_utils p_utils)
 {
 	(void)line_handle;
@@ -158,36 +137,8 @@ int		jump_parsing(t_line *line_handle, t_tmp_parsed *tmp_parsed, t_parse_utils p
 }
 
 
-
-
 #define INSIDE_QUOTE_BACKSLASH_ERASERS "$\\"
 
-
-// int	parse_back_slash_inside_quote(char **line, int *i, int quote_id)
-// {
-// 	int increment;
-// 	int delete;
-
-// 	if (!(*line)[(*i) + 1])
-// 		return (EXIT_SUCCESS);
-// 	increment = 0;
-// 	delete = false;
-// 	while(INSIDE_QUOTE_BACKSLASH_ERASERS[increment])
-// 	{
-// 		if (INSIDE_QUOTE_BACKSLASH_ERASERS[increment] == (*line)[(*i) + 1])
-// 		{
-// 			delete = true;
-// 			break;
-// 		}
-// 		increment++;
-// 	}	
-// 	if (g_parser_dictionary[quote_id].code.str[0] == (*line)[(*i) + 1])
-// 		delete = true;
-// 	if (delete)
-// 		ft_strlcpy((*line) + (*i), (*line) + (*i) + 1, ft_strlen((*line) + (*i)));
-// 	(*i)++;
-// 	return (EXIT_SUCCESS);
-// }
 
 int	parse_back_slash_inside_quote(char **line, int *i, int quote_id)
 {
@@ -197,7 +148,7 @@ int	parse_back_slash_inside_quote(char **line, int *i, int quote_id)
 
 	increment = 0;
 	delete = false;
-	while(INSIDE_QUOTE_BACKSLASH_ERASERS[increment])
+	while (INSIDE_QUOTE_BACKSLASH_ERASERS[increment])
 	{
 		if (INSIDE_QUOTE_BACKSLASH_ERASERS[increment] == (*line)[(*i) + 1])
 		{
@@ -253,11 +204,11 @@ int	find_next__quote(int id_quote, char **line, int i)
 
 int		parse_double_quote(t_line *line_handle, t_tmp_parsed *tmp_parsed, t_parse_utils p_utils)
 {
-	int first_quote;
-	int last_quote;
+	int	first_quote;
+	int	last_quote;
 	int	ret;
 	int	parse_i;
-	
+
 	(void)tmp_parsed;
 	first_quote = *p_utils.i;
 	ft_strlcpy((*line_handle->line) + first_quote, (*line_handle->line) + first_quote + 1, ft_strlen((*line_handle->line) + first_quote));
@@ -314,7 +265,7 @@ int		parse_simple_quote(t_line *line_handle, t_tmp_parsed *tmp_parsed, t_parse_u
 {
 	int first_quote;
 	int last_quote;
-	
+
 	(void)tmp_parsed;
 	first_quote = *p_utils.i;
 	ft_strlcpy((*line_handle->line) + first_quote, (*line_handle->line) + first_quote + 1, ft_strlen((*line_handle->line) + first_quote));
