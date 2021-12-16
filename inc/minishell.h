@@ -29,6 +29,8 @@
 
 #define PATH_STR "PATH"
 #define PATH_LEN 4
+#define PROMPT_STR "mshell"
+
 
 /* ************************************************************************** */
 /* 									ENV					    				  */
@@ -242,7 +244,7 @@ void		clean_env_vars(t_env *env);
 int			find_and_update_env_var(t_env *env, char *var_name, char* new_value);
 t_env_var	*find_env_vars_t_str(t_env *env, t_str var);
 t_env_var	*find_env_vars(t_env *env, char* var_name);
-int			array_len(char **arr);
+int			array_len(const char **arr);
 void		free_array(char **arr);
 void		free_t_env(t_env *env);
 int			init_cwd(t_env *env);
