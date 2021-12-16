@@ -6,7 +6,7 @@
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/22 18:54:29 by scarboni          #+#    #+#             */
-/*   Updated: 2021/12/16 16:52:22 by scarboni         ###   ########.fr       */
+/*   Updated: 2021/12/16 17:12:52 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,11 +95,6 @@ char	**gather_splitted_args_for_cmd(t_list_double *parsed_group)
 	{
 		free_array(args);
 		args = NULL;
-	}
-	i = 0;
-	while (args[i])
-	{
-		printf("THE FUCL ? %s\n", args[i++]);
 	}
 	return (args);
 }
