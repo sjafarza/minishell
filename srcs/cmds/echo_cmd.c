@@ -20,27 +20,22 @@ int		echo_cmd(t_env *env, const char *cmd, const char **args)
 	(void)env;
 	i = 1;
 	printf("I am in echo_cmd\n");
-	if (args[1] && !ft_strncmp(args[1], "-n", 2))
+	if (args[1] && !ft_strncmp(args[1], "-n", 2) && ft_strlen(args[1])== 2)
 	{
 		i++;
-		while (args[i] && !ft_strncmp(args[i], "-n", 2))
+		while (args[i] && !ft_strncmp(args[i], "-n", 2) && ft_strlen(args[i])== 2)
 			i++;
 	}
 	while (args[i])
 	{
-		if (!ft_strncmp(args[i], "<<" , 2) || !ft_strncmp(args[i], ">>" , 2) || \
-			!ft_strncmp(args[i], "<" , 1) || !ft_strncmp(args[i], "<" , 1))
-			printf("\nMust redirection\n");
-		else
-		{
-			printf("%s", args[i]);
-			if (args[i + 1])
-				printf(" ");
-		}
-	++i;
+		printf("%s", args[i]);
+		if (args[i + 1])
+			printf(" ");
+		++i;
 	}
 	if ( args[1] && !ft_strncmp(args[1], "-n" , 2))
 		return (EXIT_SUCCESS);
 	printf("\n");
 	return (EXIT_SUCCESS);
 }
+
