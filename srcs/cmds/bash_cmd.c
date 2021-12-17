@@ -6,7 +6,7 @@
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 09:42:12 by saray             #+#    #+#             */
-/*   Updated: 2021/12/16 22:12:16 by scarboni         ###   ########.fr       */
+/*   Updated: 2021/12/17 12:26:32 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,18 +78,27 @@ char	*get_full_cmd(t_env *env, const char *cmd)
 	return (get_full_cmd_from_path(env, cmd));
 }
 
+#define COMMAND_NOT_FOUND_MSG "Command not found: %s\n"
+#define COMMAND_NOT_FOUND_CODE 1
+#define EXEC_ERROR_CODE 127
+
 int		bash_cmd(t_env *env, const char *cmd, const char **args)
 {
 	char *full_cmd;
+	int		ret;
 
 	(void)args;
 	full_cmd = get_full_cmd(env, cmd);
 	if (!full_cmd)
 	{
-		printf("Command not found: %s\n", cmd);
-		return (EXIT_SUCCESS);
+		printf(COMMAND_NOT_FOUND_MSG, cmd);
+		return (COMMAND_NOT_FOUND_CODE);
 	}
 	printf("FULL_CMD : %s\n", full_cmd);
+	ret = execve(full_cmd, (char *const *)args, env->raw_env);
 	free(full_cmd);
-	return (EXIT_SUCCESS);
+	// close(env->pipes_handles[id]);
+	if (ret < 0)
+		return (EXEC_ERROR_CODE); 
+	return (ret);
 }

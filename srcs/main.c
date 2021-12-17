@@ -6,7 +6,7 @@
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/11 19:03:13 by saray             #+#    #+#             */
-/*   Updated: 2021/12/16 22:51:11 by scarboni         ###   ########.fr       */
+/*   Updated: 2021/12/17 12:33:18 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ int	main(int ac, char **av, char **env_bash)
 	env = (t_env){0};
 
 	//1- recover vaiable env & all of path in PATH
-	
 	if (init_env_vars(&env, env_bash) != EXIT_SUCCESS)
 		printf("AN ERROR OCCURED\n");
 	if (init_path(&env) != EXIT_SUCCESS)
