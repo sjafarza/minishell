@@ -6,13 +6,13 @@
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/22 18:54:29 by scarboni          #+#    #+#             */
-/*   Updated: 2021/12/16 22:50:32 by scarboni         ###   ########.fr       */
+/*   Updated: 2021/12/17 09:40:03 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-int	start_child(t_env *env, t_cell_pipex *current_cell)
+int	start_child(t_env *env, t_cell_pipex *current_cell, int id_cmd)
 {
 	pid_t	child_pid;
 	int		exit_value;
@@ -22,7 +22,30 @@ int	start_child(t_env *env, t_cell_pipex *current_cell)
 		return (-EXIT_FAILURE);
 	if (child_pid == 0)
 	{
-		exit_value = select_right_cmd(env, current_cell->args[0], (const char**)current_cell->args);
+		exit_value = g_cmd_dictionary[id_cmd].fun(env, current_cell->args[0], (const char**)current_cell->args);
+		free_t_env(env);
+		exit(exit_value);
+	}
+	return (child_pid);
+}
+
+int	start_child_before_or_after(t_env *env, t_cell_pipex *current_cell)
+{
+	pid_t	child_pid;
+	int		exit_value;
+	int		id_cmd;
+
+	id_cmd = select_right_cmd(env, current_cell->args[0]);
+	if (id_cmd == -EXIT_FAILURE)
+		return (-EXIT_FAILURE);
+	if (g_cmd_dictionary[id_cmd].must_be_in_child)
+		return (start_child(env, current_cell, id_cmd));
+	exit_value = g_cmd_dictionary[id_cmd].fun(env, current_cell->args[0], (const char**)current_cell->args);
+	child_pid = fork();
+	if (child_pid < 0)
+		return (-EXIT_FAILURE);
+	if (child_pid == 0)
+	{
 		free_t_env(env);
 		exit(exit_value);
 	}
@@ -34,7 +57,7 @@ static pid_t	execute_pipex_stack_int(t_env *env, t_list_double *action)
 	pid_t				last_pid;
 	if (!action)
 		return (-EXIT_FAILURE);
-	last_pid = start_child(env, action->content);
+	last_pid = start_child_before_or_after(env, action->content);
 	if (!action->next)
 		return (last_pid);
 	return (execute_pipex_stack_int(env, action->next));

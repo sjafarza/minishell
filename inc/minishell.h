@@ -112,6 +112,7 @@ typedef struct s_cell
 typedef struct s_cmd{
 	t_str	code;
 	int		(*fun)(t_env *env, const char *cmd, const char **args);
+	int		must_be_in_child;
 } t_cmd;
 
 int		mock_cmd(t_env *env, const char *cmd, const char **args);
@@ -123,17 +124,17 @@ int		export_cmd(t_env *env, const char *cmd, const char **args);
 int		pwd_cmd(t_env *env, const char *cmd, const char **args);
 int		cd_cmd(t_env *env, const char *cmd, const char **args);
 int		bash_cmd(t_env *env, const char *cmd, const char **args);
-int		select_right_cmd(t_env *env, const char *cmd, const char** args);
+int		select_right_cmd(t_env *env, const char *cmd);
 
 static const t_cmd g_cmd_dictionary[MAX_CMD] = {
-	(t_cmd){(t_str){"", 0}, &bash_cmd},
-	(t_cmd){(t_str){CODE_ECHO, LEN_ECHO}, &echo_cmd},
-	(t_cmd){(t_str){CODE_CD, LEN_CD}, &cd_cmd},
-	(t_cmd){(t_str){CODE_PWD, LEN_PWD}, &pwd_cmd},
-	(t_cmd){(t_str){CODE_EXPORT, LEN_EXPORT}, &export_cmd},
-	(t_cmd){(t_str){CODE_UNSET, LEN_UNSET}, &unset_cmd},
-	(t_cmd){(t_str){CODE_ENV, LEN_ENV}, &env_cmd},
-	(t_cmd){(t_str){CODE_EXIT, LEN_EXIT}, &exit_cmd}
+	(t_cmd){(t_str){"", 0}, &bash_cmd, true},
+	(t_cmd){(t_str){CODE_ECHO, LEN_ECHO}, &echo_cmd, true},
+	(t_cmd){(t_str){CODE_CD, LEN_CD}, &cd_cmd, false},
+	(t_cmd){(t_str){CODE_PWD, LEN_PWD}, &pwd_cmd, true},
+	(t_cmd){(t_str){CODE_EXPORT, LEN_EXPORT}, &export_cmd, false},
+	(t_cmd){(t_str){CODE_UNSET, LEN_UNSET}, &unset_cmd, false},
+	(t_cmd){(t_str){CODE_ENV, LEN_ENV}, &env_cmd, true},
+	(t_cmd){(t_str){CODE_EXIT, LEN_EXIT}, &exit_cmd, true}
 };
 
 /* ************************************************************************** */

@@ -6,7 +6,7 @@
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/22 18:54:29 by scarboni          #+#    #+#             */
-/*   Updated: 2021/11/29 18:17:30 by scarboni         ###   ########.fr       */
+/*   Updated: 2021/12/17 09:41:16 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,5 +18,7 @@ void	free_t_env(t_env *env)
 	free_array(env->paths);
 	if (env->cwd)
 		free(env->cwd);
+	clear_parsed_groups_stack(env);
+	clear_pipex_stack(env);
 	*env = (t_env){0};
 }
