@@ -124,7 +124,7 @@ int		export_cmd(t_env *env, const char *cmd, const char **args);
 int		pwd_cmd(t_env *env, const char *cmd, const char **args);
 int		cd_cmd(t_env *env, const char *cmd, const char **args);
 int		bash_cmd(t_env *env, const char *cmd, const char **args);
-int		select_right_cmd(t_env *env, const char *cmd);
+int		select_right_cmd(const char *cmd);
 
 static const t_cmd g_cmd_dictionary[MAX_CMD] = {
 	(t_cmd){(t_str){"", 0}, &bash_cmd, true},

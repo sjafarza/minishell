@@ -6,7 +6,7 @@
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/22 18:54:29 by scarboni          #+#    #+#             */
-/*   Updated: 2021/12/17 09:40:03 by scarboni         ###   ########.fr       */
+/*   Updated: 2021/12/17 09:43:13 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	start_child_before_or_after(t_env *env, t_cell_pipex *current_cell)
 	int		exit_value;
 	int		id_cmd;
 
-	id_cmd = select_right_cmd(env, current_cell->args[0]);
+	id_cmd = select_right_cmd(current_cell->args[0]);
 	if (id_cmd == -EXIT_FAILURE)
 		return (-EXIT_FAILURE);
 	if (g_cmd_dictionary[id_cmd].must_be_in_child)
