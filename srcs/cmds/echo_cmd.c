@@ -38,4 +38,3 @@ int		echo_cmd(t_env *env, const char *cmd, const char **args)
 	printf("\n");
 	return (EXIT_SUCCESS);
 }
-

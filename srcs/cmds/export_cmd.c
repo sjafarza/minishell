@@ -19,18 +19,24 @@ int	export_cmd(t_env *env, const char *cmd, const char **args)
 	(void)cmd;
 	(void)env;
 	if (!args[1])
-		return (-EXIT_FAILURE);
+		printf("Must print env\n");
+		//return (-EXIT_FAILURE);
 	i = -1;
 	while (args[++i])
 	{
+		printf("** args[%d] = %s\n", i, args[i]);
 		if (ft_strchr_index(args[i], '=') != -EXIT_FAILURE)
 		{
 			if (args[i][0] == '=')
 			{		
-				printf("minishell: export: ( %s ):identifiant non valable\n", args[i]);
+				printf("minishell: export: ( %s ): not a valid identifier\n", args[i]);
 				return (-EXIT_FAILURE);
 			}
-			return (add_env_var(env, (char *)args[i]));
+			printf("ok args[1] = %s for send to add_env_var\n", args[i]);
+			int j = add_env_var(env, (char *)args[i]);
+			printf("j in retun add-env-var = %d\n", j);
+			return(j);
+			//return (add_env_var(env, (char *)args[i]));
 		}
 	}
 	return (EXIT_SUCCESS);

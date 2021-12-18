@@ -34,10 +34,11 @@ int	start_child_before_or_after(t_env *env, t_cell_pipex *current_cell)
 	pid_t	child_pid;
 	int		exit_value;
 	int		id_cmd;
-
+//*********************************************************
 	id_cmd = select_right_cmd(current_cell->args[0]);
+	printf("test after select_cmd in pipex-stack_exe i=%d\n", id_cmd);
 	if (id_cmd == -EXIT_FAILURE)
-		return (-EXIT_FAILURE);
+		return (-EXIT_FAILURE);	
 	if (g_cmd_dictionary[id_cmd].must_be_in_child)
 		return (start_child(env, current_cell, id_cmd));
 	exit_value = g_cmd_dictionary[id_cmd].fun(env, current_cell->args[0], (const char**)current_cell->args);
@@ -58,8 +59,17 @@ static pid_t	execute_pipex_stack_int(t_env *env, t_list_double *action)
 	if (!action)
 		return (-EXIT_FAILURE);
 	last_pid = start_child_before_or_after(env, action->content);
+	printf("1  ****** inpip_tack_exe.c********* after start-child_before\n");
 	if (!action->next)
+	{
+		printf("2  ****** inpip_tack_exe.c********* ain !action->next \n");
 		return (last_pid);
+	}
+	printf(" 3****** in execute_pipex_stack_exe ********* after if(!action) avant return \n");
+	print_vars(env);
+	
+	printf("action->next->  = %s\n", (char *)((action->content)));
+	printf("action->next->  = %s\n", (char *)((action->next)->content));
 	return (execute_pipex_stack_int(env, action->next));
 }
 
@@ -92,6 +102,7 @@ int	execute_pipex_stack(t_env *env)
 	int		count_awaited_childs;
 
 	last_pid = execute_pipex_stack_int(env, env->pipex_stack.head);
+	printf("4  ****** inpip_tack_exe.c********* after execute-ipex-stack-int\n");
 	if (last_pid == -EXIT_FAILURE)
 		return (-EXIT_FAILURE);
 	count_awaited_childs = 0;
