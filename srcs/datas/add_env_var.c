@@ -35,7 +35,6 @@ char	*make_value(char *value)
 	i = -1;
 	if(value[0] == '-')
 		return("0");
-	printf("befor loop in make_value\n");
 	while (value[++i] == '0')
 		s++;
 	if (s == 0)
@@ -46,7 +45,6 @@ char	*make_value(char *value)
 			return("0");
 		s++;	
 	}	
-	printf("ater loop in make_value s = %d\n", s);
 	i = s;
 	n_digit = 0;
 	while (value[i] && ft_isdigit(value[i]))
@@ -59,17 +57,9 @@ char	*make_value(char *value)
 	if (n_digit == 0)
 		return("0");	
 	if(n_digit == ((int)ft_strlen(value) - s) && i > 3 && n_digit > 3)	
-		return ("1");
-	printf("n_digi = %d\n", n_digit);
-	printf("i = %d\n", i);	
+		return ("1");	
 	if (n_digit == ((int)ft_strlen(value) - s) /*&& i <= 3 */&& n_digit <= 3)
-	{
 		value = ft_itoa(ft_atoi(value) - 1);
-		/*printf("s=%d\n", s);
-		printf("i=%d\n", i);
-		printf("cccccccekkkkk = value in make = %s\n", value);
-		printf("len of value =%zu\n", ft_strlen(value));*/
-	}
 	return (value);
 }
 
@@ -89,28 +79,13 @@ int	ft_add(t_env *env, char	*var)
 		value = "";	
 	if (ft_strlen(name) == 5 && (ft_strncmp(name, "SHLVL",5) == 0))	
 		value = make_value(value);
-
-	printf("2 cccccccekkkkk = value in make = %s\n", value);	
-	printf("value =  %s\n", value);
-	printf("name =  %s\n", name);
 	tmp_env_vars_max = env->env_vars_max + 1;
 	tmp_env_vars = (t_env_var *)malloc(sizeof(t_env_var) * tmp_env_vars_max);
 	if (!env->env_vars)
 		return (-EXIT_FAILURE);	
 	m = tmp_env_vars_max - 1;
 	if (fill_tmp(env, tmp_env_vars, name, tmp_env_vars_max) == -EXIT_FAILURE)
-		return (-EXIT_FAILURE);
-	/*printf("**************************\n\n");
-	int k=0;
-	printf("m = Max = %d\n", m);
-	while (k <= m)	
-	{
-		printf("&&&&&tmp_env_vars[%d].value = %s\n", k ,tmp_env_vars[k].value.str);
-		k++;
-
-	}
-	printf("**************************\n\n");*/
-	printf("m , indix for adding in tm, in ft_add = %d\n", m);	
+		return (-EXIT_FAILURE);	
 	if (init_str(&tmp_env_vars[m].name, name) != EXIT_SUCCESS \
 			|| init_str(&tmp_env_vars[m].value, value) != EXIT_SUCCESS)
 		return (-EXIT_FAILURE);
@@ -123,8 +98,6 @@ int	ft_add(t_env *env, char	*var)
 	free(env->env_vars);
 	env->env_vars = tmp_env_vars;
 	env->env_vars_max += 1;
-	//free(value);
-	//free(name);
 	return (EXIT_SUCCESS);	
 }
 

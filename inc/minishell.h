@@ -274,7 +274,6 @@ int			find_first_eq(char	*s);
 int			fill_tmp(t_env *env, t_env_var *tmp, char *var_name, int i);
 int			init_str(t_str *obj, char *s);
 int			add_env_var(t_env *env, char *var);
-//int			dup_tmp_to_env(t_env *env, t_env *tmp, int i);
 int			check_parsing(const t_parser dictionnary[MAX_PARSER], t_line line_handle, t_tmp_parsed tmp_parsed, t_parse_utils p_utils);
 int			is_sequence_equal_to_parser_code(int type_code, char *seq)
 ;

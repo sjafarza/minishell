@@ -21,17 +21,15 @@ int find_in_env(t_env *env, char *var)
 	value = ft_substr(var, find_first_eq(var), ft_strlen(var) - find_first_eq(var));
 	if (value == NULL)
 		value = "";
-	printf("value =  %s\n", value);	
+	printf("value  for SHLVL=  %s\n", value);	
 	name = ft_substr(var, 0, find_first_eq(var) - 1);
 	if (name == NULL)
 		return(-EXIT_FAILURE);	
 	if (ft_strlen(name) == 5 && (ft_strncmp(name, "SHLVL",5) == 0))	
 		value = make_value(value);	
-	printf("value =  %s\n", value);
-	printf("name =  %s\n", name);	
+	printf(" CORECTION OF value  for SHLVL=  %s\n", value);	
 	if (find_and_update_env_var(env, name, value) == EXIT_SUCCESS)
 	{
-		printf("ok for SHLVL\n");
 		if ((ft_strlen(name) == 4) && (ft_strncmp(name, "PATH",4) == 0))
 			{
 				printf("il faudra qu'on mette a jour env->paths\n");
@@ -62,12 +60,12 @@ int	export_cmd(t_env *env, const char *cmd, const char **args)
 				printf("minishell: export: ( %s ): not a valid identifier\n", args[i]);
 				return (-EXIT_FAILURE);
 			}
-			printf("i am here in export\n");
 			if (find_in_env(env, (char *)args[i]) == EXIT_SUCCESS)
 				continue ;
-			add_env_var(env, (char *)args[i]);	
-			//return (add_env_var(env, (char *)args[i]));
+			add_env_var(env, (char *)args[i]);
 		}
+			printf("INJA\n");
 	}
+	printf("2INJA\n");
 	return (EXIT_SUCCESS);
 }
