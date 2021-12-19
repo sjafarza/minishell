@@ -14,14 +14,16 @@
 
 int	init_str(t_str *obj, char *s)
 {
-	if (!obj || !s)
+	if (!obj /*|| !s*/)
 		return (-EXIT_FAILURE);
+	if (!s)
+		s = " ";	
 	obj->str = ft_strdup(s);
 	obj->len = ft_strlen(s);
 	return (EXIT_SUCCESS);
 }
 
-int	dup_tmp_to_env(t_env *env, t_env *tmp, int i)
+/*int	dup_tmp_to_env(t_env *env, t_env *tmp, int i)
 {
 	env->env_vars = (t_env_var *)malloc(sizeof(t_env_var) * tmp->env_vars_max);
 	if (!env->env_vars)
@@ -39,16 +41,16 @@ int	dup_tmp_to_env(t_env *env, t_env *tmp, int i)
 	if (init_cwd(env) != EXIT_SUCCESS)
 		printf("AN ERROR OCCURED WITH CWD\n");
 	return (EXIT_SUCCESS);
-}
+}*/
 
-int	fill_tmp(t_env *env, t_env *tmp, char *var_name, int i)
+int	fill_tmp(t_env *env, t_env_var *tmp, char *var_name, int max)
 {
 	int	j;
+	int	i;
 
 	j = 0;
-	tmp->env_vars = (t_env_var *)malloc(sizeof(t_env_var) * tmp->env_vars_max);
-	if (!env->env_vars)
-		return (-EXIT_FAILURE);	
+	i = 0;
+	max = max + 1 -1;
 	printf("var_name in fill_tmp = %s\n", var_name);	
 	while (i < env->env_vars_max)
 	{
@@ -58,44 +60,41 @@ int	fill_tmp(t_env *env, t_env *tmp, char *var_name, int i)
 			i++;
 		else
 		{
-			printf("je suis in else\n");
-			if (init_str(&tmp->env_vars[j].name, env->env_vars[i].name.str) \
-				!= EXIT_SUCCESS || init_str(&tmp->env_vars[j].value, \
+			if (init_str(&tmp[j].name, env->env_vars[i].name.str) \
+				!= EXIT_SUCCESS || init_str(&tmp[j].value, \
 				env->env_vars[i].value.str) != EXIT_SUCCESS)
 				{
 					printf("fail\n");
 					return (-EXIT_FAILURE);
 				}
-			printf("ttttmp->env_var[%d].ame = %s ,env-env_vars[%d].value.str = %s\n", j, tmp->env_vars[j].name.str, i , tmp->env_vars[i].value.str);
 			j++;
 			i++;
 		}
 	}
-	//tmp->env_vars[j].name.str = NULL;
-	//tmp->env_vars[j].value.str = NULL;
-	printf("****chek unset in fill_tmp***\n");
-	print_vars(tmp);
+	printf("ok\n");
+	tmp[j].name.str = "";
+	tmp[j].value.str = "";
 	return (EXIT_SUCCESS);
 }
 
 int	del_env_var(t_env *env, char *var_name)
 {
-	t_env	tmp;
+	t_env_var	*tmp_env_vars;
+	int			tmp_env_vars_max;
 
-	tmp = (t_env){0};
+	//printf("**args[i] = var_name = %s\n", var_name);
 	if (!var_name)
 		return (-EXIT_FAILURE);
 	if(!find_env_vars(env, var_name))
-		return (EXIT_SUCCESS);	
-	tmp.env_vars_max = env->env_vars_max - 1;
-	if (fill_tmp(env, &tmp, var_name, env->env_vars_max) == -EXIT_FAILURE)
+		return (EXIT_SUCCESS);
+	tmp_env_vars_max = env->env_vars_max - 1;		
+	tmp_env_vars = (t_env_var *)malloc(sizeof(t_env_var) * tmp_env_vars_max);
+	if (!env->env_vars)
 		return (-EXIT_FAILURE);
-	init_path(&tmp);
-	init_cwd(&tmp);
-	free_t_env(env);
-	env = NULL;
-	if (dup_tmp_to_env(env, &tmp, -1) == -EXIT_FAILURE)
-		return (-EXIT_FAILURE);
-	free_t_env(&tmp);
+	if (fill_tmp(env, tmp_env_vars, var_name, tmp_env_vars_max) == -EXIT_FAILURE)
+		return (-EXIT_FAILURE);	
+	free(env->env_vars);
+	env->env_vars = tmp_env_vars;
+	env->env_vars_max -= 1;
 	return (EXIT_SUCCESS);
 }

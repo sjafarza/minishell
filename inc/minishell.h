@@ -80,14 +80,15 @@ typedef struct s_env {
 /* ************************************************************************** */
 /* 									CMDS 									  */
 /* ************************************************************************** */
-#define ID_BASH_CMD	0
-#define ID_ECHO		1
-#define ID_CD		2
-#define ID_PWD		3
-#define ID_EXPORT	4
-#define ID_UNSET	5
-#define ID_ENV		6
-#define ID_EXIT		7
+#define ID_BASH_CMD		0
+#define ID_ECHO			1
+#define ID_CD			2
+#define ID_PWD			3
+#define ID_EXPORT		4
+#define ID_UNSET		5
+#define ID_ENV			6
+#define ID_EXIT			7
+#define ID_EXPORT_S		8
 
 #define CODE_ECHO		"echo"
 #define LEN_ECHO		4
@@ -103,7 +104,9 @@ typedef struct s_env {
 #define LEN_ENV			3
 #define CODE_EXIT		"exit"
 #define LEN_EXIT		4
-#define MAX_CMD			8
+#define MAX_CMD			9
+#define CODE_EXPORT_S	"Export"
+#define LEN_EXPORT_S		6
 
 typedef struct s_cell
 {
@@ -122,6 +125,7 @@ int		exit_cmd(t_env *env, const char *cmd, const char **args);
 int		env_cmd(t_env *env, const char *cmd, const char **args);
 int		unset_cmd(t_env *env, const char *cmd, const char **args);
 int		export_cmd(t_env *env, const char *cmd, const char **args);
+int		export_sans_arg_cmd(t_env *env, const char *cmd, const char **args);
 int		pwd_cmd(t_env *env, const char *cmd, const char **args);
 int		cd_cmd(t_env *env, const char *cmd, const char **args);
 int		bash_cmd(t_env *env, const char *cmd, const char **args);
@@ -135,7 +139,8 @@ static const t_cmd g_cmd_dictionary[MAX_CMD] = {
 	(t_cmd){(t_str){CODE_EXPORT, LEN_EXPORT}, &export_cmd, false},
 	(t_cmd){(t_str){CODE_UNSET, LEN_UNSET}, &unset_cmd, false},
 	(t_cmd){(t_str){CODE_ENV, LEN_ENV}, &env_cmd, true},
-	(t_cmd){(t_str){CODE_EXIT, LEN_EXIT}, &exit_cmd, true}
+	(t_cmd){(t_str){CODE_EXIT, LEN_EXIT}, &exit_cmd, true},
+	(t_cmd){(t_str){CODE_EXPORT_S, LEN_EXPORT_S}, &export_sans_arg_cmd, true}
 };
 
 /* ************************************************************************** */
@@ -256,6 +261,8 @@ int			init_env_vars(t_env *env, char **raw_env);
 int			init_path(t_env *env);
 void		print_vars(t_env *env);
 int			init_t_str(t_str *obj, char* s);
+char		*make_value(char *value);
+int 		find_in_env(t_env *env, char *var);
 int			replace_in_str(t_env *env, char **str);
 int			replace_in_str_between_min_i_and_max_i(t_env *env, char **str, int min_i, int max_i);
 int			extract_parsed_groups(t_env *env, char **line);
@@ -263,10 +270,11 @@ int			is_not_valid(int c);
 int			is_valid(int c);
 int			go_to_next_needed_i(char *line, int(*keep_going)(int), int i);
 int			del_env_var(t_env   *env, char  *var_name);
-int			fill_tmp(t_env *env, t_env *tmp, char *var_name, int i);
+int			find_first_eq(char	*s);
+int			fill_tmp(t_env *env, t_env_var *tmp, char *var_name, int i);
 int			init_str(t_str *obj, char *s);
 int			add_env_var(t_env *env, char *var);
-int			dup_tmp_to_env(t_env *env, t_env *tmp, int i);
+//int			dup_tmp_to_env(t_env *env, t_env *tmp, int i);
 int			check_parsing(const t_parser dictionnary[MAX_PARSER], t_line line_handle, t_tmp_parsed tmp_parsed, t_parse_utils p_utils);
 int			is_sequence_equal_to_parser_code(int type_code, char *seq)
 ;

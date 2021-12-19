@@ -56,9 +56,7 @@ int	main(int ac, char **av, char **env_bash)
 		print_parsed_group_stack(&env);
 		printf("RESULT exec parsed %d\n",execute_parsed_groups_stack(&env));
 		print_pipex_stack(&env);
-		printf("1test for segment fault in main\n");
 		execute_pipex_stack(&env);
-		printf("2test for segment fault in main\n");
 		clear_parsed_groups_stack(&env);
 		clear_pipex_stack(&env);
 		if (env.exit_value == EXIT_MINISHELL)

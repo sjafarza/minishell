@@ -1,36 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   unset_cmd.c                                        :+:      :+:    :+:   */
+/*   export_sans_arg_cmd.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sjafarza <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/04 16:12:52 by sjafarza          #+#    #+#             */
-/*   Updated: 2021/12/04 17:29:24 by sjafarza         ###   ########.fr       */
+/*   Created: 2021/12/18 19:51:37 by sjafarza          #+#    #+#             */
+/*   Updated: 2021/12/18 19:52:51 by sjafarza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-int		unset_cmd(t_env *env, const char *cmd, const char **args)
+int	export_sans_arg_cmd(t_env *env, const char *cmd, const char **args)
 {
 	int	i;
-	int	r;
 
 	(void)cmd;
 	(void)env;
-	if (!args[1])
+	if (args[1])
 		return (-EXIT_FAILURE);
-	printf("I am in unset_cmd\n");
 	i = 0;
-	while (args[++i])
+	while (i < env->env_vars_max)
 	{
-		//printf("** args[%d] = %s\n", i, args[i]);
-		if (ft_strchr_index(args[i], '=') != -EXIT_FAILURE)
-			printf("minishell: unset: ( %s ): not a valid identifier\n", args[i]);
-		r = del_env_var(env, (char *)args[i]);
+		printf("declare -x %s=[%s]\n", env->env_vars[i].name.str, env->env_vars[i].value.str);
+		i++;
 	}
-	if(!r)
-		return (-EXIT_FAILURE);
 	return (EXIT_SUCCESS);
 }
