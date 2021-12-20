@@ -177,9 +177,6 @@ typedef struct s_parser{
 } t_parser;
 
 int		find_next__quote(int id_quote, char **line, int i);
-int		parse_back_slash_outside_quotes(t_line *line_handle, t_tmp_parsed *tmp_parsed, t_parse_utils p_utils);
-int		parse_back_slash_inside_quotes(t_line *line_handle, t_tmp_parsed *tmp_parsed, t_parse_utils p_utils);
-int		parse_back_slash_inside_double_quotes(t_line *line_handle, t_tmp_parsed *tmp_parsed, t_parse_utils p_utils);
 int		parse_double_quote(t_line *line_handle, t_tmp_parsed *tmp_parsed, t_parse_utils p_utils);
 int		parse_simple_quote(t_line *line_handle, t_tmp_parsed *tmp_parsed, t_parse_utils p_utils);
 int		parse_type_without_arg(t_line *line_handle, t_tmp_parsed *tmp_parsed, t_parse_utils p_utils);
@@ -197,7 +194,6 @@ int		parse_dollar(t_line *line_handle, t_tmp_parsed *tmp_parsed, t_parse_utils p
 #define TYPE_PIPE				2
 #define TYPE_INPUT1				3
 #define TYPE_OUTPUT1			4
-// #define TYPE_BACK_SLASH			5
 #define TYPE_DOUBLE_QUOTE		5
 #define TYPE_QUOTE				6
 #define TYPE_DOLLAR				7
@@ -210,7 +206,6 @@ static const t_parser g_parser_dictionary[MAX_PARSER] = {
 	(t_parser){(t_str){"|", 1}, &parse_type_without_arg},
 	(t_parser){(t_str){"<", 1}, &parse_type_w1a_only},
 	(t_parser){(t_str){">", 1}, &parse_type_w1a_only},
-	// (t_parser){(t_str){"\\", 1}, &parse_back_slash_outside_quotes},
 	(t_parser){(t_str){"\"", 1}, &parse_double_quote},
 	(t_parser){(t_str){"\'", 1}, &parse_simple_quote},
 	(t_parser){(t_str){"$", 1}, &parse_dollar}
@@ -226,7 +221,6 @@ static const t_parser g_parser_dictionary_for_w1a[MAX_PARSER] = {
 	(t_parser){(t_str){"|", 1}, &cut_parsing},
 	(t_parser){(t_str){"<", 1}, &cut_parsing},
 	(t_parser){(t_str){">", 1}, &cut_parsing},
-	// (t_parser){(t_str){"\\", 1}, &parse_back_slash_outside_quotes},
 	(t_parser){(t_str){"\"", 1}, &parse_double_quote},
 	(t_parser){(t_str){"\'", 1}, &parse_simple_quote},
 	(t_parser){(t_str){"$", 1}, &parse_dollar}
@@ -238,7 +232,6 @@ static const t_parser g_parser_dictionary_for_doubles_quotes[MAX_PARSER] = {
 	(t_parser){(t_str){"|", 1}, &jump_parsing},
 	(t_parser){(t_str){"<", 1}, &jump_parsing},
 	(t_parser){(t_str){">", 1}, &jump_parsing},
-	// (t_parser){(t_str){"\\", 1}, &parse_back_slash_inside_double_quotes},
 	(t_parser){(t_str){"\"", 1}, &forbidden_parsing},
 	(t_parser){(t_str){"\'", 1}, &jump_parsing},
 	(t_parser){(t_str){"$", 1}, &parse_dollar}

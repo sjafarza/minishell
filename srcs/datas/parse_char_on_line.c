@@ -6,7 +6,7 @@
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 09:42:12 by saray             #+#    #+#             */
-/*   Updated: 2021/12/20 14:16:56 by scarboni         ###   ########.fr       */
+/*   Updated: 2021/12/20 15:29:49 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,72 +136,6 @@ int		jump_parsing(t_line *line_handle, t_tmp_parsed *tmp_parsed, t_parse_utils p
 	return (EXIT_SUCCESS);
 }
 
-
-#define INSIDE_QUOTE_BACKSLASH_ERASERS "$\\"
-
-
-int	parse_back_slash_inside_quote(char **line, int *i, int quote_id)
-{
-
-	int increment;
-	int delete;
-
-	increment = 0;
-	delete = false;
-	while (INSIDE_QUOTE_BACKSLASH_ERASERS[increment])
-	{
-		if (INSIDE_QUOTE_BACKSLASH_ERASERS[increment] == (*line)[(*i) + 1])
-		{
-			delete = true;
-			break;
-		}
-		increment++;
-	}
-	if (g_parser_dictionary[quote_id].code.str[0] == (*line)[(*i) + 1])
-		delete = true;
-	if (delete)
-		ft_strlcpy((*line) + (*i), (*line) + (*i) + 1, ft_strlen((*line) + (*i)));
-	(*i)++;
-	return (EXIT_SUCCESS);
-}
-
-int		parse_back_slash_outside_quotes(t_line *line_handle, t_tmp_parsed *tmp_parsed, t_parse_utils p_utils)
-{
-	(void)tmp_parsed;
-	if (!(*line_handle->line)[(*p_utils.i) + 1])
-		return (INCOMPLETE_PATTERN);
-	ft_strlcpy((*line_handle->line) + (*p_utils.i), (*line_handle->line) + (*p_utils.i) + 1, ft_strlen((*line_handle->line) + (*p_utils.i)));
-	return (EXIT_SUCCESS);
-}
-
-int		parse_back_slash_inside_quotes(t_line *line_handle, t_tmp_parsed *tmp_parsed, t_parse_utils p_utils)
-{
-	(void)tmp_parsed;
-	return (parse_back_slash_inside_quote(line_handle->line, p_utils.i, TYPE_QUOTE));
-}
-
-int		parse_back_slash_inside_double_quotes(t_line *line_handle, t_tmp_parsed *tmp_parsed, t_parse_utils p_utils)
-{
-	(void)tmp_parsed;
-	return (parse_back_slash_inside_quote(line_handle->line, p_utils.i, TYPE_DOUBLE_QUOTE));
-}
-
-
-// int	find_next__quote(int id_quote, char **line, int i)
-// {
-// 	if (is_sequence_equal_to_parser_code(TYPE_BACK_SLASH, (*line) + i))
-// 		i++;
-// 	while ((*line)[i] && !is_sequence_equal_to_parser_code(id_quote, (*line) + i))
-// 	{
-// 		if (is_sequence_equal_to_parser_code(TYPE_BACK_SLASH, (*line) + i))
-// 			i++;
-// 		i++;
-// 	}
-// 	if (!is_sequence_equal_to_parser_code(id_quote, (*line) + i))
-// 			return (INCOMPLETE_PATTERN);
-// 	return (i);
-// }
-
 int		parse_double_quote(t_line *line_handle, t_tmp_parsed *tmp_parsed, t_parse_utils p_utils)
 {
 	int	first_quote;
@@ -209,12 +143,12 @@ int		parse_double_quote(t_line *line_handle, t_tmp_parsed *tmp_parsed, t_parse_u
 	int	ret;
 	int	parse_i;
 
-	(void)tmp_parsed;
 	first_quote = *p_utils.i;
 	ft_strlcpy((*line_handle->line) + first_quote, (*line_handle->line) + first_quote + 1, ft_strlen((*line_handle->line) + first_quote));
-	last_quote = (*p_utils.i) + ft_strchr_index((const char *)((*p_utils.i) + line_handle->line), g_parser_dictionary[*p_utils.parse_i].code.str[0]);
-	if (last_quote == INCOMPLETE_PATTERN)
-		return (INCOMPLETE_PATTERN);
+	last_quote = ft_strchr_index((const char *)((*line_handle->line) + (*p_utils.i)), g_parser_dictionary[*p_utils.parse_i].code.str[0]);
+	if (last_quote <= EXIT_SUCCESS)
+		return (last_quote);
+	last_quote += (*p_utils.i);
 	while (first_quote < last_quote)
 	{
 		parse_i = 0;
@@ -226,14 +160,16 @@ int		parse_double_quote(t_line *line_handle, t_tmp_parsed *tmp_parsed, t_parse_u
 				last_quote = *p_utils.i;
 				break;
 			}
-			last_quote = (*p_utils.i) + ft_strchr_index((const char *)((*p_utils.i) + line_handle->line), g_parser_dictionary[*p_utils.parse_i].code.str[0]);
+			last_quote = (*p_utils.i) + ft_strchr_index((const char *)((*line_handle->line) + (*p_utils.i)), g_parser_dictionary[*p_utils.parse_i].code.str[0]);
+			if (last_quote <= EXIT_SUCCESS)
+				return (last_quote);
 		}
 		else if (ret != EXIT_SUCCESS)
 			return (ret);
 		(*p_utils.i)++;
 	}
 	ft_strlcpy((*line_handle->line) + last_quote, (*line_handle->line) + last_quote + 1, ft_strlen((*line_handle->line) + last_quote));
-	(*p_utils.i) = last_quote - 1;
+	(*p_utils.i) = last_quote;
 	return (EXIT_SUCCESS);
 }
 
