@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_cmd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: saray <saray.jafarzade@gmail.com>          +#+  +:+       +#+        */
+/*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/10 09:13:46 by saray             #+#    #+#             */
-/*   Updated: 2021/12/11 00:25:12 by saray            ###   ########.fr       */
+/*   Updated: 2021/12/20 14:20:26 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int find_in_env(t_env *env, char *var)
 int	export_cmd(t_env *env, const char *cmd, const char **args)
 {
 	int	i;
-
+printf("HELLO IN THERE\n");
 	(void)cmd;
 	(void)env;
 	if (!args[1])

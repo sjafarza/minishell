@@ -85,10 +85,10 @@ typedef struct s_env {
 #define ID_CD			2
 #define ID_PWD			3
 #define ID_EXPORT		4
-#define ID_UNSET		5
-#define ID_ENV			6
-#define ID_EXIT			7
-#define ID_EXPORT_S		8
+#define ID_EXPORT_S		5
+#define ID_UNSET		6
+#define ID_ENV			7
+#define ID_EXIT			8
 
 #define CODE_ECHO		"echo"
 #define LEN_ECHO		4
@@ -117,6 +117,7 @@ typedef struct s_cmd{
 	t_str	code;
 	int		(*fun)(t_env *env, const char *cmd, const char **args);
 	int		must_be_in_child;
+	int		max_args_len;
 } t_cmd;
 
 int		mock_cmd(t_env *env, const char *cmd, const char **args);
@@ -129,18 +130,20 @@ int		export_sans_arg_cmd(t_env *env, const char *cmd, const char **args);
 int		pwd_cmd(t_env *env, const char *cmd, const char **args);
 int		cd_cmd(t_env *env, const char *cmd, const char **args);
 int		bash_cmd(t_env *env, const char *cmd, const char **args);
-int		select_right_cmd(const char *cmd);
+int		select_right_cmd(const char *cmd, const char **args);
+
+#define ANY_SIZE	-1
 
 static const t_cmd g_cmd_dictionary[MAX_CMD] = {
-	(t_cmd){(t_str){"", 0}, &bash_cmd, true},
-	(t_cmd){(t_str){CODE_ECHO, LEN_ECHO}, &echo_cmd, true},
-	(t_cmd){(t_str){CODE_CD, LEN_CD}, &cd_cmd, false},
-	(t_cmd){(t_str){CODE_PWD, LEN_PWD}, &pwd_cmd, true},
-	(t_cmd){(t_str){CODE_EXPORT, LEN_EXPORT}, &export_cmd, false},
-	(t_cmd){(t_str){CODE_UNSET, LEN_UNSET}, &unset_cmd, false},
-	(t_cmd){(t_str){CODE_ENV, LEN_ENV}, &env_cmd, true},
-	(t_cmd){(t_str){CODE_EXIT, LEN_EXIT}, &exit_cmd, true},
-	(t_cmd){(t_str){CODE_EXPORT_S, LEN_EXPORT_S}, &export_sans_arg_cmd, true}
+	(t_cmd){(t_str){"", 0}, &bash_cmd, true, ANY_SIZE},
+	(t_cmd){(t_str){CODE_ECHO, LEN_ECHO}, &echo_cmd, true, ANY_SIZE},
+	(t_cmd){(t_str){CODE_CD, LEN_CD}, &cd_cmd, false, ANY_SIZE},
+	(t_cmd){(t_str){CODE_PWD, LEN_PWD}, &pwd_cmd, true, ANY_SIZE},
+	(t_cmd){(t_str){CODE_EXPORT, LEN_EXPORT}, &export_cmd, false, ANY_SIZE},
+	(t_cmd){(t_str){CODE_EXPORT, LEN_EXPORT}, &export_sans_arg_cmd, true, 1},
+	(t_cmd){(t_str){CODE_UNSET, LEN_UNSET}, &unset_cmd, false, ANY_SIZE},
+	(t_cmd){(t_str){CODE_ENV, LEN_ENV}, &env_cmd, true, ANY_SIZE},
+	(t_cmd){(t_str){CODE_EXIT, LEN_EXIT}, &exit_cmd, true, ANY_SIZE}
 };
 
 /* ************************************************************************** */
@@ -194,13 +197,12 @@ int		parse_dollar(t_line *line_handle, t_tmp_parsed *tmp_parsed, t_parse_utils p
 #define TYPE_PIPE				2
 #define TYPE_INPUT1				3
 #define TYPE_OUTPUT1			4
-#define TYPE_BACK_SLASH			5
-#define TYPE_DOUBLE_QUOTE		6
-#define TYPE_QUOTE				7
-#define TYPE_DOLLAR				8
-#define TYPE_CMD				9
-#define MAX_PARSER				9
-#define START_AUTHORISED_W1A	5
+// #define TYPE_BACK_SLASH			5
+#define TYPE_DOUBLE_QUOTE		5
+#define TYPE_QUOTE				6
+#define TYPE_DOLLAR				7
+#define TYPE_CMD				8
+#define MAX_PARSER				8
 
 static const t_parser g_parser_dictionary[MAX_PARSER] = {
 	(t_parser){(t_str){"<<", 2}, &parse_type_without_arg},
@@ -208,7 +210,7 @@ static const t_parser g_parser_dictionary[MAX_PARSER] = {
 	(t_parser){(t_str){"|", 1}, &parse_type_without_arg},
 	(t_parser){(t_str){"<", 1}, &parse_type_w1a_only},
 	(t_parser){(t_str){">", 1}, &parse_type_w1a_only},
-	(t_parser){(t_str){"\\", 1}, &parse_back_slash_outside_quotes},
+	// (t_parser){(t_str){"\\", 1}, &parse_back_slash_outside_quotes},
 	(t_parser){(t_str){"\"", 1}, &parse_double_quote},
 	(t_parser){(t_str){"\'", 1}, &parse_simple_quote},
 	(t_parser){(t_str){"$", 1}, &parse_dollar}
@@ -224,7 +226,7 @@ static const t_parser g_parser_dictionary_for_w1a[MAX_PARSER] = {
 	(t_parser){(t_str){"|", 1}, &cut_parsing},
 	(t_parser){(t_str){"<", 1}, &cut_parsing},
 	(t_parser){(t_str){">", 1}, &cut_parsing},
-	(t_parser){(t_str){"\\", 1}, &parse_back_slash_outside_quotes},
+	// (t_parser){(t_str){"\\", 1}, &parse_back_slash_outside_quotes},
 	(t_parser){(t_str){"\"", 1}, &parse_double_quote},
 	(t_parser){(t_str){"\'", 1}, &parse_simple_quote},
 	(t_parser){(t_str){"$", 1}, &parse_dollar}
@@ -236,7 +238,7 @@ static const t_parser g_parser_dictionary_for_doubles_quotes[MAX_PARSER] = {
 	(t_parser){(t_str){"|", 1}, &jump_parsing},
 	(t_parser){(t_str){"<", 1}, &jump_parsing},
 	(t_parser){(t_str){">", 1}, &jump_parsing},
-	(t_parser){(t_str){"\\", 1}, &parse_back_slash_inside_double_quotes},
+	// (t_parser){(t_str){"\\", 1}, &parse_back_slash_inside_double_quotes},
 	(t_parser){(t_str){"\"", 1}, &forbidden_parsing},
 	(t_parser){(t_str){"\'", 1}, &jump_parsing},
 	(t_parser){(t_str){"$", 1}, &parse_dollar}
