@@ -6,7 +6,7 @@
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 09:42:12 by saray             #+#    #+#             */
-/*   Updated: 2021/12/21 10:40:08 by scarboni         ###   ########.fr       */
+/*   Updated: 2021/12/21 11:12:50 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,10 @@ t_tmp_parsed *tmp_parsed, t_parse_utils p_utils)
 	end_var_name_abs = go_to_next_needed_i((*line_handle->line), &ft_isalnum, (*p_utils.i) + 1);
 	if (end_var_name_abs == (*p_utils.i) + 1 && (*line_handle->line)[end_var_name_abs] == '?')
 		end_var_name_abs++;
-	if (replace_in_str_one_var(p_utils.env, (t_line){line_handle->line, p_utils.i}, end_var_name_abs, ft_strlen(end_var_name_abs + (*line_handle->line))))
+	if (end_var_name_abs == ((*p_utils.i) + 1))
+		return (EXIT_SUCCESS);
+	if (replace_in_str_one_var(p_utils.env, (t_line){line_handle->line, p_utils.i},
+	end_var_name_abs - (*p_utils.i) - 1, ft_strlen(end_var_name_abs + (*line_handle->line))))
 		return (-EXIT_FAILURE);
 	(*p_utils.i)--;
 	return (EXIT_SUCCESS);
@@ -38,6 +41,8 @@ t_parse_utils p_utils)
 	end_var_name_abs = go_to_next_needed_i((*line_handle->line), &ft_isalnum, (*p_utils.i) + 1);
 	if (end_var_name_abs == (*p_utils.i) + 1 && (*line_handle->line)[end_var_name_abs] == '?')
 		end_var_name_abs++;
+	if (end_var_name_abs == ((*p_utils.i) + 1))
+		return (EXIT_SUCCESS);
 	if (replace_in_str_one_var(p_utils.env, (t_line){line_handle->line, p_utils.i},
 	end_var_name_abs - (*p_utils.i) - 1, ft_strlen(end_var_name_abs + (*line_handle->line))))
 		return (-EXIT_FAILURE);
