@@ -6,7 +6,7 @@
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 09:42:12 by saray             #+#    #+#             */
-/*   Updated: 2021/12/21 08:27:43 by scarboni         ###   ########.fr       */
+/*   Updated: 2021/12/21 09:26:12 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,16 +16,15 @@
 int		parse_dollar_for_double_quotes(t_line *line_handle,
 t_tmp_parsed *tmp_parsed, t_parse_utils p_utils)
 {
-	int	end_var_name;
+	int	end_var_name_abs;
 
 	(void)tmp_parsed;
-	end_var_name = go_to_next_needed_i((*line_handle->line), &ft_isalnum, (*p_utils.i) + 1);
-	if (end_var_name == (*p_utils.i) + 1 && (*line_handle->line)[end_var_name] == '?')
-		end_var_name++;
-	end_var_name = replace_in_str_between_min_i_and_max_i(p_utils.env, line_handle->line, *p_utils.i, end_var_name);
-	if (end_var_name == -EXIT_FAILURE)
+	end_var_name_abs = go_to_next_needed_i((*line_handle->line), &ft_isalnum, (*p_utils.i) + 1);
+	if (end_var_name_abs == (*p_utils.i) + 1 && (*line_handle->line)[end_var_name_abs] == '?')
+		end_var_name_abs++;
+	if (replace_in_str_one_var(p_utils.env, line_handle->line, &end_var_name_abs, p_utils.i, ft_strlen(end_var_name_abs + (*line_handle->line))))
 		return (-EXIT_FAILURE);
-	(*p_utils.i) = end_var_name;
+	(*p_utils.i)--;
 	return (EXIT_SUCCESS);
 }
 
@@ -33,16 +32,15 @@ t_tmp_parsed *tmp_parsed, t_parse_utils p_utils)
 int	parse_dollar(t_line *line_handle, t_tmp_parsed *tmp_parsed,
 t_parse_utils p_utils)
 {
-	int	end_var_name;
+	int	end_var_name_abs;
 
 	(void)tmp_parsed;
-	end_var_name = go_to_next_needed_i((*line_handle->line), &ft_isalnum, (*p_utils.i) + 1);
-	if (end_var_name == (*p_utils.i) + 1 && (*line_handle->line)[end_var_name] == '?')
-		end_var_name++;
-	end_var_name = replace_in_str_between_min_i_and_max_i(p_utils.env, line_handle->line, *p_utils.i, end_var_name);
-	if (end_var_name == -EXIT_FAILURE)
+	end_var_name_abs = go_to_next_needed_i((*line_handle->line), &ft_isalnum, (*p_utils.i) + 1);
+	if (end_var_name_abs == (*p_utils.i) + 1 && (*line_handle->line)[end_var_name_abs] == '?')
+		end_var_name_abs++;
+	if (replace_in_str_one_var(p_utils.env, line_handle->line, &end_var_name_abs, p_utils.i, ft_strlen(end_var_name_abs + (*line_handle->line))))
 		return (-EXIT_FAILURE);
-	(*p_utils.i) = end_var_name - 1;
+	(*p_utils.i)--;
 	return (EXIT_SUCCESS);
 }
 
