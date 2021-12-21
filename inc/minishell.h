@@ -183,6 +183,8 @@ int		parse_type_without_arg(t_line *line_handle, t_tmp_parsed *tmp_parsed, t_par
 int		parse_type_w1a_only(t_line *line_handle, t_tmp_parsed *tmp_parsed, t_parse_utils p_utils);
 int		parse_type(t_line *line_handle, t_tmp_parsed *tmp_parsed, t_parse_utils p_utils);
 int		parse_dollar(t_line *line_handle, t_tmp_parsed *tmp_parsed, t_parse_utils p_utils);
+int		parse_dollar_for_double_quotes(t_line *line_handle, t_tmp_parsed *tmp_parsed, t_parse_utils p_utils);
+
 
 #define DID_NOTHING				48
 #define PARSE_CUT				45
@@ -234,7 +236,7 @@ static const t_parser g_parser_dictionary_for_doubles_quotes[MAX_PARSER] = {
 	(t_parser){(t_str){">", 1}, &jump_parsing},
 	(t_parser){(t_str){"\"", 1}, &forbidden_parsing},
 	(t_parser){(t_str){"\'", 1}, &jump_parsing},
-	(t_parser){(t_str){"$", 1}, &parse_dollar}
+	(t_parser){(t_str){"$", 1}, &parse_dollar_for_double_quotes}
 };
 
 

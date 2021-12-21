@@ -6,13 +6,32 @@
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 09:42:12 by saray             #+#    #+#             */
-/*   Updated: 2021/12/20 15:29:49 by scarboni         ###   ########.fr       */
+/*   Updated: 2021/12/21 08:27:43 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-int	parse_dollar(t_line *line_handle, t_tmp_parsed *tmp_parsed, t_parse_utils p_utils)
+
+int		parse_dollar_for_double_quotes(t_line *line_handle,
+t_tmp_parsed *tmp_parsed, t_parse_utils p_utils)
+{
+	int	end_var_name;
+
+	(void)tmp_parsed;
+	end_var_name = go_to_next_needed_i((*line_handle->line), &ft_isalnum, (*p_utils.i) + 1);
+	if (end_var_name == (*p_utils.i) + 1 && (*line_handle->line)[end_var_name] == '?')
+		end_var_name++;
+	end_var_name = replace_in_str_between_min_i_and_max_i(p_utils.env, line_handle->line, *p_utils.i, end_var_name);
+	if (end_var_name == -EXIT_FAILURE)
+		return (-EXIT_FAILURE);
+	(*p_utils.i) = end_var_name;
+	return (EXIT_SUCCESS);
+}
+
+
+int	parse_dollar(t_line *line_handle, t_tmp_parsed *tmp_parsed,
+t_parse_utils p_utils)
 {
 	int	end_var_name;
 
