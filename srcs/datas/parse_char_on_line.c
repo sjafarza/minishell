@@ -6,7 +6,7 @@
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 09:42:12 by saray             #+#    #+#             */
-/*   Updated: 2021/12/21 11:12:50 by scarboni         ###   ########.fr       */
+/*   Updated: 2021/12/21 12:13:05 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ int		parse_dollar_for_double_quotes(t_line *line_handle,
 t_tmp_parsed *tmp_parsed, t_parse_utils p_utils)
 {
 	int	end_var_name_abs;
+	int	res;
 
 	(void)tmp_parsed;
 	end_var_name_abs = go_to_next_needed_i((*line_handle->line), &ft_isalnum, (*p_utils.i) + 1);
@@ -24,9 +25,10 @@ t_tmp_parsed *tmp_parsed, t_parse_utils p_utils)
 		end_var_name_abs++;
 	if (end_var_name_abs == ((*p_utils.i) + 1))
 		return (EXIT_SUCCESS);
-	if (replace_in_str_one_var(p_utils.env, (t_line){line_handle->line, p_utils.i},
-	end_var_name_abs - (*p_utils.i) - 1, ft_strlen(end_var_name_abs + (*line_handle->line))))
-		return (-EXIT_FAILURE);
+	res = replace_in_str_one_var_with_trim(p_utils.env, (t_line){line_handle->line, p_utils.i},
+		end_var_name_abs - (*p_utils.i) - 1, ft_strlen(end_var_name_abs + (*line_handle->line)));
+	if (res != EXIT_SUCCESS)
+		return (res);
 	(*p_utils.i)--;
 	return (EXIT_SUCCESS);
 }
@@ -36,6 +38,7 @@ int	parse_dollar(t_line *line_handle, t_tmp_parsed *tmp_parsed,
 t_parse_utils p_utils)
 {
 	int	end_var_name_abs;
+	int	res;
 
 	(void)tmp_parsed;
 	end_var_name_abs = go_to_next_needed_i((*line_handle->line), &ft_isalnum, (*p_utils.i) + 1);
@@ -43,9 +46,10 @@ t_parse_utils p_utils)
 		end_var_name_abs++;
 	if (end_var_name_abs == ((*p_utils.i) + 1))
 		return (EXIT_SUCCESS);
-	if (replace_in_str_one_var(p_utils.env, (t_line){line_handle->line, p_utils.i},
-	end_var_name_abs - (*p_utils.i) - 1, ft_strlen(end_var_name_abs + (*line_handle->line))))
-		return (-EXIT_FAILURE);
+	res = replace_in_str_one_var_with_trim(p_utils.env, (t_line){line_handle->line, p_utils.i},
+		end_var_name_abs - (*p_utils.i) - 1, ft_strlen(end_var_name_abs + (*line_handle->line)));
+	if (res != EXIT_SUCCESS)
+		return (res);
 	(*p_utils.i)--;
 	return (EXIT_SUCCESS);
 }

@@ -261,6 +261,7 @@ int			init_t_str(t_str *obj, char* s);
 char		*make_value(char *value);
 int 		find_in_env(t_env *env, char *var);
 int			replace_in_str_one_var(t_env *env, t_line line_handler, int max_i, int size_after_max_i);
+int			replace_in_str_one_var_with_trim(t_env *env, t_line line_handler, int max_i, int size_after_max_i);
 int			extract_parsed_groups(t_env *env, char **line);
 int			is_not_valid(int c);
 int			is_valid(int c);
