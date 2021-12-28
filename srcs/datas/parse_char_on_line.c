@@ -6,7 +6,7 @@
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 09:42:12 by saray             #+#    #+#             */
-/*   Updated: 2021/12/21 12:13:05 by scarboni         ###   ########.fr       */
+/*   Updated: 2021/12/28 15:12:01 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ t_tmp_parsed *tmp_parsed, t_parse_utils p_utils)
 		end_var_name_abs++;
 	if (end_var_name_abs == ((*p_utils.i) + 1))
 		return (EXIT_SUCCESS);
-	res = replace_in_str_one_var_with_trim(p_utils.env, (t_line){line_handle->line, p_utils.i},
+	res = replace_in_str_one_var(p_utils.env, (t_line){line_handle->line, p_utils.i},
 		end_var_name_abs - (*p_utils.i) - 1, ft_strlen(end_var_name_abs + (*line_handle->line)));
 	if (res != EXIT_SUCCESS)
 		return (res);

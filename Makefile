@@ -6,7 +6,7 @@
 #    By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/09/28 22:36:55 by saray             #+#    #+#              #
-#    Updated: 2021/12/14 18:03:30 by scarboni         ###   ########.fr        #
+#    Updated: 2021/12/28 11:37:59 by scarboni         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -76,6 +76,7 @@ DATAS 	 = 	add_env_var.c \
 			parse_char_on_line.c \
 			parse_line.c \
 			print_vars.c \
+			replace_in_str_with_trim.c \
 			replace_in_str.c
 
 SRC_FILES	+=	$(addprefix $(DATAS_PATH), $(DATAS))

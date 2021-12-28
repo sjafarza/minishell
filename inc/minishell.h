@@ -90,6 +90,8 @@ typedef struct s_env {
 #define ID_ENV			7
 #define ID_EXIT			8
 
+#define BLANK_CHARS		" \t\v\f\r"
+
 #define CODE_ECHO		"echo"
 #define LEN_ECHO		4
 #define CODE_CD			"cd"
