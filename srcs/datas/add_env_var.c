@@ -6,7 +6,7 @@
 /*   By: saray <saray.jafarzade@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/10 09:59:06 by saray             #+#    #+#             */
-/*   Updated: 2021/12/11 00:37:55 by saray            ###   ########.fr       */
+/*   Updated: 2021/12/29 12:55:22 by saray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,9 +95,13 @@ int	ft_add(t_env *env, char	*var)
 		//free(env->PATH);
 		//env->PATH = fft_strdup(tmp[1]);
 	}
-	free(env->env_vars);
+	clean_env_vars(env);
 	env->env_vars = tmp_env_vars;
 	env->env_vars_max += 1;
+	free(name);
+	name = NULL;
+	free(value);
+	value = NULL;
 	return (EXIT_SUCCESS);	
 }
 

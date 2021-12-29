@@ -6,7 +6,7 @@
 /*   By: sjafarza <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/06 10:14:02 by sjafarza          #+#    #+#             */
-/*   Updated: 2021/12/07 13:22:44 by sjafarza         ###   ########.fr       */
+/*   Updated: 2021/12/29 12:53:46 by saray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ int	init_str(t_str *obj, char *s)
 	obj->len = ft_strlen(s);
 	return (EXIT_SUCCESS);
 }
+
 int	fill_tmp(t_env *env, t_env_var *tmp, char *var_name, int max)
 {
 	int	j;
@@ -66,7 +67,7 @@ int	del_env_var(t_env *env, char *var_name)
 		return (-EXIT_FAILURE);
 	if (fill_tmp(env, tmp_env_vars, var_name, tmp_env_vars_max) == -EXIT_FAILURE)
 		return (-EXIT_FAILURE);	
-	free(env->env_vars);
+	clean_env_vars(env);	
 	env->env_vars = tmp_env_vars;
 	env->env_vars_max -= 1;
 	return (EXIT_SUCCESS);

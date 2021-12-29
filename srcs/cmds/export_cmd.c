@@ -6,7 +6,7 @@
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/10 09:13:46 by saray             #+#    #+#             */
-/*   Updated: 2021/12/20 14:20:26 by scarboni         ###   ########.fr       */
+/*   Updated: 2021/12/29 12:24:49 by saray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,12 @@ int find_in_env(t_env *env, char *var)
 				//free(env->PATH);
 				//env->PATH = fft_strdup(tmp[1]);
 			}
+		free(name);
+		free(value);
 		return (EXIT_SUCCESS);
 	}
+	free(name);
+	free(value);
 	return (-EXIT_FAILURE);
 }
 
@@ -64,8 +68,6 @@ printf("HELLO IN THERE\n");
 				continue ;
 			add_env_var(env, (char *)args[i]);
 		}
-			printf("INJA\n");
 	}
-	printf("2INJA\n");
 	return (EXIT_SUCCESS);
 }
