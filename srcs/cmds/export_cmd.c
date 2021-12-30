@@ -6,7 +6,7 @@
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/10 09:13:46 by saray             #+#    #+#             */
-/*   Updated: 2021/12/29 12:24:49 by saray            ###   ########.fr       */
+/*   Updated: 2021/12/29 22:46:33 by saray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,18 +16,24 @@ int find_in_env(t_env *env, char *var)
 {
 	char	*name;
 	char	*value;
+	int		indx;
 
 	printf("var in FIND_IN_ENV = %s\n", var);
-	value = ft_substr(var, find_first_eq(var), ft_strlen(var) - find_first_eq(var));
+	indx = ft_strchr_index((const char *)var, '=');
+	printf("test of ft_strchr_index = %d\n", indx);
+	if (indx < 0)
+		return(-EXIT_FAILURE);
+	value = ft_substr(var, indx + 1, ft_strlen(var) - indx);
 	if (value == NULL)
 		value = "";
-	printf("value  for SHLVL=  %s\n", value);	
-	name = ft_substr(var, 0, find_first_eq(var) - 1);
+	name = ft_substr(var, 0, indx);
 	if (name == NULL)
 		return(-EXIT_FAILURE);	
-	if (ft_strlen(name) == 5 && (ft_strncmp(name, "SHLVL",5) == 0))	
+/*	if (ft_strlen(name) == 5 && (ft_strncmp(name, "SHLVL",5) == 0))	
 		value = make_value(value);	
-	printf(" CORECTION OF value  for SHLVL=  %s\n", value);	
+	printf(" CORECTION OF value  for SHLVL=  %s\n", value);*/
+	printf("name = %s\n", name);
+	printf("value = %s\n", value);
 	if (find_and_update_env_var(env, name, value) == EXIT_SUCCESS)
 	{
 		if ((ft_strlen(name) == 4) && (ft_strncmp(name, "PATH",4) == 0))
@@ -36,12 +42,17 @@ int find_in_env(t_env *env, char *var)
 				//free(env->PATH);
 				//env->PATH = fft_strdup(tmp[1]);
 			}
-		free(name);
-		free(value);
+		/*if (name)
+			free(name);
+		if (value)
+			free(value);*/
+		print_vars(env);	
 		return (EXIT_SUCCESS);
 	}
-	free(name);
-	free(value);
+	/*if (name)
+		free(name);
+	if (value)
+		free(value);*/	
 	return (-EXIT_FAILURE);
 }
 
