@@ -61,10 +61,12 @@ int	del_env_var(t_env *env, char *var_name)
 		return (-EXIT_FAILURE);
 	if(!find_env_vars(env, var_name))
 		return (EXIT_SUCCESS);
-	tmp_env_vars_max = env->env_vars_max - 1;		
+	tmp_env_vars_max = env->env_vars_max;		
 	tmp_env_vars = (t_env_var *)malloc(sizeof(t_env_var) * tmp_env_vars_max);
-	if (!env->env_vars)
+	if (!tmp_env_vars)
 		return (-EXIT_FAILURE);
+	/*if (!env->env_vars)
+		return (-EXIT_FAILURE);*/
 	if (fill_tmp(env, tmp_env_vars, var_name, tmp_env_vars_max) == -EXIT_FAILURE)
 		return (-EXIT_FAILURE);	
 	clean_env_vars(env);	

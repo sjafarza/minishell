@@ -16,6 +16,7 @@ int	main(int ac, char **av, char **env_bash)
 {
 	int		i;
 	char	*line;
+	char	**t_line;
 	char	**word;
 	t_env	env;
 
@@ -42,7 +43,16 @@ int	main(int ac, char **av, char **env_bash)
 	{
 		if (line && ft_isprint(line[0]) && !ft_is_blank(line[0]))
 			add_history(line);
-		// printf("LINE BEFORE [%s]\n", line);
+		//**** for export A=a;   or  export A="a;b";    or  export A=;	
+		 printf("LINE BEFORE [%s]\n", line);
+		 t_line = ft_split(line, ';');
+		 free(line);
+		 line = ft_strdup(t_line[0]);
+		 int i = -1;
+		 while(t_line[++i])
+		 	free(t_line[i]);
+		free(t_line);
+		//************************************* 
 		// replace_in_str(&env, &line);
 		// printf("LINE AFTER [%s]\n", line);
 		// word = ft_split(line , ' ');

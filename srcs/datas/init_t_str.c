@@ -17,6 +17,7 @@ int	init_t_str(t_str *obj, char* s)
 	if (!obj || !s)
 		return (-EXIT_FAILURE);
 	obj->str = s;
+
 	obj->len = ft_strlen(s);
 	return (EXIT_SUCCESS);
 }

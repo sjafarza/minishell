@@ -12,7 +12,7 @@
 
 #include "../../inc/minishell.h"
 
-int	find_first_eq(char	*s)
+/*int	find_first_eq(char	*s)
 {
 	int	i;
 
@@ -23,7 +23,7 @@ int	find_first_eq(char	*s)
 		if(s[i] == '=')
 			return (++i);
 	return (0);
-}
+}*/
 
 char	*make_value(char *value)
 {
@@ -70,15 +70,22 @@ int	ft_add(t_env *env, char	*var)
 	t_env_var	*tmp_env_vars;
 	int			tmp_env_vars_max;
 	int		m;
+	int		indx;
 
-	name = ft_substr(var, 0, find_first_eq(var) - 1);
+	//name = ft_substr(var, 0, find_first_eq(var) - 1);
+	indx = ft_strchr_index((const char *)var, '=');
+	if (indx < 0)
+		return(-EXIT_FAILURE);
+	name = ft_substr(var, 0, indx);
+	printf(" in ft_add  name = %s\n", name);
 	if (name == NULL)
-		return(-EXIT_FAILURE);		
-	value = ft_substr(var, find_first_eq(var), ft_strlen(var) - find_first_eq(var));
+		return(-EXIT_FAILURE);
+	value = ft_substr(var, indx + 1, ft_strlen(var) - indx);
 	if (value == NULL)
-		value = "";	
-	if (ft_strlen(name) == 5 && (ft_strncmp(name, "SHLVL",5) == 0))	
-		value = make_value(value);
+		value = "";			
+	//value = ft_substr(var, find_first_eq(var), ft_strlen(var) - find_first_eq(var));
+	/*if (ft_strlen(name) == 5 && (ft_strncmp(name, "SHLVL",5) == 0))	
+		value = make_value(value);*/
 	tmp_env_vars_max = env->env_vars_max + 1;
 	tmp_env_vars = (t_env_var *)malloc(sizeof(t_env_var) * tmp_env_vars_max);
 	if (!env->env_vars)
