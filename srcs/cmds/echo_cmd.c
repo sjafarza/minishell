@@ -33,7 +33,7 @@ int	echo_cmd(t_env *env, const char *cmd, const char **args)
 			printf(" ");
 		++i;
 	}
-	if (args[1] && !ft_strncmp(args[1], "-n", 2))
+	if (args[1] && !ft_strncmp(args[1], "-n", 2) && ft_strlen(args[1]) == 2)
 		return (EXIT_SUCCESS);
 	printf("\n");
 	return (EXIT_SUCCESS);
