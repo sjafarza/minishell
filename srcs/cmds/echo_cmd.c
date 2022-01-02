@@ -19,7 +19,10 @@ int	echo_cmd(t_env *env, const char *cmd, const char **args)
 	(void)cmd;
 	(void)env;
 	i = 1;
-	if (args[1] && !ft_strncmp(args[1], "-n", 2) && ft_strlen(args[1]) == 2)
+	//echo \-n hey && -\n hey
+	if (args[1] && ((!ft_strncmp(args[1], "-n", 2) && ft_strlen(args[1]) == 2) || \
+			((!ft_strncmp(args[1], "-\n", 3) || (!ft_strncmp(args[1], "\\-n", 3))) \
+				 && ft_strlen(args[1]) == 3)))
 	{
 		i++;
 		while (args[i] && !ft_strncmp(args[i], "-n", 2) \
@@ -33,7 +36,10 @@ int	echo_cmd(t_env *env, const char *cmd, const char **args)
 			printf(" ");
 		++i;
 	}
-	if (args[1] && !ft_strncmp(args[1], "-n", 2) && ft_strlen(args[1]) == 2)
+	//if (args[1] && !ft_strncmp(args[1], "-n", 2) && ft_strlen(args[1]) == 2)
+	if (args[1] && ((!ft_strncmp(args[1], "-n", 2) && ft_strlen(args[1]) == 2) || \
+			((!ft_strncmp(args[1], "-\n", 3) || (!ft_strncmp(args[1], "\\-n", 3))) \
+				 && ft_strlen(args[1]) == 3)))
 		return (EXIT_SUCCESS);
 	printf("\n");
 	return (EXIT_SUCCESS);
