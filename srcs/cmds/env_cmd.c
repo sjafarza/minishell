@@ -12,13 +12,11 @@
 
 #include "../../inc/minishell.h"
 
-int		env_cmd(t_env *env, const char *cmd, const char **args)
+int	env_cmd(t_env *env, const char *cmd, const char **args)
 {
 	(void)cmd;
 	(void)args;
 	(void)env;
-
 	print_vars(env);
-	
 	return (EXIT_SUCCESS);
 }

@@ -12,12 +12,11 @@
 
 #include "../../inc/minishell.h"
 
-int		pwd_cmd(t_env *env, const char *cmd, const char **args)
+int	pwd_cmd(t_env *env, const char *cmd, const char **args)
 {
 	(void)cmd;
 	(void)args;
 	(void)env;
-    printf("%s\n", env->cwd);
-    return (EXIT_SUCCESS);
+	printf("%s\n", env->cwd);
+	return (EXIT_SUCCESS);
 }
-

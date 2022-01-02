@@ -12,7 +12,7 @@
 
 #include "../../inc/minishell.h"
 
-int		unset_cmd(t_env *env, const char *cmd, const char **args)
+int	unset_cmd(t_env *env, const char *cmd, const char **args)
 {
 	int	i;
 	int	r;
@@ -25,12 +25,11 @@ int		unset_cmd(t_env *env, const char *cmd, const char **args)
 	i = 0;
 	while (args[++i])
 	{
-		//printf("** args[%d] = %s\n", i, args[i]);
 		if (ft_strchr_index(args[i], '=') != -EXIT_FAILURE)
-			printf("minishell: unset: ( %s ): not a valid identifier\n", args[i]);
+			printf("minshell: unset:( %s ): not valid identifier\n", args[i]);
 		r = del_env_var(env, (char *)args[i]);
 	}
-	if(!r)
+	if (!r)
 		return (-EXIT_FAILURE);
 	return (EXIT_SUCCESS);
 }

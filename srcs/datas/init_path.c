@@ -12,7 +12,7 @@
 
 #include "../../inc/minishell.h"
 
-int	init_path(t_env *env)
+int init_path(t_env *env)
 {
 	t_env_var	*var;
 

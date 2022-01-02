@@ -12,13 +12,14 @@
 
 #include "../../inc/minishell.h"
 
-int is_not_valid(int c)
+int	is_not_valid(int c)
 {
 	if (c && (ft_is_blank(c) || !ft_isprint(c)))
 		return true;
 	return false;
 }
-int is_valid(int c)
+
+int	is_valid(int c)
 {
 	if (c && !is_not_valid(c))
 		return true;

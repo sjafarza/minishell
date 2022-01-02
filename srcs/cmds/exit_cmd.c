@@ -12,9 +12,9 @@
 
 #include "../../inc/minishell.h"
 
-int		exit_cmd(t_env *env, const char *cmd, const char **args)
+int	exit_cmd(t_env *env, const char *cmd, const char **args)
 {
-    (void)cmd;
+	(void)cmd;
 	(void)args;
 	if (env->pipex_stack.total_item > 1)
 		return (EXIT_SUCCESS);

@@ -12,13 +12,13 @@
 
 #include "../../inc/minishell.h"
 
-int	find_and_update_env_var(t_env *env, char *var_name, char* new_value)
+int	find_and_update_env_var(t_env *env, char *var_name, char *new_value)
 {
 	t_env_var	*var;
-	
+
 	var = find_env_vars(env, var_name);
 	if (!var)
-		return (-EXIT_FAILURE);	
+		return (-EXIT_FAILURE);
 	if (var->value.str)
 		free(var->value.str);
 	return (init_t_str(&var->value, new_value));

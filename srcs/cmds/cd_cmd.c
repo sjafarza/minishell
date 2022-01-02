@@ -14,16 +14,15 @@
 #define CD_ERROR_NO_FOLDER_OR_FILE_FMT	"%s: cd: %s: Aucun fichier ou dossier\
  de ce type\n"
 
-int		cd_cmd(t_env *env, const char *cmd, const char **args)
+int	cd_cmd(t_env *env, const char *cmd, const char **args)
 {
 	int			args_len;
 	t_env_var	*var;
+
 	(void)cmd;
 	(void)args;
 	(void)env;
-
 	args_len = array_len(args);
-	printf("\nI am in cd_cmd %d\n", args_len);
 	if (args_len > 2)
 	{
 		printf("%s: cd: trop d'arguments\n", PROMPT_STR);

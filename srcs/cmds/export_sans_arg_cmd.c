@@ -23,7 +23,8 @@ int	export_sans_arg_cmd(t_env *env, const char *cmd, const char **args)
 	i = 0;
 	while (i < env->env_vars_max)
 	{
-		printf("declare -x %s=[%s]\n", env->env_vars[i].name.str, env->env_vars[i].value.str);
+		printf("declare -x %s=[%s]\n", env->env_vars[i].name.str, \
+			env->env_vars[i].value.str);
 		i++;
 	}
 	return (EXIT_SUCCESS);

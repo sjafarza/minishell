@@ -11,9 +11,9 @@
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
+#define MAX_COMPLETES_PATHS 3
 
-#define	MAX_COMPLETES_PATHS 3
-const static	t_str path_completes[MAX_COMPLETES_PATHS] = {
+const static t_str	path_completes[MAX_COMPLETES_PATHS] = {
 	(t_str){"/", 1},
 	(t_str){"./", 2},
 	(t_str){"../", 3},
@@ -33,7 +33,6 @@ int	is_path_absolute_or_relative(const char *cmd)
 	}
 	return (false);
 }
-
 
 char	*get_full_cmd_from_path_int(char *cmd_end_path, char **possibles_paths)
 {
@@ -82,9 +81,9 @@ char	*get_full_cmd(t_env *env, const char *cmd)
 #define COMMAND_NOT_FOUND_CODE 1
 #define EXEC_ERROR_CODE 127
 
-int		bash_cmd(t_env *env, const char *cmd, const char **args)
+int	bash_cmd(t_env *env, const char *cmd, const char **args)
 {
-	char *full_cmd;
+	char	*full_cmd;
 	int		ret;
 
 	(void)args;

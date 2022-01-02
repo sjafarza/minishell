@@ -12,7 +12,7 @@
 
 #include "../../inc/minishell.h"
 
-int		mock_cmd(t_env *env, const char *cmd, const char **args)
+int	mock_cmd(t_env *env, const char *cmd, const char **args)
 {
 	(void)cmd;
 	(void)args;

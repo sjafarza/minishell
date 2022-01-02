@@ -21,7 +21,7 @@ t_env_var	*find_env_vars_t_str(t_env *env, t_str var)
 		return (NULL);
 	while (i < env->env_vars_max)
 	{
-		if (env->env_vars[i].name.len == var.len &&
+		if (env->env_vars[i].name.len == var.len && \
 				ft_strncmp(env->env_vars[i].name.str, var.str, var.len) == 0)
 			return (&env->env_vars[i]);
 		i++;
@@ -29,7 +29,7 @@ t_env_var	*find_env_vars_t_str(t_env *env, t_str var)
 	return (NULL);
 }
 
-t_env_var	*find_env_vars(t_env *env, char* var_name)
+t_env_var	*find_env_vars(t_env *env, char *var_name)
 {
 	if (!var_name)
 		return (NULL);
