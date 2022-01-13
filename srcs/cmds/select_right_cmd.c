@@ -17,6 +17,7 @@ int	select_right_cmd(const char *cmd, const char **args)
 	int	i;
 	int	len_cmd;
 
+	signal(SIGINT, ft_sig_ctr_c);
 	if (!cmd)
 		return (-EXIT_FAILURE);
 	len_cmd = ft_strlen(cmd);

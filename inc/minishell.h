@@ -13,6 +13,8 @@
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
+
+
 # include <stdlib.h>
 # include <unistd.h>
 # include <stdio.h>
@@ -31,6 +33,9 @@
 #define PATH_LEN 4
 #define PROMPT_STR "mshell"
 #define EXIT_MINISHELL 42
+
+pid_t	g_sig_pid;
+int		g_status;
 
 
 /* ************************************************************************** */
@@ -308,5 +313,8 @@ int	ft_strchr_index_until_i(const char *s, int c, int i_max);
 /* ************************************************************************** */
 
 void	ft_sig_handler(int sig);
+void	ft_sig_ctr_c(int sig);
+
+void	handel_ctr_c();
 
 #endif

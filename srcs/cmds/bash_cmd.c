@@ -87,6 +87,7 @@ int	bash_cmd(t_env *env, const char *cmd, const char **args)
 	int		ret;
 
 	(void)args;
+	(void)g_sig_pid;
 	full_cmd = get_full_cmd(env, cmd);
 	if (!full_cmd)
 	{

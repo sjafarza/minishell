@@ -21,7 +21,6 @@ int	unset_cmd(t_env *env, const char *cmd, const char **args)
 	(void)env;
 	if (!args[1])
 		return (-EXIT_FAILURE);
-	printf("I am in unset_cmd\n");
 	i = 0;
 	while (args[++i])
 	{

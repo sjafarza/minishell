@@ -59,7 +59,7 @@ static pid_t	execute_pipex_stack_int(t_env *env, t_list_double *action)
 	last_pid = start_child_before_or_after(env, action->content);
 	if (!action->next)
 		return (last_pid);
-	print_vars(env);
+	//print_vars(env);
 	return (execute_pipex_stack_int(env, action->next));
 }
 
