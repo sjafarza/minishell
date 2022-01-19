@@ -6,7 +6,7 @@
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/22 18:54:29 by scarboni          #+#    #+#             */
-/*   Updated: 2022/01/19 15:21:51 by scarboni         ###   ########.fr       */
+/*   Updated: 2022/01/19 16:04:25 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ static void	free_cell_pipex(void *v_cell)
 	cell = (t_cell_pipex*)v_cell;
 	if (cell->args)
 		free_array(cell->args);
+	clear_io_stack(&(cell->io_stack));
 	free(cell);
 }
 
