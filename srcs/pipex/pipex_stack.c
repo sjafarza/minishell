@@ -6,7 +6,7 @@
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/22 18:54:29 by scarboni          #+#    #+#             */
-/*   Updated: 2021/12/14 18:26:34 by scarboni         ###   ########.fr       */
+/*   Updated: 2022/01/19 15:21:51 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,19 +29,31 @@ void	clear_pipex_stack(t_env *env)
 	env->pipex_stack.tail = NULL;
 }
 
-int	add_back_pipex_stack(t_env *env, char **args)
+int	add_back_pipex_stack(t_env *env, char **args, t_stack io_stack)
 {
 	t_cell_pipex	*content;
 
-	if (!args || !args[0])
+	if (!args || !args[0] || io_stack.total_item == -1)
 		return (-EXIT_FAILURE);
 	content = (t_cell_pipex *)malloc(sizeof(t_cell_pipex));
 	if (!content)
 		return (-EXIT_FAILURE);
 	content->args = args;
+	content->child_pid = 0;
+	content->io_stack = io_stack;
+	if (pipe(content->pipe_to_next) == -EXIT_FAILURE)
+	{
+		free(content);
+		return (-EXIT_FAILURE);
+	}
 	env->pipex_stack.tail = ft_lstdbnew(content);
 	if (!env->pipex_stack.tail)
+	{
+		close(content->pipe_to_next[ID_CURRENT_NODE_SIDE]);
+		close(content->pipe_to_next[ID_NEXT_NODE_SIDE]);
+		free(content);
 		return (-EXIT_FAILURE);
+	}
 	ft_lstdbadd_back(&env->pipex_stack.head, env->pipex_stack.tail);
 	env->pipex_stack.total_item++;
 	return (EXIT_SUCCESS);

@@ -13,8 +13,6 @@
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-
-
 # include <stdlib.h>
 # include <unistd.h>
 # include <stdio.h>
@@ -24,6 +22,7 @@
 # include <sys/wait.h>
 # include <sys/stat.h>
 # include <sys/types.h>
+# include <fcntl.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 # include "./lib.h"
@@ -36,7 +35,6 @@
 
 pid_t	g_sig_pid;
 int		g_status;
-
 
 /* ************************************************************************** */
 /* 									ENV					    				  */
@@ -57,10 +55,10 @@ typedef struct s_cell_parsed_group{
 	int		type;
 } t_cell_parsed_group;
 
-typedef struct s_cell_pipex
-{
-	char	**args;
-}	t_cell_pipex;
+typedef struct s_cell_io{
+	char	*arg;
+	int		type;
+} t_cell_io;
 
 typedef struct s_stack
 {
@@ -68,6 +66,14 @@ typedef struct s_stack
 	t_list_double	*tail;
 	int				total_item;
 }	t_stack;
+
+typedef struct s_cell_pipex
+{
+	char	**args;
+	t_stack	io_stack;
+	int		pipe_to_next[2];
+	pid_t	child_pid;
+}	t_cell_pipex;
 
 
 typedef struct s_env {
@@ -210,7 +216,7 @@ int		parse_dollar_for_double_quotes(t_line *line_handle, t_tmp_parsed *tmp_parse
 #define MAX_PARSER				8
 
 static const t_parser g_parser_dictionary[MAX_PARSER] = {
-	(t_parser){(t_str){"<<", 2}, &parse_type_without_arg},
+	(t_parser){(t_str){"<<", 2}, &parse_type_w1a_only},
 	(t_parser){(t_str){">>", 2}, &parse_type_w1a_only},
 	(t_parser){(t_str){"|", 1}, &parse_type_without_arg},
 	(t_parser){(t_str){"<", 1}, &parse_type_w1a_only},
@@ -283,11 +289,43 @@ int			is_sequence_equal_to_parser_code(int type_code, char *seq)
 ;
 
 /* ************************************************************************** */
+/* 									IO  									  */
+/* ************************************************************************** */
+
+# define MAX_IO_TYPES 4
+
+typedef struct s_io_opener{
+	int		type;
+	int		(*fun)(t_list_double *pipex_node, t_cell_io *io_cell);	
+} t_io_opener;
+
+
+void	clear_io_stack(t_stack *io_stack);
+int		add_back_io_stack(t_stack *io_stack, char *arg, int type);
+void	print_io_stack(t_stack *io_stack);
+
+int		execute_io_stack(t_env *env, t_list_double *pipex_node, t_stack *io_stack);
+
+int		open_input_simple(t_list_double *pipex_node, t_cell_io *io_cell);
+int		open_input_double(t_list_double *pipex_node, t_cell_io *io_cell);
+int		open_output_simple(t_list_double *pipex_node, t_cell_io *io_cell);
+int		open_output_double(t_list_double *pipex_node, t_cell_io *io_cell);
+static const t_io_opener g_io_opener_dictionary[MAX_IO_TYPES] = {
+	(t_io_opener){TYPE_INPUT1, &open_input_simple},
+	(t_io_opener){TYPE_INPUT2, &open_input_double},
+	(t_io_opener){TYPE_OUTPUT1, &open_output_simple},
+	(t_io_opener){TYPE_OUTPUT2, &open_output_double}
+};
+
+/* ************************************************************************** */
 /* 									PIPEX  									  */
 /* ************************************************************************** */
 
+# define ID_CURRENT_NODE_SIDE	0
+# define ID_NEXT_NODE_SIDE		1
+
 void	clear_pipex_stack(t_env *env);
-int		add_back_pipex_stack(t_env *env, char **args);
+int		add_back_pipex_stack(t_env *env, char **args, t_stack io_stack);
 void	print_pipex_stack(t_env *env);
 pid_t	execute_pipex_stack(t_env *env);
 

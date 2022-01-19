@@ -6,7 +6,7 @@
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/22 18:54:29 by scarboni          #+#    #+#             */
-/*   Updated: 2021/12/10 22:40:53 by scarboni         ###   ########.fr       */
+/*   Updated: 2022/01/19 15:13:05 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,10 @@ int	add_back_parsed_groups_stack(t_env *env, char **args, int type)
 	content->type = type;
 	env->parsed_groups_stack.tail = ft_lstdbnew(content);
 	if (!env->parsed_groups_stack.tail)
+	{
+		free(content);
 		return (-EXIT_FAILURE);
+	}
 	ft_lstdbadd_back(&env->parsed_groups_stack.head, env->parsed_groups_stack.tail);
 	env->parsed_groups_stack.total_item++;
 	return (EXIT_SUCCESS);

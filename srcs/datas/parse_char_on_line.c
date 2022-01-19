@@ -6,7 +6,7 @@
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 09:42:12 by saray             #+#    #+#             */
-/*   Updated: 2021/12/28 15:12:01 by scarboni         ###   ########.fr       */
+/*   Updated: 2022/01/19 11:26:19 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ t_tmp_parsed *tmp_parsed, t_parse_utils p_utils)
 	return (EXIT_SUCCESS);
 }
 
-
+//Mauvaise gestion des var dans ce cas là, a revoir 
 int	parse_dollar(t_line *line_handle, t_tmp_parsed *tmp_parsed,
 t_parse_utils p_utils)
 {

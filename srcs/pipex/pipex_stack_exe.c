@@ -6,7 +6,7 @@
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/22 18:54:29 by scarboni          #+#    #+#             */
-/*   Updated: 2021/12/20 14:07:01 by scarboni         ###   ########.fr       */
+/*   Updated: 2022/01/19 15:26:17 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,22 @@ int	start_child(t_env *env, t_cell_pipex *current_cell, int id_cmd)
 		return (-EXIT_FAILURE);
 	if (child_pid == 0)
 	{
+		// dup2(current_cell->pipe_to_next[ID_CURRENT_NODE_SIDE], STDOUT_FILENO);
+		// close(current_cell->pipe_to_next[ID_NEXT_NODE_SIDE]);
 		exit_value = g_cmd_dictionary[id_cmd].fun(env, current_cell->args[0], (const char**)current_cell->args);
 		free_t_env(env);
 		exit(exit_value);
 	}
+	// close(current_cell->pipe_to_next[ID_CURRENT_NODE_SIDE]);
+	current_cell->child_pid = child_pid;
 	return (child_pid);
 }
+
+
+	// dup2(pipex_cell->pipe_to_next[ID_CURRENT_NODE_SIDE], STDOUT_FILENO);
+	// close(pipex_cell->pipe_to_next[ID_NEXT_NODE_SIDE]);
+	// dup2(next->pipex_cell->pipe_to_next[ID_NEXT_NODE_SIDE], STDIN_FILENO);
+	// close(next->pipex_cell->pipe_to_next[ID_CURRENT_NODE_SIDE]);
 
 int	start_child_before_or_after(t_env *env, t_cell_pipex *current_cell)
 {
@@ -48,6 +58,7 @@ int	start_child_before_or_after(t_env *env, t_cell_pipex *current_cell)
 		free_t_env(env);
 		exit(exit_value);
 	}
+	current_cell->child_pid = child_pid;
 	return (child_pid);
 }
 

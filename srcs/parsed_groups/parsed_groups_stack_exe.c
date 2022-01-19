@@ -6,7 +6,7 @@
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/22 18:54:29 by scarboni          #+#    #+#             */
-/*   Updated: 2022/01/18 11:42:09 by scarboni         ###   ########.fr       */
+/*   Updated: 2022/01/19 15:44:13 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,6 +122,42 @@ t_list_double	*find_next_of_type(t_list_double *parsed_group, int type)
 
 }
 
+int	fill_io_until_pipe(t_list_double *parsed_group, t_stack	*io_stack)
+{
+	t_cell_parsed_group	*tmp_cell;
+
+	while (parsed_group)
+	{
+		tmp_cell = parsed_group->content;
+		if (tmp_cell->type == TYPE_PIPE)
+			break;
+		if (tmp_cell->type == TYPE_INPUT1 || tmp_cell->type == TYPE_INPUT2 
+		|| tmp_cell->type == TYPE_OUTPUT1 || tmp_cell->type == TYPE_OUTPUT2)
+		{
+			if (array_len((const char**)tmp_cell->args) != 1)
+				return (-EXIT_FAILURE);
+			add_back_io_stack(io_stack, tmp_cell->args[0], tmp_cell->type);
+			tmp_cell->args[0] = NULL;
+		}
+		parsed_group = parsed_group->next;
+	}
+	return (EXIT_SUCCESS);
+}
+
+t_stack	gather_io(t_list_double *parsed_group)
+{
+	t_stack	result;
+
+	result = (t_stack){0};
+	if (fill_io_until_pipe(parsed_group, &result) != EXIT_SUCCESS)
+	{
+		clear_io_stack(&result);
+		result = (t_stack){0};
+		result.total_item = -1;
+	}
+	return (result);
+}
+
 static int	execute_parsed_groups_stack_int(t_env *env, t_list_double *parsed_group)
 {
 	char			**args;
@@ -130,11 +166,10 @@ static int	execute_parsed_groups_stack_int(t_env *env, t_list_double *parsed_gro
 	if (!parsed_group)
 		return (EXIT_SUCCESS);
 	args = gather_splitted_args_for_cmd(parsed_group);
-	// if (type == TYPE_OUTPUT1)
-	// 	return ;
 	if (!args)
 		return (-EXIT_FAILURE);
-	add_back_pipex_stack(env, args);
+	if (add_back_pipex_stack(env, args, gather_io(parsed_group)) == -EXIT_FAILURE)
+		return (-EXIT_FAILURE);
 	next_pipe = find_next_of_type(parsed_group, TYPE_PIPE);
 	if (!next_pipe)
 		return (EXIT_SUCCESS);

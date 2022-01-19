@@ -6,7 +6,7 @@
 #    By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/09/28 22:36:55 by saray             #+#    #+#              #
-#    Updated: 2021/12/28 11:37:59 by scarboni         ###   ########.fr        #
+#    Updated: 2022/01/19 15:41:25 by scarboni         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,6 +28,7 @@ HEADER 		= ./inc/minishell.h ./inc/lib.h
 MINILIB_PATH		= lib/
 CMDS_PATH			= cmds/
 DATAS_PATH			= datas/
+IO_PATH				= io/
 PARSED_GROUPS_PATH	= parsed_groups/
 PIPEX_PATH			= pipex/
 SRC_PATH			= ./srcs/
@@ -86,6 +87,12 @@ PIPEX 	 = 	pipex_stack_exe.c \
 
 SRC_FILES	+=	$(addprefix $(PIPEX_PATH), $(PIPEX))
 
+IO 	 = 				io_openers.c \
+					io_stack_exe.c \
+					io_stack.c
+
+SRC_FILES	+=	$(addprefix $(IO_PATH), $(IO))
+
 PARSED_GROUPS 	 = 	parsed_groups_stack_exe.c \
 					parsed_groups_stack.c
 
@@ -94,7 +101,7 @@ SRC_FILES	+=	$(addprefix $(PARSED_GROUPS_PATH), $(PARSED_GROUPS))
 SRC			= 	$(addprefix $(SRC_PATH), $(SRC_FILES))
 OBJ 		= 	$(addprefix $(OBJ_PATH), $(SRC_FILES:c=o))
 
-OBJ_PATHS_INIT			=	$(addprefix $(OBJ_PATH), $(MINILIB_PATH) $(CMDS_PATH) $(DATAS_PATH) $(PIPEX_PATH) $(PARSED_GROUPS_PATH))
+OBJ_PATHS_INIT			=	$(addprefix $(OBJ_PATH), $(MINILIB_PATH) $(CMDS_PATH) $(DATAS_PATH) $(PIPEX_PATH) $(PARSED_GROUPS_PATH) $(IO_PATH))
 
 all: $(OBJ_PATHS_INIT) $(MAKE_LIBFT)  $(NAME)
 
