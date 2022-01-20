@@ -6,7 +6,7 @@
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 09:42:12 by saray             #+#    #+#             */
-/*   Updated: 2022/01/20 14:07:04 by scarboni         ###   ########.fr       */
+/*   Updated: 2022/01/20 15:03:30 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ t_tmp_parsed *tmp_parsed, t_parse_utils p_utils)
 	return (EXIT_SUCCESS);
 }
 
-//Mauvaise gestion des var dans ce cas là, a revoir 
+//A voir pour gerer les inners quotes...
 int	parse_dollar(t_line *line_handle, t_tmp_parsed *tmp_parsed,
 t_parse_utils p_utils)
 {
@@ -42,8 +42,7 @@ t_parse_utils p_utils)
 
 	p_utils_i_memo = *(p_utils.i);
 	res = parse_dollar_for_double_quotes(line_handle, tmp_parsed, p_utils);
-
-	
+	*(p_utils.do_not_parse_until) = *(p_utils.i);
 	*(p_utils.i) = go_to_next_needed_i(*(line_handle->line), &is_not_valid, p_utils_i_memo) - 1;
 	if (p_utils_i_memo == tmp_parsed->start)
 		tmp_parsed->start = (*(p_utils.i)) + 1;
@@ -78,7 +77,7 @@ int get_arg_for_w1a(t_line *line_handle, t_tmp_parsed *tmp_parsed, t_parse_utils
 	while ((*line_handle->line)[*p_utils.i] && is_valid((*line_handle->line)[*p_utils.i]))
 	{
 		parse_i = 0;
-		ret = check_parsing(g_parser_dictionary_for_w1a, *line_handle, tmp_parsed, (t_parse_utils){p_utils.env, p_utils.i, &parse_i});
+		ret = check_parsing(g_parser_dictionary_for_w1a, *line_handle, tmp_parsed, (t_parse_utils){p_utils.env, p_utils.i, &parse_i, p_utils.do_not_parse_until});
 		if (ret == PARSE_CUT)
 			break;
 		if (parse_i != DID_NOTHING)
@@ -175,7 +174,7 @@ int		parse_double_quote(t_line *line_handle, t_tmp_parsed *tmp_parsed, t_parse_u
 	while (first_quote < last_quote)
 	{
 		parse_i = 0;
-		ret = check_parsing(g_parser_dictionary_for_doubles_quotes, *line_handle, tmp_parsed, (t_parse_utils){p_utils.env, p_utils.i, &parse_i});
+		ret = check_parsing(g_parser_dictionary_for_doubles_quotes, *line_handle, tmp_parsed, (t_parse_utils){p_utils.env, p_utils.i, &parse_i, p_utils.do_not_parse_until});
 		if (parse_i != DID_NOTHING)
 		{
 			if ((*line_handle->line)[*p_utils.i] == *g_parser_dictionary[TYPE_DOUBLE_QUOTE].code.str)

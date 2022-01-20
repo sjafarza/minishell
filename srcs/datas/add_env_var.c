@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   add_env_var.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: saray <saray.jafarzade@gmail.com>          +#+  +:+       +#+        */
+/*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/10 09:59:06 by saray             #+#    #+#             */
-/*   Updated: 2021/12/29 12:55:22 by saray            ###   ########.fr       */
+/*   Updated: 2022/01/20 15:20:54 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	produce_name_value(char *var, char **name, char **value)
 	return (EXIT_SUCCESS);
 }
 
-int	ft_add(t_env *env, char	*var)
+static int	ft_add(t_env *env, char	*var)
 {
 	char		*value;
 	char		*name;
@@ -49,7 +49,7 @@ int	ft_add(t_env *env, char	*var)
 	 	 != EXIT_SUCCESS || init_str(&tmp_env_vars[tmp_env_vars_max - 1] \
 	 	.value, value) != EXIT_SUCCESS)
 		return (-EXIT_FAILURE);
-	if ((ft_strlen(name) == 4) && (ft_strncmp(name, "PATH", 4) == 0))
+	if ((ft_strlen(name) == 4) && (ft_strncmp(name, PATH_STR, PATH_LEN) == 0))
 		env->paths = ft_split(value, ':');
 	clean_env_vars(env);
 	env->env_vars = tmp_env_vars;
@@ -61,6 +61,5 @@ int	ft_add(t_env *env, char	*var)
 
 int	add_env_var(t_env *env, char *var)
 {
-	ft_add(env, var);
-	return (EXIT_SUCCESS);
+	return (ft_add(env, var));
 }

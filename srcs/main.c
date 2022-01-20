@@ -6,7 +6,7 @@
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/11 19:03:13 by saray             #+#    #+#             */
-/*   Updated: 2021/12/17 12:33:18 by scarboni         ###   ########.fr       */
+/*   Updated: 2022/01/20 17:55:07 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,11 +64,10 @@ int	main(int ac, char **av, char **env_bash)
 		signal(SIGINT, ft_sig_handler);
 		signal(SIGQUIT, ft_sig_ctr_backslash);
 		line = readline("mshell$ ");
-		}
+	}
 	printf("exit\n");
 	if (line)
 		free(line);
-	rl_clear_history();
 	free_t_env(&env);
 	return (1);
 }

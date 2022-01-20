@@ -6,7 +6,7 @@
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/22 18:54:29 by scarboni          #+#    #+#             */
-/*   Updated: 2021/12/17 09:41:16 by scarboni         ###   ########.fr       */
+/*   Updated: 2022/01/20 17:51:39 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 void	free_t_env(t_env *env)
 {
+	rl_clear_history();
 	clean_env_vars(env);
 	free_array(env->paths);
 	if (env->cwd)

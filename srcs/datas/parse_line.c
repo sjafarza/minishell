@@ -6,7 +6,7 @@
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 09:42:12 by saray             #+#    #+#             */
-/*   Updated: 2022/01/20 14:07:12 by scarboni         ###   ########.fr       */
+/*   Updated: 2022/01/20 15:02:17 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,12 +56,14 @@ int	extract_next_arg(t_env *env, t_line line_handle, t_tmp_parsed tmp_parsed)
 	int	i;
 	int	ret;
 	int	did_find_parsing;
+	int	do_not_parse_until;
 	int	parse_i;
 
 	ret = EXIT_SUCCESS;
 	did_find_parsing = false;
 	i = go_to_next_needed_i((*line_handle.line), &is_not_valid, tmp_parsed.start);
 	tmp_parsed.start = i;
+	do_not_parse_until = -1;
 	while ((*line_handle.line)[i])
 	{
 		if (is_not_valid((*line_handle.line)[i]))
@@ -79,7 +81,8 @@ int	extract_next_arg(t_env *env, t_line line_handle, t_tmp_parsed tmp_parsed)
 			return (EXIT_SUCCESS);
 		}
 		parse_i = 0;
-		ret = check_parsing(g_parser_dictionary, line_handle, &tmp_parsed, (t_parse_utils){env, &i, &parse_i});
+		if (do_not_parse_until <= i){
+		ret = check_parsing(g_parser_dictionary, line_handle, &tmp_parsed, (t_parse_utils){env, &i, &parse_i, &do_not_parse_until});
 		if (ret == ALREADY_FILLED)
 			return (EXIT_SUCCESS);
 		if (parse_i == TYPE_QUOTE || parse_i == TYPE_DOUBLE_QUOTE)
@@ -87,7 +90,7 @@ int	extract_next_arg(t_env *env, t_line line_handle, t_tmp_parsed tmp_parsed)
 		if (ret == PARSE_CUT)
 			break;
 		if (ret != EXIT_SUCCESS)
-			return (ret);
+			return (ret);}
 		i++;
 	}
 	return (init_array_once_ready(line_handle, tmp_parsed, i, did_find_parsing));

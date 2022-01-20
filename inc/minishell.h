@@ -32,6 +32,14 @@
 #define PATH_LEN 4
 #define PROMPT_STR "mshell"
 #define EXIT_MINISHELL 42
+#define PWD_STR "PWD"
+#define PWD_LEN 3
+#define OLDPWD_STR "OLDPWD"
+#define OLDPWD_LEN 6
+#define HOME_STR "HOME"
+#define HOME_LEN 4
+
+
 
 pid_t	g_sig_pid;
 int		g_status;
@@ -182,6 +190,7 @@ typedef struct s_parse_utils{
 	t_env	*env;
 	int		*i;
 	int		*parse_i;
+	int		*do_not_parse_until;
 } t_parse_utils ;
 
 typedef struct s_parser{
@@ -260,6 +269,7 @@ static const t_parser g_parser_dictionary_for_doubles_quotes[MAX_PARSER] = {
 #define INCOMPLETE_PATTERN -2
 
 void		clean_env_vars(t_env *env);
+int			update_env_var(t_env_var *var, char *new_value);
 int			find_and_update_env_var(t_env *env, char *var_name, char* new_value);
 t_env_var	*find_env_vars_t_str(t_env *env, t_str var);
 t_env_var	*find_env_vars(t_env *env, char* var_name);
