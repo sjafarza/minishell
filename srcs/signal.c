@@ -17,23 +17,39 @@
 void	ft_sig_ctr_c(int sig)
 {
 	(void)sig;
-	//write(STDOUT_FILENO, "\n", 1);
 	rl_replace_line("", 1);
+	g_status = 130;
+}
+
+void	ft_sig_ctr_backslash2(int sig)
+{
+	(void)sig;
+	g_status = 0;
+}
+
+
+void	ft_sig_ctr_backslash(int sig)
+{
+	(void)sig;
+	write (1, "\033[2D\033[0K", 8);
+	g_status = 0;
 }
 
 void	ft_sig_handler(int sig)
 {
 	if (sig == SIGQUIT)
+	{
+		//printf("ok\n");
 		write (1, "\033[2D\033[0K", 8);
-	
+		g_status = 0;
+	}
 	if (sig == SIGINT )
 	{
-	
 		rl_on_new_line();
 		write(STDOUT_FILENO, "\n", 1);
 		rl_replace_line("", 0);
 		rl_redisplay();
-		g_status = 1;
+		g_status = 130;
 	}
 }
 
