@@ -60,9 +60,11 @@ int	main(int ac, char **av, char **env_bash)
 		clear_parsed_groups_stack(&env);
 		clear_pipex_stack(&env);
 		if (env.exit_value == EXIT_MINISHELL)
-			break;
+			break;	
+		signal(SIGINT, ft_sig_handler);
+		signal(SIGQUIT, ft_sig_ctr_backslash);
 		line = readline("mshell$ ");
-	}
+		}
 	printf("exit\n");
 	if (line)
 		free(line);
