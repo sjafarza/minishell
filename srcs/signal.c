@@ -39,9 +39,9 @@ void	ft_sig_handler(int sig)
 {
 	if (sig == SIGQUIT)
 	{
-		//printf("ok\n");
+	
 		write (1, "\033[2D\033[0K", 8);
-		g_status = 0;
+		//g_status = 0;
 	}
 	if (sig == SIGINT )
 	{
