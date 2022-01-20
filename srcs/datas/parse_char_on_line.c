@@ -6,7 +6,7 @@
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 09:42:12 by saray             #+#    #+#             */
-/*   Updated: 2022/01/19 11:26:19 by scarboni         ###   ########.fr       */
+/*   Updated: 2022/01/20 13:25:57 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,20 +37,12 @@ t_tmp_parsed *tmp_parsed, t_parse_utils p_utils)
 int	parse_dollar(t_line *line_handle, t_tmp_parsed *tmp_parsed,
 t_parse_utils p_utils)
 {
-	int	end_var_name_abs;
+	int	p_utils_i_memo;
 	int	res;
 
-	(void)tmp_parsed;
-	end_var_name_abs = go_to_next_needed_i((*line_handle->line), &ft_isalnum, (*p_utils.i) + 1);
-	if (end_var_name_abs == (*p_utils.i) + 1 && (*line_handle->line)[end_var_name_abs] == '?')
-		end_var_name_abs++;
-	if (end_var_name_abs == ((*p_utils.i) + 1))
-		return (EXIT_SUCCESS);
-	res = replace_in_str_one_var_with_trim(p_utils.env, (t_line){line_handle->line, p_utils.i},
-		end_var_name_abs - (*p_utils.i) - 1, ft_strlen(end_var_name_abs + (*line_handle->line)));
-	if (res != EXIT_SUCCESS)
-		return (res);
-	(*p_utils.i)--;
+	p_utils_i_memo = *(p_utils.i);
+	res = parse_dollar_for_double_quotes(line_handle, tmp_parsed, p_utils);
+	*(p_utils.i) = p_utils_i_memo - 1;
 	return (EXIT_SUCCESS);
 }
 
@@ -173,8 +165,8 @@ int		parse_double_quote(t_line *line_handle, t_tmp_parsed *tmp_parsed, t_parse_u
 	first_quote = *p_utils.i;
 	ft_strlcpy((*line_handle->line) + first_quote, (*line_handle->line) + first_quote + 1, ft_strlen((*line_handle->line) + first_quote));
 	last_quote = ft_strchr_index((const char *)((*line_handle->line) + (*p_utils.i)), g_parser_dictionary[*p_utils.parse_i].code.str[0]);
-	if (last_quote <= EXIT_SUCCESS)
-		return (last_quote);
+	if (last_quote == -EXIT_FAILURE)
+		return (INCOMPLETE_PATTERN);
 	last_quote += (*p_utils.i);
 	while (first_quote < last_quote)
 	{
@@ -188,15 +180,15 @@ int		parse_double_quote(t_line *line_handle, t_tmp_parsed *tmp_parsed, t_parse_u
 				break;
 			}
 			last_quote = (*p_utils.i) + ft_strchr_index((const char *)((*line_handle->line) + (*p_utils.i)), g_parser_dictionary[*p_utils.parse_i].code.str[0]);
-			if (last_quote <= EXIT_SUCCESS)
-				return (last_quote);
+			if (last_quote == -EXIT_FAILURE)
+				return (INCOMPLETE_PATTERN);
 		}
 		else if (ret != EXIT_SUCCESS)
 			return (ret);
 		(*p_utils.i)++;
 	}
 	ft_strlcpy((*line_handle->line) + last_quote, (*line_handle->line) + last_quote + 1, ft_strlen((*line_handle->line) + last_quote));
-	(*p_utils.i) = last_quote;
+	(*p_utils.i) = last_quote - 1;
 	return (EXIT_SUCCESS);
 }
 
