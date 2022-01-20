@@ -6,7 +6,7 @@
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 09:42:12 by saray             #+#    #+#             */
-/*   Updated: 2022/01/20 11:21:37 by scarboni         ###   ########.fr       */
+/*   Updated: 2022/01/20 14:07:12 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ int	init_array_once_ready(t_line line_handle, t_tmp_parsed tmp_parsed, int i, in
 {
 	if (((tmp_parsed.start == i && tmp_parsed.ac == 0) || *tmp_parsed.arg) && !did_find_parsing)
 		return (EXIT_SUCCESS);
-	printf("STATE BEFORE %d:%d:%d:%p:%d\n", tmp_parsed.start, i ,tmp_parsed.ac, (void*)*tmp_parsed.arg, did_find_parsing);
 	if (tmp_parsed.start == i && !did_find_parsing)
 		*tmp_parsed.arg = malloc(sizeof(char *) * (tmp_parsed.ac + 1));
 	else
@@ -40,12 +39,12 @@ int	init_array_once_ready(t_line line_handle, t_tmp_parsed tmp_parsed, int i, in
 	return (EXIT_SUCCESS);
 }
 
-int	check_parsing(const t_parser dictionnary[MAX_PARSER], t_line line_handle, t_tmp_parsed tmp_parsed, t_parse_utils p_utils)
+int	check_parsing(const t_parser dictionnary[MAX_PARSER], t_line line_handle, t_tmp_parsed *tmp_parsed, t_parse_utils p_utils)
 {
 	while ((*p_utils.parse_i) < MAX_PARSER)
 	{
 		if (is_sequence_equal_to_parser_code(*p_utils.parse_i, (*line_handle.line) + (*p_utils.i)))
-			return (dictionnary[*p_utils.parse_i].fun(&line_handle, &tmp_parsed, p_utils));
+			return (dictionnary[*p_utils.parse_i].fun(&line_handle, tmp_parsed, p_utils));
 		(*p_utils.parse_i)++;
 	}
 	*p_utils.parse_i = -DID_NOTHING;
@@ -80,7 +79,7 @@ int	extract_next_arg(t_env *env, t_line line_handle, t_tmp_parsed tmp_parsed)
 			return (EXIT_SUCCESS);
 		}
 		parse_i = 0;
-		ret = check_parsing(g_parser_dictionary, line_handle, tmp_parsed, (t_parse_utils){env, &i, &parse_i});
+		ret = check_parsing(g_parser_dictionary, line_handle, &tmp_parsed, (t_parse_utils){env, &i, &parse_i});
 		if (ret == ALREADY_FILLED)
 			return (EXIT_SUCCESS);
 		if (parse_i == TYPE_QUOTE || parse_i == TYPE_DOUBLE_QUOTE)
