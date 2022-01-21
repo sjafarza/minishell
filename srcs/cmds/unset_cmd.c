@@ -6,7 +6,7 @@
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/04 16:12:52 by sjafarza          #+#    #+#             */
-/*   Updated: 2022/01/21 22:24:28 by scarboni         ###   ########.fr       */
+/*   Updated: 2022/01/21 22:35:13 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,14 @@ int	unset_cmd(t_env *env, const char *cmd, const char **args)
 		}
 		if (error)
 			continue;
+		if ((ft_strlen(args[i]) == PATH_LEN) && (ft_strncmp(args[i], PATH_STR, PATH_LEN) == 0))
+		{
+			if (env->paths)
+				free_array(env->paths);
+			env->paths = ft_split("", ':');
+			if (!env->paths)
+				return (-EXIT_FAILURE);
+		}
 		r = del_env_var(env, (char *)args[i]);
 		if (!r)
 			return (-EXIT_FAILURE);
