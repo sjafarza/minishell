@@ -19,11 +19,13 @@ int	init_str(t_str *obj, char *s)
 	if (!s)
 		s = " ";
 	obj->str = ft_strdup(s);
+	if (!(obj->str))
+		return (-EXIT_FAILURE);
 	obj->len = ft_strlen(s);
 	return (EXIT_SUCCESS);
 }
 
-int	fill_tmp(t_env *env, t_env_var *tmp, char *var_name, int max)
+int	fill_tmp_env_vars_array(t_env *env, t_env_var *tmp, char *var_name, int max)
 {
 	int	j;
 	int	i;
@@ -65,8 +67,11 @@ int	del_env_var(t_env *env, char *var_name)
 	tmp_env_vars = (t_env_var *)malloc(sizeof(t_env_var) * tmp_env_v_max);
 	if (!tmp_env_vars)
 		return (-EXIT_FAILURE);
-	if (fill_tmp(env, tmp_env_vars, var_name, tmp_env_v_max) == -EXIT_FAILURE)
+	if (fill_tmp_env_vars_array(env, tmp_env_vars, var_name, tmp_env_v_max) == -EXIT_FAILURE)
+	{
+		free(tmp_env_vars);
 		return (-EXIT_FAILURE);
+	}
 	clean_env_vars(env);
 	env->env_vars = tmp_env_vars;
 	env->env_vars_max -= 1;

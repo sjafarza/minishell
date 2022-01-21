@@ -39,12 +39,18 @@ int	add_new_env_by_value_name(t_env *env, char *name, char *value)
 	tmp_env_vars = (t_env_var *)malloc(sizeof(t_env_var) * tmp_env_vars_max);
 	if (!env->env_vars)
 		return (-EXIT_FAILURE);
-	if (fill_tmp(env, tmp_env_vars, name, tmp_env_vars_max) == -EXIT_FAILURE)
+	if (fill_tmp_env_vars_array(env, tmp_env_vars, name, tmp_env_vars_max) == -EXIT_FAILURE) /*fill_tmp_env_vars_array */
+	{
+		free(tmp_env_vars);
 		return (-EXIT_FAILURE);
+	}
 	if (init_str(&tmp_env_vars[tmp_env_vars_max - 1].name, name) \
 	 	 != EXIT_SUCCESS || init_str(&tmp_env_vars[tmp_env_vars_max - 1] \
 	 	.value, value) != EXIT_SUCCESS)
-		return (-EXIT_FAILURE);
+		 {
+			 free(tmp_env_vars);
+			 return (-EXIT_FAILURE);
+		 }
 	if ((ft_strlen(name) == 4) && (ft_strncmp(name, PATH_STR, PATH_LEN) == 0))
 		env->paths = ft_split(value, ':');
 	clean_env_vars(env);
@@ -62,6 +68,14 @@ static int	ft_add(t_env *env, char	*var)
 
 	if (produce_name_value(var, &name, &value) == -EXIT_FAILURE)
 		return (-EXIT_FAILURE);
+	if (ft_strchr_index(name,'?') != -EXIT_FAILURE )
+		{
+			if (ft_strchr_index(value,'?') != -EXIT_FAILURE)
+				printf("minshell:export:(%s=%s): not valid identifier\n", name, value);
+			else
+				printf("minshell:export:(%s): not valid identifier\n", name);
+				return (-EXIT_FAILURE);
+		}	
 	//*****************************************	
 	if(add_new_env_by_value_name(env, name, value) == -EXIT_FAILURE)
 		return (-EXIT_FAILURE);

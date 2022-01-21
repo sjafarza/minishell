@@ -48,17 +48,20 @@ int	export_cmd(t_env *env, const char *cmd, const char **args)
 	(void)cmd;
 	(void)env;
 	i = -1;
+	printf("start export env\n");
 	while (args[++i])
 	{
+		printf(" ckek args[%d]= %s\n", i, args[i]);
 		if (ft_strchr_index(args[i], '=') != -EXIT_FAILURE)
 		{
-			if (args[i][0] == '=')
+			if (args[i][0] == '=' || args[i][0] == ' ' || args[i][0] == '?')
 			{		
 				printf("minshell:export:(%s): not valid identifier\n", args[i]);
 				return (-EXIT_FAILURE);
 			}
 			if (find_in_env(env, (char *)args[i]) == EXIT_SUCCESS)
 				continue ;
+			printf("not find in list env\n");	
 			add_env_var(env, (char *)args[i]);
 		}
 	}

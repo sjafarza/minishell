@@ -291,7 +291,7 @@ int			is_valid(int c);
 int			go_to_next_needed_i(char *line, int(*keep_going)(int), int i);
 int			del_env_var(t_env   *env, char  *var_name);
 int			find_first_eq(char	*s);
-int			fill_tmp(t_env *env, t_env_var *tmp, char *var_name, int i);
+int			fill_tmp_env_vars_array(t_env *env, t_env_var *tmp, char *var_name, int i);
 int			init_str(t_str *obj, char *s);
 int			add_env_var(t_env *env, char *var);
 int			check_parsing(const t_parser dictionnary[MAX_PARSER], t_line line_handle, t_tmp_parsed *tmp_parsed, t_parse_utils p_utils);
