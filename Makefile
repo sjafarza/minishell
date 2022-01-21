@@ -6,7 +6,7 @@
 #    By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/09/28 22:36:55 by saray             #+#    #+#              #
-#    Updated: 2022/01/19 15:41:25 by scarboni         ###   ########.fr        #
+#    Updated: 2022/01/21 22:22:36 by scarboni         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -69,7 +69,9 @@ DATAS 	 = 	add_env_var.c \
 			array_len.c \
 			free_array.c \
 			free_t_env.c \
+			ft_is_valid_for_env_var_name.c \
 			init_cwd.c \
+			init_empty_env_var.c \
 			init_env_vars.c \
 			init_path.c \
 			init_t_str.c \

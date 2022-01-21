@@ -3,54 +3,65 @@
 /*                                                        :::      ::::::::   */
 /*   del_env_var.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sjafarza <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/06 10:14:02 by sjafarza          #+#    #+#             */
-/*   Updated: 2021/12/29 12:53:46 by saray            ###   ########.fr       */
+/*   Updated: 2022/01/21 22:21:33 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-int	init_str(t_str *obj, char *s)
+int	move_env_vars_array_content(t_env_var *src
+, t_env_var *dst, int len)
 {
-	if (!obj)
+	return (move_env_vars_array_content_from_i_until_max(src, dst, 0, len));
+}
+
+int	move_env_vars_array_content_from_i_until_max(t_env_var *src
+, t_env_var *dst, int i, int max)
+{
+	if(!src | !dst)
 		return (-EXIT_FAILURE);
-	if (!s)
-		s = " ";
-	obj->str = ft_strdup(s);
-	if (!(obj->str))
-		return (-EXIT_FAILURE);
-	obj->len = ft_strlen(s);
+	while (i < max)
+	{
+		dst[i] = src[i];
+		src[i] = (t_env_var){(t_str){0}, (t_str){0}};
+		i++;
+	}
 	return (EXIT_SUCCESS);
 }
 
-int	fill_tmp_env_vars_array(t_env *env, t_env_var *tmp, char *var_name, int max)
+int	fill_tmp_env_vars_array_without_one_var(t_env_var *src
+, t_env_var *dst, char *var_name, int max)
 {
 	int	j;
 	int	i;
+	int	len_name_var;
 
 	j = 0;
 	i = 0;
-	(void)max;
-	while (i < env->env_vars_max)
+	if (!var_name | !dst | !src | max < 0)
+		return (-EXIT_FAILURE);
+	len_name_var = ft_strlen(var_name);
+	while (i < max)
 	{
-		if (env->env_vars[i].name.len == (int)ft_strlen(var_name) && \
-				!ft_strncmp(env->env_vars[i].name.str, \
-				var_name, ft_strlen(var_name)))
+		if (src->name.len == len_name_var && \
+				!ft_strncmp(src->name.str, \
+				var_name, src->name.len))
+		{
+			free_one_var(src[i]);
+			src[i] = (t_env_var){(t_str){0}, (t_str){0}};
 			i++;
+		}
 		else
 		{
-			if (init_str(&tmp[j].name, env->env_vars[i].name.str) \
-				!= EXIT_SUCCESS || init_str(&tmp[j].value, \
-				env->env_vars[i].value.str) != EXIT_SUCCESS)
-				return (-EXIT_FAILURE);
+			dst[j] = src[i];
+			src[i] = (t_env_var){(t_str){0}, (t_str){0}};
 			j++;
 			i++;
 		}
 	}
-	tmp[j].name.str = "";
-	tmp[j].value.str = "";
 	return (EXIT_SUCCESS);
 }
 
@@ -63,17 +74,18 @@ int	del_env_var(t_env *env, char *var_name)
 		return (-EXIT_FAILURE);
 	if (!find_env_vars(env, var_name))
 		return (EXIT_SUCCESS);
-	tmp_env_v_max = env->env_vars_max;
+	tmp_env_v_max = env->env_vars_max - 1;
 	tmp_env_vars = (t_env_var *)malloc(sizeof(t_env_var) * tmp_env_v_max);
 	if (!tmp_env_vars)
 		return (-EXIT_FAILURE);
-	if (fill_tmp_env_vars_array(env, tmp_env_vars, var_name, tmp_env_v_max) == -EXIT_FAILURE)
+	if (fill_tmp_env_vars_array_without_one_var(env->env_vars, tmp_env_vars,
+			var_name, tmp_env_v_max) == -EXIT_FAILURE)
 	{
 		free(tmp_env_vars);
 		return (-EXIT_FAILURE);
 	}
 	clean_env_vars(env);
 	env->env_vars = tmp_env_vars;
-	env->env_vars_max -= 1;
+	env->env_vars_max = tmp_env_v_max;
 	return (EXIT_SUCCESS);
 }

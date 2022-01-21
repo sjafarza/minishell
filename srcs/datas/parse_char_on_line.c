@@ -6,7 +6,7 @@
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 09:42:12 by saray             #+#    #+#             */
-/*   Updated: 2022/01/21 11:33:58 by scarboni         ###   ########.fr       */
+/*   Updated: 2022/01/21 22:16:00 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ t_tmp_parsed *tmp_parsed, t_parse_utils p_utils)
 	int	res;
 
 	(void)tmp_parsed;
-	end_var_name_abs = go_to_next_needed_i((*line_handle->line), &ft_isalnum, (*p_utils.i) + 1);
+	end_var_name_abs = go_to_next_needed_i((*line_handle->line), &ft_is_valid_for_env_var_name, (*p_utils.i) + 1);
 	if (end_var_name_abs == (*p_utils.i) + 1 && (*line_handle->line)[end_var_name_abs] == '?')
 		end_var_name_abs++;
 	if (end_var_name_abs == ((*p_utils.i) + 1))

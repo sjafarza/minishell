@@ -6,7 +6,7 @@
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/10 09:59:06 by saray             #+#    #+#             */
-/*   Updated: 2022/01/21 15:42:36 by scarboni         ###   ########.fr       */
+/*   Updated: 2022/01/21 22:06:26 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,11 @@ int	produce_name_value(char *var, char **name, char **value)
 		return (-EXIT_FAILURE);
 	*value = ft_substr(var, indx + 1, ft_strlen(var) - indx);
 	if (*value == NULL)
-		*value = "";
+	{
+		free(*name);
+		*name = NULL;
+		return (-EXIT_FAILURE);
+	}
 	return (EXIT_SUCCESS);
 }
 
@@ -35,27 +39,34 @@ int	add_new_env_by_value_name(t_env *env, char *name, char *value)
 	t_env_var	*tmp_env_vars;
 	int			tmp_env_vars_max;
 
+	if (!name | !value)
+		return (-EXIT_FAILURE);
 	tmp_env_vars_max = env->env_vars_max + 1;
 	tmp_env_vars = (t_env_var *)malloc(sizeof(t_env_var) * tmp_env_vars_max);
-	if (!env->env_vars)
+	if (!tmp_env_vars)
 		return (-EXIT_FAILURE);
-	if (fill_tmp_env_vars_array(env, tmp_env_vars, name, tmp_env_vars_max) == -EXIT_FAILURE) /*fill_tmp_env_vars_array */
+	if (env->env_vars)
+	{
+		if (move_env_vars_array_content(env->env_vars, tmp_env_vars, env->env_vars_max) == -EXIT_FAILURE) /*fill_tmp_env_vars_array */
+		{
+			free(tmp_env_vars);
+			return (-EXIT_FAILURE);
+		}
+		free(env->env_vars);
+	}
+	env->env_vars = tmp_env_vars;
+	if (init_t_str(&env->env_vars[tmp_env_vars_max - 1].name, name) != EXIT_SUCCESS || init_t_str(&env->env_vars[tmp_env_vars_max - 1].value, value) != EXIT_SUCCESS)
 	{
 		free(tmp_env_vars);
 		return (-EXIT_FAILURE);
 	}
-	if (init_str(&tmp_env_vars[tmp_env_vars_max - 1].name, name) \
-	 	 != EXIT_SUCCESS || init_str(&tmp_env_vars[tmp_env_vars_max - 1] \
-	 	.value, value) != EXIT_SUCCESS)
-		 {
-			 free(tmp_env_vars);
-			 return (-EXIT_FAILURE);
-		 }
-	if ((ft_strlen(name) == 4) && (ft_strncmp(name, PATH_STR, PATH_LEN) == 0))
+	if ((ft_strlen(name) == PATH_LEN) && (ft_strncmp(name, PATH_STR, PATH_LEN) == 0))
+	{
+		if (env->paths)
+			free_array(env->paths);
 		env->paths = ft_split(value, ':');
-	clean_env_vars(env);
-	env->env_vars = tmp_env_vars;
-	env->env_vars_max += 1;
+	}
+	env->env_vars_max = tmp_env_vars_max;
 	return (EXIT_SUCCESS);
 }
 
@@ -74,29 +85,17 @@ static int	ft_add(t_env *env, char	*var)
 				printf("minshell:export:(%s=%s): not valid identifier\n", name, value);
 			else
 				printf("minshell:export:(%s): not valid identifier\n", name);
-				return (-EXIT_FAILURE);
+			free(name);
+			free(value);
+			return (-EXIT_FAILURE);
 		}	
 	//*****************************************	
 	if(add_new_env_by_value_name(env, name, value) == -EXIT_FAILURE)
+	{
+		free(name);
+		free(value);
 		return (-EXIT_FAILURE);
-	/*tmp_env_vars_max = env->env_vars_max + 1;
-	tmp_env_vars = (t_env_var *)malloc(sizeof(t_env_var) * tmp_env_vars_max);
-	if (!env->env_vars)
-		return (-EXIT_FAILURE);
-	if (fill_tmp(env, tmp_env_vars, name, tmp_env_vars_max) == -EXIT_FAILURE)
-		return (-EXIT_FAILURE);
-	if (init_str(&tmp_env_vars[tmp_env_vars_max - 1].name, name) \
-	 	 != EXIT_SUCCESS || init_str(&tmp_env_vars[tmp_env_vars_max - 1] \
-	 	.value, value) != EXIT_SUCCESS)
-		return (-EXIT_FAILURE);
-	if ((ft_strlen(name) == 4) && (ft_strncmp(name, PATH_STR, PATH_LEN) == 0))
-		env->paths = ft_split(value, ':');
-	clean_env_vars(env);
-	env->env_vars = tmp_env_vars;
-	env->env_vars_max += 1;*/
-	//********************************
-	free(name);
-	free(value);
+	}
 	return (EXIT_SUCCESS);
 }
 

@@ -268,11 +268,16 @@ static const t_parser g_parser_dictionary_for_doubles_quotes[MAX_PARSER] = {
 
 #define INCOMPLETE_PATTERN -2
 
+int			ft_is_valid_for_env_var_name(int c);
+t_env_var	*get_or_init_and_get_env_var(t_env *env, char const* name);
+t_env_var	*init_empty_env_var(t_env *env, char const *name, char const *value);
+void		free_one_var(t_env_var	env_var);
 void		clean_env_vars(t_env *env);
+void		clean_env_vars_array(t_env_var	**tmp_env_vars, int len);
 int			update_env_var(t_env_var *var, char *new_value);
 int			find_and_update_env_var(t_env *env, char *var_name, char* new_value);
 t_env_var	*find_env_vars_t_str(t_env *env, t_str var);
-t_env_var	*find_env_vars(t_env *env, char* var_name);
+t_env_var	*find_env_vars(t_env *env, char const* var_name);
 int			array_len(const char **arr);
 void		free_array(char **arr);
 void		free_t_env(t_env *env);
@@ -291,8 +296,12 @@ int			is_valid(int c);
 int			go_to_next_needed_i(char *line, int(*keep_going)(int), int i);
 int			del_env_var(t_env   *env, char  *var_name);
 int			find_first_eq(char	*s);
-int			fill_tmp_env_vars_array(t_env *env, t_env_var *tmp, char *var_name, int i);
-int			init_str(t_str *obj, char *s);
+int			move_env_vars_array_content(t_env_var *src
+, t_env_var *dst, int len);
+int			move_env_vars_array_content_from_i_until_max(t_env_var *src
+, t_env_var *dst, int i, int max);
+int			fill_tmp_env_vars_array_without_one_var(t_env_var *src
+, t_env_var *dst, char *var_name, int max);
 int			add_env_var(t_env *env, char *var);
 int			check_parsing(const t_parser dictionnary[MAX_PARSER], t_line line_handle, t_tmp_parsed *tmp_parsed, t_parse_utils p_utils);
 int			is_sequence_equal_to_parser_code(int type_code, char *seq);

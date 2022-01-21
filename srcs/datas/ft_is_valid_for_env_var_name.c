@@ -1,26 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init_path.c                                        :+:      :+:    :+:   */
+/*   ft_is_valid_for_env_var_name.c                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/18 09:42:12 by saray             #+#    #+#             */
-/*   Updated: 2022/01/21 21:56:32 by scarboni         ###   ########.fr       */
+/*   Created: 2019/11/05 10:38:18 by scarboni          #+#    #+#             */
+/*   Updated: 2022/01/21 22:22:46 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-int init_path(t_env *env)
+int	ft_is_valid_for_env_var_name(int c)
 {
-	t_env_var	*var;
-
-	var = get_or_init_and_get_env_var(env, PATH_STR);
-	if (!var)
-		return (-EXIT_FAILURE);
-	env->paths = ft_split(var->value.str, ':');
-	if (!env->paths)
-		return (-EXIT_FAILURE);
-	return (EXIT_SUCCESS);
+	if (ft_isalnum(c) == 1 || c == '_')
+		return (1);
+	return (0);
 }
