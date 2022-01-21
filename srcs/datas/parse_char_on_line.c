@@ -6,14 +6,16 @@
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 09:42:12 by saray             #+#    #+#             */
-/*   Updated: 2022/01/20 15:03:30 by scarboni         ###   ########.fr       */
+/*   Updated: 2022/01/21 11:33:58 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
+#define REPLACED 0
+#define NOT_REPLACED -22
 
-int		parse_dollar_for_double_quotes(t_line *line_handle,
+int		parse_dollar_int(t_line *line_handle,
 t_tmp_parsed *tmp_parsed, t_parse_utils p_utils)
 {
 	int	end_var_name_abs;
@@ -24,13 +26,27 @@ t_tmp_parsed *tmp_parsed, t_parse_utils p_utils)
 	if (end_var_name_abs == (*p_utils.i) + 1 && (*line_handle->line)[end_var_name_abs] == '?')
 		end_var_name_abs++;
 	if (end_var_name_abs == ((*p_utils.i) + 1))
-		return (EXIT_SUCCESS);
+		return (NOT_REPLACED);
 	res = replace_in_str_one_var(p_utils.env, (t_line){line_handle->line, p_utils.i},
 		end_var_name_abs - (*p_utils.i) - 1, ft_strlen(end_var_name_abs + (*line_handle->line)));
 	if (res != EXIT_SUCCESS)
 		return (res);
-	(*p_utils.i)--;
-	return (EXIT_SUCCESS);
+	return (REPLACED);
+}
+
+
+int		parse_dollar_for_double_quotes(t_line *line_handle,
+t_tmp_parsed *tmp_parsed, t_parse_utils p_utils)
+{
+	int	res;
+
+	res = parse_dollar_int(line_handle, tmp_parsed, p_utils);
+	if (res == REPLACED)
+	{
+		(*p_utils.i)--;
+		return (EXIT_SUCCESS);
+	}
+	return (res);
 }
 
 //A voir pour gerer les inners quotes...
@@ -41,7 +57,11 @@ t_parse_utils p_utils)
 	int	res;
 
 	p_utils_i_memo = *(p_utils.i);
-	res = parse_dollar_for_double_quotes(line_handle, tmp_parsed, p_utils);
+	res = parse_dollar_int(line_handle, tmp_parsed, p_utils);
+	if (res == NOT_REPLACED)
+		return (EXIT_SUCCESS);
+	if (res != EXIT_SUCCESS)
+		return (res);
 	*(p_utils.do_not_parse_until) = *(p_utils.i);
 	*(p_utils.i) = go_to_next_needed_i(*(line_handle->line), &is_not_valid, p_utils_i_memo) - 1;
 	if (p_utils_i_memo == tmp_parsed->start)
