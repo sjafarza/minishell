@@ -6,7 +6,7 @@
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 09:42:12 by saray             #+#    #+#             */
-/*   Updated: 2021/11/28 15:25:47 by scarboni         ###   ########.fr       */
+/*   Updated: 2022/01/21 16:09:58 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,5 +25,7 @@ void	clean_env_vars(t_env *env)
 			free(env->env_vars[i].value.str);
 		i++;
 	}
-	free(env->env_vars);
+	if (env->env_vars)
+		free(env->env_vars);
+	env->env_vars = NULL;
 }
