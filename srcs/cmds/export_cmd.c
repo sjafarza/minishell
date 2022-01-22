@@ -6,7 +6,7 @@
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/10 09:13:46 by saray             #+#    #+#             */
-/*   Updated: 2022/01/22 20:18:27 by scarboni         ###   ########.fr       */
+/*   Updated: 2022/01/22 20:22:22 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,13 @@ int	export_cmd(t_env *env, const char *cmd, const char **args)
 		if (produce_name_value((char *)args[i], &name, &value) == -EXIT_FAILURE)
 		{		
 			printf("2minshell:export:(%s): not valid identifier\n", args[i]);
+			return (-EXIT_FAILURE);
+		}
+		if (ft_strlen(name) <= 0)
+		{		
+			printf("2minshell:export:(%s): var name must contain at least 1 character\n", args[i]);
+			free(name);
+			free(value);
 			return (-EXIT_FAILURE);
 		}
 		while (name[++k])
