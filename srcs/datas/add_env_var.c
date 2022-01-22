@@ -6,7 +6,7 @@
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/10 09:59:06 by saray             #+#    #+#             */
-/*   Updated: 2022/01/22 14:49:02 by scarboni         ###   ########.fr       */
+/*   Updated: 2022/01/22 21:50:23 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	produce_name_value(char *var, char **name, char **value)
 	return (EXIT_SUCCESS);
 }
 
-int	add_new_env_by_value_name(t_env *env, char *name, char *value)
+int	add_new_env_by_value_name_raw(t_env *env, char *name, char *value, char *raw)
 {
 	t_env_var	*tmp_env_vars;
 	int			tmp_env_vars_max;
@@ -55,44 +55,15 @@ int	add_new_env_by_value_name(t_env *env, char *name, char *value)
 		free(env->env_vars);
 	}
 	env->env_vars = tmp_env_vars;
+	env->env_vars[tmp_env_vars_max - 1] = (t_env_var){(t_str){0}, (t_str){0}, (t_str){0}};
 	if (init_t_str(&env->env_vars[tmp_env_vars_max - 1].name, name) != EXIT_SUCCESS || init_t_str(&env->env_vars[tmp_env_vars_max - 1].value, value) != EXIT_SUCCESS)
 	{
 		free(tmp_env_vars);
 		return (-EXIT_FAILURE);
 	}
+	init_t_str(&env->env_vars[tmp_env_vars_max - 1].raw, raw);
 	env->env_vars_max = tmp_env_vars_max;
 	if ((ft_strlen(name) == PATH_LEN) && (ft_strncmp(name, PATH_STR, PATH_LEN) == 0))
 		return(init_path(env));	
 	return (EXIT_SUCCESS);
-}
-
-static int	ft_add(t_env *env, char	*var)
-{
-	char		*value;
-	char		*name;
-
-	if (produce_name_value(var, &name, &value) == -EXIT_FAILURE)
-		return (-EXIT_FAILURE);
-	if (ft_strchr_index(name,'?') != -EXIT_FAILURE )
-		{
-			if (ft_strchr_index(value,'?') != -EXIT_FAILURE)
-				printf("minshell:export:(%s=%s): not valid identifier\n", name, value);
-			else
-				printf("minshell:export:(%s): not valid identifier\n", name);
-			free(name);
-			free(value);
-			return (-EXIT_FAILURE);
-		}
-	if(add_new_env_by_value_name(env, name, value) == -EXIT_FAILURE)
-	{
-		free(name);
-		free(value);
-		return (-EXIT_FAILURE);
-	}
-	return (EXIT_SUCCESS);
-}
-
-int	add_env_var(t_env *env, char *var)
-{
-	return (ft_add(env, var));
 }

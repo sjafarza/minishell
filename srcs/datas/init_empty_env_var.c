@@ -6,7 +6,7 @@
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 09:42:12 by saray             #+#    #+#             */
-/*   Updated: 2022/01/22 14:44:08 by scarboni         ###   ########.fr       */
+/*   Updated: 2022/01/22 21:09:24 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ t_env_var	*init_empty_env_var(t_env *env, char const *name, char const *value)
 	final_name = ft_strdup(name);
 	final_value = ft_strdup(value);
 		
-	if (add_new_env_by_value_name(env, final_name, final_value) == EXIT_SUCCESS)
+	if (add_new_env_by_value_name_raw(env, final_name, final_value, NULL) == EXIT_SUCCESS)
 		return (find_env_vars(env, (char *)name));
 	if (final_name)
 		free(final_name);

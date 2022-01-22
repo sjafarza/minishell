@@ -56,6 +56,7 @@ typedef struct s_str{
 typedef struct s_env_var {
 	t_str	name;
 	t_str	value;
+	t_str	raw;
 } t_env_var;
 
 typedef struct s_cell_parsed_group{
@@ -303,7 +304,7 @@ int			move_env_vars_array_content_from_i_until_max(t_env_var *src
 int			add_env_var(t_env *env, char *var);
 int			check_parsing(const t_parser dictionnary[MAX_PARSER], t_line line_handle, t_tmp_parsed *tmp_parsed, t_parse_utils p_utils);
 int			is_sequence_equal_to_parser_code(int type_code, char *seq);
-int			add_new_env_by_value_name(t_env *env, char *name, char *value);
+int			add_new_env_by_value_name_raw(t_env *env, char *name, char *value, char *raw);
 int			is_valid_as_env_var_name(const char *s);
 int			produce_name_value(char *var, char **name, char **value);
 

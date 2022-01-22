@@ -6,7 +6,7 @@
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/06 10:14:02 by sjafarza          #+#    #+#             */
-/*   Updated: 2022/01/22 16:19:46 by scarboni         ###   ########.fr       */
+/*   Updated: 2022/01/22 21:45:54 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	move_env_vars_array_content_from_i_until_max(t_env_var *src
 	while (i < max)
 	{
 		dst[i] = src[i];
-		src[i] = (t_env_var){(t_str){0}, (t_str){0}};
+		src[i] = (t_env_var){(t_str){0}, (t_str){0}, (t_str){0}};
 		i++;
 	}
 	return (EXIT_SUCCESS);
@@ -49,13 +49,13 @@ static int	fill_tmp_env_vars_array_without_one_var(t_env_var *src
 		if (src[i].name.len == len_name_var && ft_strncmp(src[i].name.str, var_name, src[i].name.len) == 0)
 		{	
 			free_one_var(src[i]);
-			src[i] = (t_env_var){(t_str){0}, (t_str){0}};
+			src[i] = (t_env_var){(t_str){0}, (t_str){0}, (t_str){0}};
 			i++;
 		}
 		else
 		{
 			dst[j] = src[i];
-			src[i] = (t_env_var){(t_str){0}, (t_str){0}};
+			src[i] = (t_env_var){(t_str){0}, (t_str){0}, (t_str){0}};
 			j++;
 			i++;
 		}
