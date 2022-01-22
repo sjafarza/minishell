@@ -6,7 +6,7 @@
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/10 09:13:46 by saray             #+#    #+#             */
-/*   Updated: 2021/12/29 22:46:33 by saray            ###   ########.fr       */
+/*   Updated: 2022/01/22 14:50:24 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,9 @@ int	find_in_env(t_env *env, char *var)
 	char	*name;
 	char	*value;
 	int		indx;
+	int		res;
 
+	res = EXIT_SUCCESS;
 	indx = ft_strchr_index((const char *)var, '=');
 	if (indx < 0)
 		return (-EXIT_FAILURE);
@@ -32,9 +34,9 @@ int	find_in_env(t_env *env, char *var)
 		if (find_and_update_env_var(env, name, value) == EXIT_SUCCESS)
 		{
 			if ((ft_strlen(name) == 4) && (ft_strncmp(name, "PATH", 4) == 0))
-				env->paths = ft_split(value, ':');
+				res = init_path(env);
 			free (name);
-			return (EXIT_SUCCESS);
+			return (res);
 		}
 	}
 	free (name);

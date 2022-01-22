@@ -6,18 +6,11 @@
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 09:42:12 by saray             #+#    #+#             */
-/*   Updated: 2022/01/21 21:54:32 by scarboni         ###   ########.fr       */
+/*   Updated: 2022/01/22 14:44:08 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
-
-static	int add_new_env_by_value_name_check(t_env *env, char *name, char *value)
-{
-	if (!name | !value)
-		return (-EXIT_FAILURE);
-	return (add_new_env_by_value_name(env, name, value));
-}
 
 t_env_var	*init_empty_env_var(t_env *env, char const *name, char const *value)
 {
@@ -26,7 +19,8 @@ t_env_var	*init_empty_env_var(t_env *env, char const *name, char const *value)
 
 	final_name = ft_strdup(name);
 	final_value = ft_strdup(value);
-	if (add_new_env_by_value_name_check(env, final_name, final_value) == EXIT_SUCCESS)
+		
+	if (add_new_env_by_value_name(env, final_name, final_value) == EXIT_SUCCESS)
 		return (find_env_vars(env, (char *)name));
 	if (final_name)
 		free(final_name);
@@ -38,9 +32,9 @@ t_env_var	*init_empty_env_var(t_env *env, char const *name, char const *value)
 t_env_var	*get_or_init_and_get_env_var(t_env *env, char const* name)
 {
 	t_env_var *var;
-
+	
 	var = find_env_vars(env, name);
 	if (!var)
-		var = init_empty_env_var(env, OLDPWD_STR, "");
+		var = init_empty_env_var(env, name, "");
 	return (var);
 }

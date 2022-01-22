@@ -6,7 +6,7 @@
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 09:42:12 by saray             #+#    #+#             */
-/*   Updated: 2022/01/21 21:58:55 by scarboni         ###   ########.fr       */
+/*   Updated: 2022/01/22 14:44:56 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ int	init_cwd(t_env *env)
 	env->cwd = getcwd(NULL, 0);
 	pwd_var = get_or_init_and_get_env_var(env, PWD_STR);
 	oldpwd_var = get_or_init_and_get_env_var(env, OLDPWD_STR);
+	pwd_var = get_or_init_and_get_env_var(env, PWD_STR);
 	if (!pwd_var)
 		return (-EXIT_FAILURE);
 	if (!oldpwd_var)
