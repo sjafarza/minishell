@@ -300,8 +300,6 @@ int			move_env_vars_array_content(t_env_var *src
 , t_env_var *dst, int len);
 int			move_env_vars_array_content_from_i_until_max(t_env_var *src
 , t_env_var *dst, int i, int max);
-int			fill_tmp_env_vars_array_without_one_var(t_env_var *src
-, t_env_var *dst, char *var_name, int max);
 int			add_env_var(t_env *env, char *var);
 int			check_parsing(const t_parser dictionnary[MAX_PARSER], t_line line_handle, t_tmp_parsed *tmp_parsed, t_parse_utils p_utils);
 int			is_sequence_equal_to_parser_code(int type_code, char *seq);

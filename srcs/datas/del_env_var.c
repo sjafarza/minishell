@@ -6,7 +6,7 @@
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/06 10:14:02 by sjafarza          #+#    #+#             */
-/*   Updated: 2022/01/21 22:21:33 by scarboni         ###   ########.fr       */
+/*   Updated: 2022/01/22 16:19:46 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	move_env_vars_array_content_from_i_until_max(t_env_var *src
 	return (EXIT_SUCCESS);
 }
 
-int	fill_tmp_env_vars_array_without_one_var(t_env_var *src
+static int	fill_tmp_env_vars_array_without_one_var(t_env_var *src
 , t_env_var *dst, char *var_name, int max)
 {
 	int	j;
@@ -46,10 +46,8 @@ int	fill_tmp_env_vars_array_without_one_var(t_env_var *src
 	len_name_var = ft_strlen(var_name);
 	while (i < max)
 	{
-		if (src->name.len == len_name_var && \
-				!ft_strncmp(src->name.str, \
-				var_name, src->name.len))
-		{
+		if (src[i].name.len == len_name_var && ft_strncmp(src[i].name.str, var_name, src[i].name.len) == 0)
+		{	
 			free_one_var(src[i]);
 			src[i] = (t_env_var){(t_str){0}, (t_str){0}};
 			i++;
@@ -79,7 +77,7 @@ int	del_env_var(t_env *env, char *var_name)
 	if (!tmp_env_vars)
 		return (-EXIT_FAILURE);
 	if (fill_tmp_env_vars_array_without_one_var(env->env_vars, tmp_env_vars,
-			var_name, tmp_env_v_max) == -EXIT_FAILURE)
+			var_name, env->env_vars_max) == -EXIT_FAILURE)
 	{
 		free(tmp_env_vars);
 		return (-EXIT_FAILURE);
