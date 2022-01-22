@@ -6,7 +6,7 @@
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 09:42:12 by saray             #+#    #+#             */
-/*   Updated: 2022/01/21 22:16:00 by scarboni         ###   ########.fr       */
+/*   Updated: 2022/01/22 15:15:10 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ t_parse_utils p_utils)
 	if (res != EXIT_SUCCESS)
 		return (res);
 	*(p_utils.do_not_parse_until) = *(p_utils.i);
-	*(p_utils.i) = go_to_next_needed_i(*(line_handle->line), &is_not_valid, p_utils_i_memo) - 1;
+	*(p_utils.i) = p_utils_i_memo - 1;
 	if (p_utils_i_memo == tmp_parsed->start)
 		tmp_parsed->start = (*(p_utils.i)) + 1;
 	return (EXIT_SUCCESS);

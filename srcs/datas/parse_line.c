@@ -6,7 +6,7 @@
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 09:42:12 by saray             #+#    #+#             */
-/*   Updated: 2022/01/21 10:57:02 by scarboni         ###   ########.fr       */
+/*   Updated: 2022/01/22 15:16:03 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ int	extract_next_arg(t_env *env, t_line line_handle, t_tmp_parsed tmp_parsed, in
 	i = go_to_next_needed_i((*line_handle.line), &is_not_valid, tmp_parsed.start);
 	tmp_parsed.start = i;
 	while ((*line_handle.line)[i])
-	{
+	{	
 		if (is_not_valid((*line_handle.line)[i]))
 		{
 			ret = extract_next_arg(env, line_handle, (t_tmp_parsed) {tmp_parsed.arg, tmp_parsed.ac + 1, tmp_parsed.type, i + 1, tmp_parsed.high_level_start}, do_not_parse_until);
