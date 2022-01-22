@@ -6,7 +6,7 @@
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/10 09:13:46 by saray             #+#    #+#             */
-/*   Updated: 2022/01/22 21:24:40 by scarboni         ###   ########.fr       */
+/*   Updated: 2022/01/22 22:33:42 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ int	export_cmd(t_env *env, const char *cmd, const char **args)
 			return (strings_clean(strings, -EXIT_FAILURE, args[i], "not valid identifier"));
 		if (ft_strlen(strings[STRING_NAME]) <= 0)
 			return (strings_clean(strings, -EXIT_FAILURE, args[i], "var name must contain at least 1 character"));
+		k = -1;
 		while (strings[STRING_NAME][++k])
 			if (ft_is_valid_for_env_var_name(strings[STRING_NAME][k]) == 0)
 				return (strings_clean(strings, -EXIT_FAILURE, args[i], "not valid identifier"));
