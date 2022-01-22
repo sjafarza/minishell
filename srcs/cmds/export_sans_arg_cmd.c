@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_sans_arg_cmd.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sjafarza <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/18 19:51:37 by sjafarza          #+#    #+#             */
-/*   Updated: 2021/12/18 19:52:51 by sjafarza         ###   ########.fr       */
+/*   Updated: 2022/01/22 20:31:38 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ int	export_sans_arg_cmd(t_env *env, const char *cmd, const char **args)
 	int	i;
 
 	(void)cmd;
-	(void)env;
 	if (args[1])
 		return (-EXIT_FAILURE);
 	i = 0;
