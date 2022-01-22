@@ -12,6 +12,18 @@
 
 #include "../../inc/minishell.h"
 
+/*int     is_valid_as_env_var_name(const char *s)
+{
+        int     i;
+        i = -1;
+        while(s[++i])
+        {
+                if (!ft_isalnum(s[i]) && s[i] != '_' && s[i] != '=')
+                        return (-EXIT_FAILURE);
+        }
+        return (EXIT_SUCCESS);
+}*/
+
 int	find_in_env(t_env *env, char *var)
 {
 	char	*name;
@@ -45,31 +57,48 @@ int	find_in_env(t_env *env, char *var)
 
 int	export_cmd(t_env *env, const char *cmd, const char **args)
 {
-	int	i;
+	int		i;
+	int		k;
+	char	*name;
+	char	*value;
 
 	(void)cmd;
 	(void)env;
 	i = -1;
+	k = -1;
 
 	while (args[++i])
 	{
-		if (ft_strchr_index(args[i], '$') != -EXIT_FAILURE)
+		if (ft_strchr_index(args[i], '$') != -EXIT_FAILURE && ft_strlen(args[i]) == 1)
 		{
-			printf("minshell:export:(%s): not valid identifier\n", args[i]);
+			printf("1minshell:export:(%s): not valid identifier\n", args[i]);
 			return (-EXIT_FAILURE);
 		}
-
 		if (ft_strchr_index(args[i], '=') != -EXIT_FAILURE)
 		{
-			if (args[i][0] == '=' || args[i][0] == ' ' || args[i][0] == '?' || args[i][0] == '$')
-			{		
-				printf("minshell:export:(%s): not valid identifier\n", args[i]);
+			if (ft_strncmp(args[i], "export",6) == 0)
+				continue ;
+			if (produce_name_value((char *)args[i], &name, &value) == -EXIT_FAILURE)
 				return (-EXIT_FAILURE);
+			while (name[++k])
+			{
+				if (!ft_is_valid_for_env_var_name(name[k]))
+				{		
+					printf("2minshell:export:(%s=%s): not valid identifier\n", name, value);
+					free(name);
+					free(value);
+					return (-EXIT_FAILURE);
+				}
 			}
 			if (find_in_env(env, (char *)args[i]) == EXIT_SUCCESS)
-				continue ;	
+				continue ;		
 			add_env_var(env, (char *)args[i]);
 		}
+		/*else if (is_valid_as_env_var_name(args[i]) && i != 0)
+        {
+            printf("4minshell:export:(%s): not valid identifier\n", args[i]);
+            return (-EXIT_FAILURE);
+        }*/
 	}
 	return (EXIT_SUCCESS);
 }
