@@ -95,6 +95,14 @@ int	bash_cmd(t_env *env, const char *cmd, const char **args)
 		return (COMMAND_NOT_FOUND_CODE);
 	}
 	printf("FULL_CMD : %s\n", full_cmd);
+	env->raw_env = get_raw_env_array(env);
+	//***********************cheking*********
+	int i = -1;
+    while (++i< env->env_vars_max)
+    {
+        printf("env->raw_env[%d] = %s\n",i,env->raw_env[i] );
+    }
+	//*****************************************
 	ret = execve(full_cmd, (char *const *)args, env->raw_env);
 	free(full_cmd);
 	// close(env->pipes_handles[id]);

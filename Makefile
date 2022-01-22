@@ -80,7 +80,8 @@ DATAS 	 = 	add_env_var.c \
 			parse_line.c \
 			print_vars.c \
 			replace_in_str_with_trim.c \
-			replace_in_str.c
+			replace_in_str.c \
+			get_raw_env_array.c
 
 SRC_FILES	+=	$(addprefix $(DATAS_PATH), $(DATAS))
 

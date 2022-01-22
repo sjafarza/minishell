@@ -16,7 +16,6 @@ void	print_vars(t_env *env)
 {
 	int	i;
 
-	// printf("Env variables max : %d\n", env->env_vars_max);
 	i = 1;
 	while (i < env->env_vars_max)
 	{
