@@ -21,12 +21,12 @@ int	export_cmd(t_env *env, const char *cmd, const char **args)
 
 	(void)cmd;
 	i = 0;
-	k = -1;
+	
 	while (args[++i])
 	{
 		if (produce_name_value((char *)args[i], &name, &value) == -EXIT_FAILURE)
 		{		
-			printf("2minshell:export:(%s): not valid identifier\n", args[i]);
+			printf("1minshell:export:(%s): not valid identifier\n", args[i]);
 			return (-EXIT_FAILURE);
 		}
 		if (ft_strlen(name) <= 0)
@@ -36,11 +36,12 @@ int	export_cmd(t_env *env, const char *cmd, const char **args)
 			free(value);
 			return (-EXIT_FAILURE);
 		}
+		k = -1;
 		while (name[++k])
 		{
 			if (ft_is_valid_for_env_var_name(name[k]) == 0)
 			{		
-				printf("2minshell:export:(%s=%s): not valid identifier\n", name, value);
+				printf("3minshell:export:(%s=%s): not valid identifier\n", name, value);
 				free(name);
 				free(value);
 				return (-EXIT_FAILURE);
