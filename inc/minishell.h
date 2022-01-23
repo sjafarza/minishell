@@ -86,7 +86,6 @@ typedef struct s_env {
 	t_env_var	*env_vars;
 	int			env_vars_max;
 	char		**paths;
-	char		**raw_env;
 	char		*cwd;
 	t_stack		pipex_stack;
 	t_stack		parsed_groups_stack;
@@ -139,7 +138,6 @@ typedef struct s_cmd{
 	int		max_args_len;
 } t_cmd;
 
-int		mock_cmd(t_env *env, const char *cmd, const char **args);
 int		echo_cmd(t_env *env, const char *cmd, const char **args);
 int		exit_cmd(t_env *env, const char *cmd, const char **args);
 int		env_cmd(t_env *env, const char *cmd, const char **args);

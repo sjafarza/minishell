@@ -38,6 +38,8 @@ int	unset_cmd(t_env *env, const char *cmd, const char **args)
 	int	r;
 
 	(void)cmd;
+	if (env->pipex_stack.total_item > 1)
+		return (EXIT_SUCCESS);
 	if (!args[1])
 		return (-EXIT_FAILURE);
 	i = 0;

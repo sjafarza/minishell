@@ -6,7 +6,7 @@
 #    By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/09/28 22:36:55 by saray             #+#    #+#              #
-#    Updated: 2022/01/21 22:22:36 by scarboni         ###   ########.fr        #
+#    Updated: 2022/01/23 13:01:11 by scarboni         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -47,7 +47,6 @@ MINILIB = 	ft_strchr_index.c \
 SRC_FILES	+=	$(addprefix $(MINILIB_PATH), $(MINILIB))
 
 CMDS 	 = 	bash_cmd.c \
-			mock_cmd.c \
 			echo_cmd.c \
 			exit_cmd.c \
 			env_cmd.c \

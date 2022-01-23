@@ -6,7 +6,7 @@
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/11 22:13:42 by saray             #+#    #+#             */
-/*   Updated: 2022/01/20 17:48:09 by scarboni         ###   ########.fr       */
+/*   Updated: 2022/01/23 13:00:13 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,8 @@ int	cd_cmd(t_env *env, const char *cmd, const char **args)
 	int			args_len;
 
 	(void)cmd;
+	if (env->pipex_stack.total_item > 1)
+		return (EXIT_SUCCESS);
 	args_len = array_len(args);
 	if (args_len > 2)
 	{
