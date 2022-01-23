@@ -6,7 +6,7 @@
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 09:42:12 by saray             #+#    #+#             */
-/*   Updated: 2022/01/22 22:23:35 by scarboni         ###   ########.fr       */
+/*   Updated: 2022/01/23 11:40:29 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,7 @@ int	bash_cmd(t_env *env, const char *cmd, const char **args)
 {
 	char	*full_cmd;
 	int		ret;
+	char	**raw_env;
 
 	(void)args;
 	(void)g_sig_pid;
@@ -95,16 +96,10 @@ int	bash_cmd(t_env *env, const char *cmd, const char **args)
 		return (COMMAND_NOT_FOUND_CODE);
 	}
 	printf("FULL_CMD : %s\n", full_cmd);
-	env->raw_env = get_raw_env_array(env);
-	//***********************cheking*********
-	int i = -1;
-    while (++i< env->env_vars_max)
-    {
-        printf("env->raw_env[%d] = %s\n",i,env->raw_env[i] );
-    }
-	//*****************************************
-	ret = execve(full_cmd, (char *const *)args, env->raw_env);
+	raw_env = get_raw_env_array(env);
+	ret = execve(full_cmd, (char *const *)args, raw_env);
 	free(full_cmd);
+	free_array(raw_env);
 	// close(env->pipes_handles[id]);
 	if (ret < 0)
 		return (EXEC_ERROR_CODE); 
