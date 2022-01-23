@@ -12,8 +12,6 @@
 
 #include "../../inc/minishell.h"
 
-
-
 static int	chek_alloc(char *name, char *value, \
 		int tmp_env_vars_max, t_env_var **tmp_env_vars)
 {

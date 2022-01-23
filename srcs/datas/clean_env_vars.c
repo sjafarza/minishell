@@ -6,7 +6,7 @@
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 09:42:12 by saray             #+#    #+#             */
-/*   Updated: 2022/01/22 21:51:03 by scarboni         ###   ########.fr       */
+/*   Updated: 2022/01/23 21:14:48 by saray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,9 @@ void	free_one_var(t_env_var	env_var)
 {
 	if (env_var.name.str)
 		free(env_var.name.str);
-	if(env_var.value.str)
+	if (env_var.value.str)
 		free(env_var.value.str);
-	if(env_var.raw.str)
+	if (env_var.raw.str)
 		free(env_var.raw.str);
 }
 

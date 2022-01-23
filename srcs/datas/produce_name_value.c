@@ -33,4 +33,3 @@ int	produce_name_value(char *var, char **name, char **value)
 	}
 	return (EXIT_SUCCESS);
 }
-
