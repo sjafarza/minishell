@@ -6,14 +6,14 @@
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 09:42:12 by saray             #+#    #+#             */
-/*   Updated: 2022/01/23 11:40:29 by scarboni         ###   ########.fr       */
+/*   Updated: 2022/01/23 18:58:50 by saray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 #define MAX_COMPLETES_PATHS 3
 
-const static t_str	path_completes[MAX_COMPLETES_PATHS] = {
+const static t_str	g_path_completes[MAX_COMPLETES_PATHS] = {
 	(t_str){"/", 1},
 	(t_str){"./", 2},
 	(t_str){"../", 3},
@@ -26,8 +26,8 @@ int	is_path_absolute_or_relative(const char *cmd)
 	i = 0;
 	while (i < MAX_COMPLETES_PATHS)
 	{
-		if (ft_strncmp(path_completes[i].str, cmd,
-				path_completes[i].len) == 0)
+		if (ft_strncmp(g_path_completes[i].str, cmd,
+				g_path_completes[i].len) == 0)
 			return (true);
 		i++;
 	}
@@ -88,7 +88,6 @@ int	bash_cmd(t_env *env, const char *cmd, const char **args)
 	char	**raw_env;
 
 	(void)args;
-	(void)g_sig_pid;
 	full_cmd = get_full_cmd(env, cmd);
 	if (!full_cmd)
 	{

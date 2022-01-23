@@ -6,7 +6,7 @@
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 09:42:12 by saray             #+#    #+#             */
-/*   Updated: 2021/12/20 14:30:21 by scarboni         ###   ########.fr       */
+/*   Updated: 2022/01/23 18:05:26 by saray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ int	select_right_cmd(const char *cmd, const char **args)
 
 	signal(SIGQUIT, ft_sig_ctr_backslash2);
 	signal(SIGINT, ft_sig_ctr_c);
-	//signal(SIGQUIT, ft_sig_ctr_backslash);
 	if (!cmd)
 		return (-EXIT_FAILURE);
 	len_cmd = ft_strlen(cmd);

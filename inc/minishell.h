@@ -39,9 +39,6 @@
 #define HOME_STR "HOME"
 #define HOME_LEN 4
 
-
-
-pid_t	g_sig_pid;
 int		g_status;
 
 /* ************************************************************************** */

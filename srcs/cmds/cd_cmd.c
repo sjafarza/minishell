@@ -43,28 +43,35 @@ int	cd_cmd(t_env *env, const char *cmd, const char **args)
 	if (args_len > 2)
 	{
 		printf("%s: cd: trop d'arguments\n", PROMPT_STR);
-		return (EXIT_SUCCESS);
+		//return (EXIT_SUCCESS);
+		return (0);
 	}
 	if (env->pipex_stack.total_item > 1)
 		return (EXIT_SUCCESS);
 	if (args_len == 1)
 	{
 		if (go_back_to_var(env, HOME_STR) == -EXIT_FAILURE)
-			return (EXIT_SUCCESS);
+			//return (EXIT_SUCCESS);
+			return (0);
 	}
 	else
 	{
 		if (ft_strncmp(args[1], "-", 2) == 0)
 		{
 			if (go_back_to_var(env, OLDPWD_STR) == -EXIT_FAILURE)
-				return (EXIT_SUCCESS);
+				//return (EXIT_SUCCESS);
+				return (0);
 		}
 		else if (ft_strlen(args[1]) == 0)
-			return (EXIT_SUCCESS);
+			//return (EXIT_SUCCESS);
+			return (0);
 		else if (go_to(args[1]) == -EXIT_FAILURE)
-			return (EXIT_SUCCESS);
+			//return (EXIT_SUCCESS);
+			return (1);
 	}
 	if (init_cwd(env) != EXIT_SUCCESS)
-		return (-EXIT_FAILURE);
-	return (EXIT_SUCCESS);
+		//return (-EXIT_FAILURE);
+		return (1);
+	//return (EXIT_SUCCESS);
+	return (0);
 }
