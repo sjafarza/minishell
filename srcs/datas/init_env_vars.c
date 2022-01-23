@@ -6,7 +6,7 @@
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 09:42:12 by saray             #+#    #+#             */
-/*   Updated: 2022/01/22 21:46:07 by scarboni         ###   ########.fr       */
+/*   Updated: 2022/01/23 11:43:03 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,6 @@ int	init_env_vars(t_env *env, char **raw_env)
 
 	strings_init(strings);
 	i = 0;
-	env->raw_env = raw_env;
 	env->env_vars_max = get_array_size(raw_env);
 	if (env->env_vars_max == NO_ARRAY || env->env_vars_max == 0)
 		return (-EXIT_FAILURE);

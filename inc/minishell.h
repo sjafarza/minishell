@@ -89,7 +89,6 @@ typedef struct s_env {
 	t_env_var	*env_vars;
 	int			env_vars_max;
 	char		**paths;
-	char		**raw_env;
 	char		*cwd;
 	t_stack		pipex_stack;
 	t_stack		parsed_groups_stack;
