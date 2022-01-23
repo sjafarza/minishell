@@ -6,15 +6,33 @@
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 09:42:12 by saray             #+#    #+#             */
-/*   Updated: 2022/01/21 21:58:11 by scarboni         ###   ########.fr       */
+/*   Updated: 2022/01/23 22:31:58 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
+static int	if_question_mark_update(t_env *env, t_env_var *var)
+{
+	char	*str_exit_value;
+
+	if (var->name.len == 1 && ft_strncmp(var->name.str, "?", 1) == 0
+		&& g_status != env->exit_value)
+	{
+		env->exit_value = g_status;
+		str_exit_value = ft_itoa(env->exit_value);
+		if (!str_exit_value)
+			return (-EXIT_FAILURE);
+		if (var->value.str)
+			free(var->value.str);
+		init_t_str(&(var->value), str_exit_value);
+	}
+	return (EXIT_SUCCESS);
+}
+
 t_env_var	*find_env_vars_t_str(t_env *env, t_str var)
 {
-	int	i;
+	int		i;
 
 	i = 0;
 	if (!var.str || var.len <= 0)
@@ -23,7 +41,10 @@ t_env_var	*find_env_vars_t_str(t_env *env, t_str var)
 	{
 		if (env->env_vars[i].name.len == var.len && \
 				ft_strncmp(env->env_vars[i].name.str, var.str, var.len) == 0)
+		{
+			if_question_mark_update(env, &(env->env_vars[i]));
 			return (&env->env_vars[i]);
+		}
 		i++;
 	}
 	return (NULL);
@@ -33,5 +54,6 @@ t_env_var	*find_env_vars(t_env *env, char const*var_name)
 {
 	if (!var_name)
 		return (NULL);
-	return (find_env_vars_t_str(env, (t_str){(char *)var_name, ft_strlen(var_name)}));
+	return (find_env_vars_t_str(env, (t_str){(char *)var_name,
+			ft_strlen(var_name)}));
 }

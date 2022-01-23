@@ -6,7 +6,7 @@
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/22 18:54:29 by scarboni          #+#    #+#             */
-/*   Updated: 2022/01/19 15:44:13 by scarboni         ###   ########.fr       */
+/*   Updated: 2022/01/23 21:56:01 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,10 +134,10 @@ int	fill_io_until_pipe(t_list_double *parsed_group, t_stack	*io_stack)
 		if (tmp_cell->type == TYPE_INPUT1 || tmp_cell->type == TYPE_INPUT2 
 		|| tmp_cell->type == TYPE_OUTPUT1 || tmp_cell->type == TYPE_OUTPUT2)
 		{
-			if (array_len((const char**)tmp_cell->args) != 1)
+			if (array_len((const char**)tmp_cell->args) != 2)
 				return (-EXIT_FAILURE);
-			add_back_io_stack(io_stack, tmp_cell->args[0], tmp_cell->type);
-			tmp_cell->args[0] = NULL;
+			add_back_io_stack(io_stack, tmp_cell->args[1], tmp_cell->type);
+			tmp_cell->args[1] = NULL;
 		}
 		parsed_group = parsed_group->next;
 	}
