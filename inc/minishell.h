@@ -64,6 +64,10 @@ typedef struct s_cell_parsed_group{
 typedef struct s_cell_io{
 	char	*arg;
 	int		type;
+	//int	fd_out;
+	//int	fd_in;
+	//int	i;
+	//t_env_var	*env_vars;
 } t_cell_io;
 
 typedef struct s_stack
@@ -325,6 +329,7 @@ int		execute_io_stack(t_env *env, t_stack *io_stack);
 
 int		open_input_simple(t_cell_io *io_cell);
 int		open_input_double(t_cell_io *io_cell);
+void    here_doc(t_cell_io *args, char **av, int ac);
 int		open_output_simple(t_cell_io *io_cell);
 int		open_output_double(t_cell_io *io_cell);
 static const t_io_opener g_io_opener_dictionary[MAX_IO_TYPES] = {
