@@ -141,7 +141,6 @@ typedef struct s_cmd{
 	int		max_args_len;
 } t_cmd;
 
-int		mock_cmd(t_env *env, const char *cmd, const char **args);
 int		echo_cmd(t_env *env, const char *cmd, const char **args);
 int		exit_cmd(t_env *env, const char *cmd, const char **args);
 int		env_cmd(t_env *env, const char *cmd, const char **args);

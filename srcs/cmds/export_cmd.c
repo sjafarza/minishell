@@ -6,7 +6,7 @@
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/10 09:13:46 by saray             #+#    #+#             */
-/*   Updated: 2022/01/22 22:33:42 by scarboni         ###   ########.fr       */
+/*   Updated: 2022/01/23 13:00:48 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,9 @@ int	export_cmd(t_env *env, const char *cmd, const char **args)
 	int		k;
 	char	*strings[MAX_STRINGS];
 
-	
 	(void)cmd;
+	if (env->pipex_stack.total_item > 1)
+		return (EXIT_SUCCESS);
 	i = 0;
 	k = -1;
 	strings_init(strings);

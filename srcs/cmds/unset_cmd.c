@@ -6,7 +6,7 @@
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/04 16:12:52 by sjafarza          #+#    #+#             */
-/*   Updated: 2022/01/22 16:20:44 by scarboni         ###   ########.fr       */
+/*   Updated: 2022/01/23 13:00:55 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ int	unset_cmd(t_env *env, const char *cmd, const char **args)
 	int	error;
 
 	(void)cmd;
+	if (env->pipex_stack.total_item > 1)
+		return (EXIT_SUCCESS);
 	if (!args[1])
 		return (-EXIT_FAILURE);
 	i = 0;
