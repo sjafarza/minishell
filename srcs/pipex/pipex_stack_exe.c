@@ -6,11 +6,13 @@
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/22 18:54:29 by scarboni          #+#    #+#             */
-/*   Updated: 2022/01/19 15:26:17 by scarboni         ###   ########.fr       */
+/*   Updated: 2022/01/23 22:04:18 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
+
+#define NO_CMD 42
 
 int	start_child(t_env *env, t_cell_pipex *current_cell, int id_cmd)
 {
@@ -24,7 +26,11 @@ int	start_child(t_env *env, t_cell_pipex *current_cell, int id_cmd)
 	{
 		// dup2(current_cell->pipe_to_next[ID_CURRENT_NODE_SIDE], STDOUT_FILENO);
 		// close(current_cell->pipe_to_next[ID_NEXT_NODE_SIDE]);
-		exit_value = g_cmd_dictionary[id_cmd].fun(env, current_cell->args[0], (const char**)current_cell->args);
+		execute_io_stack(env, &(current_cell->io_stack));
+		if (id_cmd == NO_CMD)
+			exit_value = EXIT_SUCCESS;
+		else
+			exit_value = g_cmd_dictionary[id_cmd].fun(env, current_cell->args[0], (const char**)current_cell->args);
 		free_t_env(env);
 		exit(exit_value);
 	}
@@ -45,10 +51,13 @@ int	start_child_before_or_after(t_env *env, t_cell_pipex *current_cell)
 	int		exit_value;
 	int		id_cmd;
 	
-	id_cmd = select_right_cmd(current_cell->args[0], (const char **)current_cell->args);
+	if (current_cell->args[0])
+		id_cmd = select_right_cmd(current_cell->args[0], (const char **)current_cell->args);
+	else
+		id_cmd = NO_CMD;
 	if (id_cmd == -EXIT_FAILURE)
 		return (-EXIT_FAILURE);	
-	if (g_cmd_dictionary[id_cmd].must_be_in_child)
+	if (id_cmd == NO_CMD || g_cmd_dictionary[id_cmd].must_be_in_child)
 		return (start_child(env, current_cell, id_cmd));
 	exit_value = g_cmd_dictionary[id_cmd].fun(env, current_cell->args[0], (const char**)current_cell->args);
 	child_pid = fork();

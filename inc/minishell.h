@@ -313,7 +313,7 @@ char    	**get_raw_env_array(t_env *env);
 
 typedef struct s_io_opener{
 	int		type;
-	int		(*fun)(t_list_double *pipex_node, t_cell_io *io_cell);	
+	int		(*fun)(t_cell_io *io_cell);	
 } t_io_opener;
 
 
@@ -321,12 +321,12 @@ void	clear_io_stack(t_stack *io_stack);
 int		add_back_io_stack(t_stack *io_stack, char *arg, int type);
 void	print_io_stack(t_stack *io_stack);
 
-int		execute_io_stack(t_env *env, t_list_double *pipex_node, t_stack *io_stack);
+int		execute_io_stack(t_env *env, t_stack *io_stack);
 
-int		open_input_simple(t_list_double *pipex_node, t_cell_io *io_cell);
-int		open_input_double(t_list_double *pipex_node, t_cell_io *io_cell);
-int		open_output_simple(t_list_double *pipex_node, t_cell_io *io_cell);
-int		open_output_double(t_list_double *pipex_node, t_cell_io *io_cell);
+int		open_input_simple(t_cell_io *io_cell);
+int		open_input_double(t_cell_io *io_cell);
+int		open_output_simple(t_cell_io *io_cell);
+int		open_output_double(t_cell_io *io_cell);
 static const t_io_opener g_io_opener_dictionary[MAX_IO_TYPES] = {
 	(t_io_opener){TYPE_INPUT1, &open_input_simple},
 	(t_io_opener){TYPE_INPUT2, &open_input_double},

@@ -6,7 +6,7 @@
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/22 18:54:29 by scarboni          #+#    #+#             */
-/*   Updated: 2022/01/19 16:04:25 by scarboni         ###   ########.fr       */
+/*   Updated: 2022/01/23 21:59:34 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	add_back_pipex_stack(t_env *env, char **args, t_stack io_stack)
 {
 	t_cell_pipex	*content;
 
-	if (!args || !args[0] || io_stack.total_item == -1)
+	if (!args || io_stack.total_item == -1)
 		return (-EXIT_FAILURE);
 	content = (t_cell_pipex *)malloc(sizeof(t_cell_pipex));
 	if (!content)
