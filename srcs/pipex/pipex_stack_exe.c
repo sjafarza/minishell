@@ -6,7 +6,7 @@
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/22 18:54:29 by scarboni          #+#    #+#             */
-/*   Updated: 2022/01/23 22:12:38 by scarboni         ###   ########.fr       */
+/*   Updated: 2022/01/23 22:18:08 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ int	start_child(t_env *env, t_cell_pipex *current_cell, int id_cmd)
 		// dup2(current_cell->pipe_to_next[ID_CURRENT_NODE_SIDE], STDOUT_FILENO);
 		// close(current_cell->pipe_to_next[ID_NEXT_NODE_SIDE]);
 		exit_value = execute_io_stack(env, &(current_cell->io_stack));
-		printf("THE FUCK %d\n", exit_value);
 		if (exit_value != EXIT_SUCCESS)
 		{
 			free_t_env(env);
