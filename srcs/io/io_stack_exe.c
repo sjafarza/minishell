@@ -6,7 +6,7 @@
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/22 18:54:29 by scarboni          #+#    #+#             */
-/*   Updated: 2022/01/23 21:46:21 by scarboni         ###   ########.fr       */
+/*   Updated: 2022/01/23 22:15:43 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static int	execute_io_stack_int(t_env *env, t_list_double *io_node)
 		id_io_type_action++;
 	if (g_io_opener_dictionary[id_io_type_action].type != io_cell->type
 		|| g_io_opener_dictionary[id_io_type_action].fun(io_cell)
-			== -EXIT_FAILURE)
+			!= EXIT_SUCCESS)
 		return (-EXIT_FAILURE);
 	return (execute_io_stack_int(env, io_node->next));
 }
@@ -41,5 +41,5 @@ int	execute_io_stack(t_env *env, t_stack *io_stack)
 	}
 	clear_io_stack(io_stack);
 	//close every fd opened
-	return (-EXIT_FAILURE);
+	return (1);
 }

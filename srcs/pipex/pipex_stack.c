@@ -6,7 +6,7 @@
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/22 18:54:29 by scarboni          #+#    #+#             */
-/*   Updated: 2022/01/23 21:59:34 by scarboni         ###   ########.fr       */
+/*   Updated: 2022/01/23 22:13:31 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ static void	print_pipex_stack_int(void *v_content)
 		printf("%d[%s]\n", i, content->args[i]);
 		i++;
 	}
+	print_io_stack(&content->io_stack);
 }
 
 void	print_pipex_stack(t_env *env)
