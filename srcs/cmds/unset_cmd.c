@@ -39,9 +39,12 @@ int	unset_cmd(t_env *env, const char *cmd, const char **args)
 
 	(void)cmd;
 	if (env->pipex_stack.total_item > 1)
-		return (EXIT_SUCCESS);
+		//return (EXIT_SUCCESS);
+		return (0);
+		
 	if (!args[1])
-		return (-EXIT_FAILURE);
+		//return (-EXIT_FAILURE);
+		return (1);
 	i = 0;
 	while (args[++i])
 	{
@@ -54,11 +57,14 @@ int	unset_cmd(t_env *env, const char *cmd, const char **args)
 				free_array(env->paths);
 			env->paths = ft_split("", ':');
 			if (!env->paths)
-				return (-EXIT_FAILURE);
+				//return (-EXIT_FAILURE);
+				return (0);
 		}
 		r = del_env_var(env, (char *)args[i]);
 		if (r != EXIT_SUCCESS)
-			return (-EXIT_FAILURE);
+			//return (-EXIT_FAILURE);
+			return (1);
 	}
-	return (EXIT_SUCCESS);
+	//return (EXIT_SUCCESS);
+	return (0);
 }

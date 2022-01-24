@@ -18,7 +18,8 @@ int	export_sans_arg_cmd(t_env *env, const char *cmd, const char **args)
 
 	(void)cmd;
 	if (args[1])
-		return (-EXIT_FAILURE);
+		//return (-EXIT_FAILURE);
+		return (1);
 	i = 0;
 	while (i < env->env_vars_max)
 	{
@@ -26,5 +27,6 @@ int	export_sans_arg_cmd(t_env *env, const char *cmd, const char **args)
 			env->env_vars[i].value.str);
 		i++;
 	}
-	return (EXIT_SUCCESS);
+	//return (EXIT_SUCCESS);
+	return (0);
 }

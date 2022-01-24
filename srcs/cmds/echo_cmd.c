@@ -35,7 +35,9 @@ int	echo_cmd(t_env *env, const char *cmd, const char **args)
 		++i;
 	}
 	if (is_n == true)
-		return (EXIT_SUCCESS);
+		//return (EXIT_SUCCESS);
+		return (0);
 	printf("\n");
 	return (EXIT_SUCCESS);
+	return (0);
 }

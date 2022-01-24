@@ -18,5 +18,6 @@ int	pwd_cmd(t_env *env, const char *cmd, const char **args)
 	(void)args;
 	(void)env;
 	printf("%s\n", env->cwd);
-	return (EXIT_SUCCESS);
+	//return (EXIT_SUCCESS);
+	return (0);
 }

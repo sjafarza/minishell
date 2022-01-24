@@ -17,6 +17,7 @@ int	exit_cmd(t_env *env, const char *cmd, const char **args)
 	(void)cmd;
 	(void)args;
 	if (env->pipex_stack.total_item > 1)
-		return (EXIT_SUCCESS);
+		//return (EXIT_SUCCESS);
+		return (0);
 	return (EXIT_MINISHELL);
 }

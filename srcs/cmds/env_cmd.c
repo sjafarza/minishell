@@ -18,5 +18,6 @@ int	env_cmd(t_env *env, const char *cmd, const char **args)
 	(void)args;
 	(void)env;
 	print_vars(env);
-	return (EXIT_SUCCESS);
+	//return (EXIT_SUCCESS);
+	return (0);
 }

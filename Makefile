@@ -6,7 +6,7 @@
 #    By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/09/28 22:36:55 by saray             #+#    #+#              #
-#    Updated: 2022/01/24 22:54:58 by scarboni         ###   ########.fr        #
+#    Updated: 2022/01/24 23:52:08 by saray            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -85,7 +85,6 @@ DATAS 	 = 	add_env_var.c \
 			parse_standard.c \
 			parse_type_arg.c \
 			print_vars.c \
-			replace_in_str_with_trim.c \
 			replace_in_str.c \
 			produce_name_value.c
 
