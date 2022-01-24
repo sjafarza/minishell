@@ -26,12 +26,13 @@ int		open_input_simple(t_cell_io *io_cell)
 
 int		open_input_double(t_cell_io *io_cell)
 {
+	int	ac;
+
 	(void)io_cell;
 	//GNL? Other ?
-	// 1) Est_ce que io_cell == "here_doc" in cat<<here_doc?  , (here_doc peut etre n'import mots)
-	// 2) j'ai besion env pour avoir fonctioner "here_doc"
-	//if (ft_strncmp(io_cell->arg, "here_doc", 8) == 0/* 3) && "ac" >= 6*/) /* 3-1) N of arg = 6 for cat<<s*/
-	//	here_doc(&(io_cell), io_cell->arg, ac);
+	// 1) io_cell == la arg aprés <<
+	ac = ft_strlen(io_cell);
+	here_doc(&(io_cell));
 	return (EXIT_SUCCESS);
 }
 

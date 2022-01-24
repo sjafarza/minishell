@@ -64,11 +64,7 @@ typedef struct s_cell_parsed_group{
 typedef struct s_cell_io{
 	char	*arg;
 	int		type;
-	//int	fd_out;
-	//int	fd_in;
-	//int	i;
-	//t_env_var	*env_vars;
-} t_cell_io;
+	} t_cell_io;
 
 typedef struct s_stack
 {
