@@ -6,7 +6,7 @@
 #    By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/09/28 22:36:55 by saray             #+#    #+#              #
-#    Updated: 2022/01/24 22:22:19 by scarboni         ###   ########.fr        #
+#    Updated: 2022/01/24 22:54:58 by scarboni         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -78,9 +78,12 @@ DATAS 	 = 	add_env_var.c \
 			init_path.c \
 			init_t_str.c \
 			is_sequence_equal_to_parser_code.c \
-			parse_char_on_line.c \
+			parse_dollar.c \
 			parse_line_1.c \
 			parse_line_2.c \
+			parse_quotes.c \
+			parse_standard.c \
+			parse_type_arg.c \
 			print_vars.c \
 			replace_in_str_with_trim.c \
 			replace_in_str.c \
