@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: saray <saray.jafarzade@gmail.com>          +#+  +:+       +#+        */
+/*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/24 00:04:01 by saray             #+#    #+#             */
-/*   Updated: 2022/01/24 00:04:04 by saray            ###   ########.fr       */
+/*   Updated: 2022/01/24 22:30:30 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ int    here_doc(t_cell_io *io_cell)
         if (infile_fd == -EXIT_FAILURE)
 		return (-EXIT_FAILURE);*/
         while (get_next_line(&line) == 1)
-                        if(gnl_next(&line, io_cell->arg, 1) == EXIT_SUCCESS)
+                        if (gnl_next(&line, io_cell->arg, 1) == EXIT_SUCCESS)
 							break ;
 	if (dup2(1, STDIN_FILENO) != -1)
                 return (EXIT_SUCCESS);

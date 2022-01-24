@@ -6,7 +6,7 @@
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 09:42:12 by saray             #+#    #+#             */
-/*   Updated: 2022/01/22 14:44:56 by scarboni         ###   ########.fr       */
+/*   Updated: 2022/01/24 22:32:52 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 int	init_cwd(t_env *env)
 {
-	t_env_var *pwd_var;
-	t_env_var *oldpwd_var;
+	t_env_var	*pwd_var;
+	t_env_var	*oldpwd_var;
 
 	if (env->cwd)
 		free(env->cwd);
@@ -30,7 +30,8 @@ int	init_cwd(t_env *env)
 	if (update_env_var(oldpwd_var, pwd_var->value.str) != EXIT_SUCCESS)
 		return (-EXIT_FAILURE);
 	pwd_var->value.str = NULL;
-	if (!env->cwd | (update_env_var(pwd_var, ft_strdup(env->cwd)) != EXIT_SUCCESS))
+	if (!env->cwd | (update_env_var(pwd_var, ft_strdup(env->cwd))
+			!= EXIT_SUCCESS))
 		return (-EXIT_FAILURE);
 	return (EXIT_SUCCESS);
 }

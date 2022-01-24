@@ -6,7 +6,7 @@
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 09:42:12 by saray             #+#    #+#             */
-/*   Updated: 2021/12/28 15:11:16 by scarboni         ###   ########.fr       */
+/*   Updated: 2022/01/24 22:37:23 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ static int	return_and_clean(t_env_var *var, t_str var_trimmed, int code)
 		free(var_trimmed.str);
 	return (code);
 }
-
 
 int	replace_in_str_one_var_with_trim(t_env *env, t_line line_handler,
 int end_var_name, int size_after_max_i)
