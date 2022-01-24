@@ -6,7 +6,7 @@
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 09:42:12 by saray             #+#    #+#             */
-/*   Updated: 2022/01/24 22:07:13 by scarboni         ###   ########.fr       */
+/*   Updated: 2022/01/24 22:10:08 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,20 @@ typedef struct s_norm_loop
 #define DO_RETURN	3
 #define NOTHING		4
 
+t_norm_loop	extract_next_arg_loop_int(t_env *env, t_line line_handle,
+	t_tmp_parsed *tmp_parsed, t_norm norm)
+{
+	if (*(norm.did_find_parsing) == false && tmp_parsed->start == *(norm.i))
+	{
+		*(norm.i) = go_to_next_needed_i((*line_handle.line),
+				&is_not_valid, tmp_parsed->start);
+		tmp_parsed->start = *(norm.i);
+		return ((t_norm_loop){CONTINUE, 0});
+	}
+	return ((t_norm_loop){DO_RETURN, extract_next_arg_int_rec(env,
+			line_handle, *tmp_parsed, norm)});
+}
+
 t_norm_loop	extract_next_arg_loop(t_env *env, t_line line_handle,
 	t_tmp_parsed *tmp_parsed, t_norm norm)
 {
@@ -106,18 +120,7 @@ t_norm_loop	extract_next_arg_loop(t_env *env, t_line line_handle,
 	int	ret;
 
 	if (is_not_valid((*line_handle.line)[*(norm.i)]))
-	{
-		if (*(norm.did_find_parsing) == false && tmp_parsed->start
-			== *(norm.i))
-		{
-			*(norm.i) = go_to_next_needed_i((*line_handle.line),
-					&is_not_valid, tmp_parsed->start);
-			tmp_parsed->start = *(norm.i);
-			return ((t_norm_loop){CONTINUE, 0});
-		}
-		return ((t_norm_loop){DO_RETURN, extract_next_arg_int_rec(env,
-				line_handle, *tmp_parsed, norm)});
-	}
+		return (extract_next_arg_loop_int(env, line_handle, tmp_parsed, norm));
 	parse_i = 0;
 	if (*(norm.do_not_parse_until) <= *(norm.i))
 	{
