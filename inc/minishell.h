@@ -264,6 +264,19 @@ static const t_parser g_parser_dictionary_for_doubles_quotes[MAX_PARSER] = {
 
 #define INCOMPLETE_PATTERN -2
 
+typedef struct s_norm
+{
+	int	*i;
+	int	*do_not_parse_until;
+	int	*did_find_parsing;
+}	t_norm;
+
+typedef struct s_norm_loop
+{
+	int	action;
+	int	ret;
+}	t_norm_loop;
+
 int			ft_is_valid_for_env_var_name(int c);
 t_env_var	*get_or_init_and_get_env_var(t_env *env, char const* name);
 t_env_var	*init_empty_env_var(t_env *env, char const *name, char const *value);
@@ -285,7 +298,6 @@ int			init_t_str(t_str *obj, char* s);
 char		*make_value(char *value);
 int 		find_in_env(t_env *env, char *var);
 int			replace_in_str_one_var(t_env *env, t_line line_handler, int max_i, int size_after_max_i);
-int			replace_in_str_one_var_with_trim(t_env *env, t_line line_handler, int max_i, int size_after_max_i);
 int			extract_parsed_groups(t_env *env, char **line);
 int			is_not_valid(int c);
 int			is_valid(int c);
@@ -303,6 +315,17 @@ int			add_new_env_by_value_name_raw(t_env *env, char *name, char *value, char *r
 //int			is_valid_as_env_var_name(const char *s);
 int			produce_name_value(char *var, char **name, char **value);
 char    	**get_raw_env_array(t_env *env);
+char		**init_array_with_one_str(char *s);
+int			init_array_once_ready(t_line line_handle, t_tmp_parsed tmp_parsed, int i,
+	int did_find_parsing);
+int			extract_next_arg_int_rec(t_env *env, t_line line_handle,
+	t_tmp_parsed tmp_parsed, t_norm norm);
+t_norm_loop	extract_next_arg_loop_int(t_env *env, t_line line_handle,
+	t_tmp_parsed *tmp_parsed, t_norm norm);
+t_norm_loop	extract_next_arg_loop(t_env *env, t_line line_handle,
+	t_tmp_parsed *tmp_parsed, t_norm norm);
+int			extract_next_arg(t_env *env, t_line line_handle, t_tmp_parsed tmp_parsed,
+	int do_not_parse_until);
 
 
 /* ************************************************************************** */

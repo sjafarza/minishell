@@ -33,9 +33,10 @@ int		open_input_double(t_cell_io *io_cell)
 	chek = 0;
 	//GNL? Other ?
 	ret = here_doc(io_cell, &chek);
-	if (chek == 1)
+	if (chek == 1 && ret != EXIT_SUCCESS)
 		{
 			printf("msh: avertissement : « here-document » à la ligne * délimité par la fin du fichier (au lieu de « * »)\n");
+			chek = 0;
 			exit(1) ;
 		}
 

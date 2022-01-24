@@ -6,13 +6,13 @@
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 09:42:12 by saray             #+#    #+#             */
-/*   Updated: 2022/01/22 14:47:46 by scarboni         ###   ########.fr       */
+/*   Updated: 2022/01/24 22:36:46 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-int init_path(t_env *env)
+int	init_path(t_env *env)
 {
 	t_env_var	*var;
 

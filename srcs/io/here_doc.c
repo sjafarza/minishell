@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: saray <saray.jafarzade@gmail.com>          +#+  +:+       +#+        */
+/*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/24 00:04:01 by saray             #+#    #+#             */
-/*   Updated: 2022/01/24 00:04:04 by saray            ###   ########.fr       */
+/*   Updated: 2022/01/24 22:30:30 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ static int    gnl_next(char **line,char *s, int fds)
 
 int    here_doc(t_cell_io *io_cell, int *chek)
 {
+<<<<<<< HEAD
 	char    *line;
 	
 	signal(SIGQUIT, ft_sig_ctr_backslash2);
@@ -66,6 +67,17 @@ int    here_doc(t_cell_io *io_cell, int *chek)
 		if(gnl_next(&line, io_cell->arg, 1) == EXIT_SUCCESS)
 			break ;
 	}
+=======
+        //int     infile_fd;
+        char    *line;
+
+        /*infile_fd = open(io_cell->arg, O_RDONLY, 0777);
+        if (infile_fd == -EXIT_FAILURE)
+		return (-EXIT_FAILURE);*/
+        while (get_next_line(&line) == 1)
+                        if (gnl_next(&line, io_cell->arg, 1) == EXIT_SUCCESS)
+							break ;
+>>>>>>> c4d2874979ee50fbb806268644dc00dfb9d51c1e
 	if (dup2(1, STDIN_FILENO) != -1)
                 return (EXIT_SUCCESS);
         return (-EXIT_FAILURE);        

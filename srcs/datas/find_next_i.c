@@ -6,7 +6,7 @@
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 09:42:12 by saray             #+#    #+#             */
-/*   Updated: 2021/12/14 14:42:01 by scarboni         ###   ########.fr       */
+/*   Updated: 2022/01/24 22:36:23 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,18 +15,18 @@
 int	is_not_valid(int c)
 {
 	if (c && (ft_is_blank(c) || !ft_isprint(c)))
-		return true;
-	return false;
+		return (true);
+	return (false);
 }
 
 int	is_valid(int c)
 {
 	if (c && !is_not_valid(c))
-		return true;
-	return false;
+		return (true);
+	return (false);
 }
 
-int	go_to_next_needed_i(char *line, int(*keep_going)(int), int i)
+int	go_to_next_needed_i(char *line, int (*keep_going)(int), int i)
 {
 	while (keep_going(line[i]))
 		i++;

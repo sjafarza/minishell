@@ -6,7 +6,7 @@
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/22 22:51:50 by saray             #+#    #+#             */
-/*   Updated: 2022/01/23 11:40:45 by scarboni         ###   ########.fr       */
+/*   Updated: 2022/01/24 22:32:24 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ char	**get_raw_env_array(t_env *env)
 	if (!env->env_vars)
 		return (NULL);
 	array = (char **)malloc(sizeof(char *) * (env->env_vars_max + 1));
-	if (!array) 
+	if (!array)
 		return (NULL);
 	i = 0;
 	j = 0;
@@ -30,7 +30,7 @@ char	**get_raw_env_array(t_env *env)
 		if (env->env_vars[i].raw.str == NULL)
 		{
 			i++;
-			continue;
+			continue ;
 		}
 		array[j] = env->env_vars[i].raw.str;
 		env->env_vars[i].raw.str = NULL;

@@ -1,37 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init_cwd.c                                         :+:      :+:    :+:   */
+/*   check_parsing.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 09:42:12 by saray             #+#    #+#             */
-/*   Updated: 2022/01/24 22:32:52 by scarboni         ###   ########.fr       */
+/*   Updated: 2022/01/24 22:14:28 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-int	init_cwd(t_env *env)
+int	check_parsing(const t_parser dictionnary[MAX_PARSER], t_line line_handle,
+	t_tmp_parsed *tmp_parsed, t_parse_utils p_utils)
 {
-	t_env_var	*pwd_var;
-	t_env_var	*oldpwd_var;
-
-	if (env->cwd)
-		free(env->cwd);
-	env->cwd = getcwd(NULL, 0);
-	pwd_var = get_or_init_and_get_env_var(env, PWD_STR);
-	oldpwd_var = get_or_init_and_get_env_var(env, OLDPWD_STR);
-	pwd_var = get_or_init_and_get_env_var(env, PWD_STR);
-	if (!pwd_var)
-		return (-EXIT_FAILURE);
-	if (!oldpwd_var)
-		return (-EXIT_FAILURE);
-	if (update_env_var(oldpwd_var, pwd_var->value.str) != EXIT_SUCCESS)
-		return (-EXIT_FAILURE);
-	pwd_var->value.str = NULL;
-	if (!env->cwd | (update_env_var(pwd_var, ft_strdup(env->cwd))
-			!= EXIT_SUCCESS))
-		return (-EXIT_FAILURE);
+	while ((*p_utils.parse_i) < MAX_PARSER)
+	{
+		if (is_sequence_equal_to_parser_code(*p_utils.parse_i,
+				(*line_handle.line) + (*p_utils.i)))
+			return (dictionnary[*p_utils.parse_i].fun(&line_handle,
+					tmp_parsed, p_utils));
+		(*p_utils.parse_i)++;
+	}
+	*p_utils.parse_i = -DID_NOTHING;
 	return (EXIT_SUCCESS);
 }

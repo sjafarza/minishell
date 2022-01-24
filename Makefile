@@ -6,7 +6,7 @@
 #    By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/09/28 22:36:55 by saray             #+#    #+#              #
-#    Updated: 2022/01/23 13:01:11 by scarboni         ###   ########.fr        #
+#    Updated: 2022/01/24 22:54:58 by scarboni         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -60,27 +60,33 @@ CMDS 	 = 	bash_cmd.c \
 SRC_FILES	+=	$(addprefix $(CMDS_PATH), $(CMDS))
 
 DATAS 	 = 	add_env_var.c \
+			array_len.c \
+			check_parsing.c \
 			clean_env_vars.c \
 			del_env_var.c \
+			extract_parsed_groups.c \
 			find_and_update_env_var.c \
 			find_env_var.c \
 			find_next_i.c \
-			array_len.c \
 			free_array.c \
 			free_t_env.c \
 			ft_is_valid_for_env_var_name.c \
+			get_raw_env_array.c \
 			init_cwd.c \
 			init_empty_env_var.c \
 			init_env_vars.c \
 			init_path.c \
 			init_t_str.c \
 			is_sequence_equal_to_parser_code.c \
-			parse_char_on_line.c \
-			parse_line.c \
+			parse_dollar.c \
+			parse_line_1.c \
+			parse_line_2.c \
+			parse_quotes.c \
+			parse_standard.c \
+			parse_type_arg.c \
 			print_vars.c \
 			replace_in_str_with_trim.c \
 			replace_in_str.c \
-			get_raw_env_array.c \
 			produce_name_value.c
 
 SRC_FILES	+=	$(addprefix $(DATAS_PATH), $(DATAS))
