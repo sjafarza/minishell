@@ -38,23 +38,31 @@ static int	get_next_line(char **line)
 	return (ret);
 }
 
-static void    gnl_next(char **line, int fds)
+static int    gnl_next(char **line,char *s, int fds)
 {
+	if (ft_strncmp(*line, s, ft_strlen(s) == 0
+		&& ft_strlen(s) == (ft_strlen(*line) - 1)))
+	{
+		free(*line);
+		return(EXIT_SUCCESS);
+	}
         write(fds, *line, ft_strlen(*line));
         free(*line);
+		return (-EXIT_FAILURE);
 }
 
 int    here_doc(t_cell_io *io_cell)
 {
-        int     infile_fd;
+        //int     infile_fd;
         char    *line;
 
-        infile_fd = open(io_cell->arg, O_RDONLY, 0777);
+        /*infile_fd = open(io_cell->arg, O_RDONLY, 0777);
         if (infile_fd == -EXIT_FAILURE)
-		return (-EXIT_FAILURE);
+		return (-EXIT_FAILURE);*/
         while (get_next_line(&line) == 1)
-                        gnl_next(&line, infile_fd);        
-	if (dup2(infile_fd, STDIN_FILENO) != -1)
+                        if(gnl_next(&line, io_cell->arg, 1) == EXIT_SUCCESS)
+							break ;
+	if (dup2(1, STDIN_FILENO) != -1)
                 return (EXIT_SUCCESS);
         return (-EXIT_FAILURE);        
 }
