@@ -6,7 +6,7 @@
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 09:42:12 by saray             #+#    #+#             */
-/*   Updated: 2022/01/24 17:19:46 by scarboni         ###   ########.fr       */
+/*   Updated: 2022/01/24 17:24:17 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,6 @@ int	extract_next_arg(t_env *env, t_line line_handle, t_tmp_parsed tmp_parsed, in
 				tmp_parsed.start = i;
 				continue;
 			}
-			printf("Hello thereis_not_valid :() %d:%d:%d:%s ! \n", is_not_valid((*line_handle.line)[i]), do_not_parse_until, i, *(line_handle.line));
 			ret = extract_next_arg(env, line_handle, (t_tmp_parsed) {tmp_parsed.arg, tmp_parsed.ac + 1, tmp_parsed.type, i + 1, tmp_parsed.high_level_start}, do_not_parse_until);
 			if (ret != EXIT_SUCCESS)
 				return (ret);
@@ -86,7 +85,6 @@ int	extract_next_arg(t_env *env, t_line line_handle, t_tmp_parsed tmp_parsed, in
 			return (EXIT_SUCCESS);
 		}
 		parse_i = 0;
-		printf("Hello there %d:%d:%s ! \n", do_not_parse_until, i, *(line_handle.line));
 		if (do_not_parse_until <= i)
 		{
 			ret = check_parsing(g_parser_dictionary, line_handle, &tmp_parsed, (t_parse_utils){env, &i, &parse_i, &do_not_parse_until});
