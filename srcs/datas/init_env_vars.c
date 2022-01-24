@@ -6,7 +6,7 @@
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 09:42:12 by saray             #+#    #+#             */
-/*   Updated: 2022/01/24 22:31:43 by scarboni         ###   ########.fr       */
+/*   Updated: 2022/01/24 23:08:53 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,18 +18,6 @@
 #define STRING_VALUE	1
 #define STRING_RAW		2
 #define MAX_STRINGS		3
-
-static void	strings_init(char *strings[MAX_STRINGS])
-{
-	int	i;
-
-	i = 0;
-	while (i < MAX_STRINGS)
-	{
-		strings[i] = NULL;
-		i++;
-	}
-}
 
 static int	get_array_size(char **arr)
 {
@@ -58,14 +46,11 @@ static int	strings_clean(char *strings[MAX_STRINGS], int code)
 	return (code);
 }
 
-int	init_env_vars(t_env *env, char **raw_env)
+int	init_env_vars_int(t_env *env, char **raw_env, char *strings[MAX_STRINGS],
+	int *i)
 {
-	int		i;
-	int		separator_index;
-	char	*strings[MAX_STRINGS];
-
-	strings_init(strings);
-	i = 0;
+	*i = 0;
+	ft_memset(strings, (int) NULL, sizeof(char *) * MAX_STRINGS);
 	env->env_vars_max = get_array_size(raw_env);
 	if (env->env_vars_max == NO_ARRAY || env->env_vars_max == 0)
 		return (-EXIT_FAILURE);
@@ -76,13 +61,24 @@ int	init_env_vars(t_env *env, char **raw_env)
 	strings[STRING_NAME] = ft_strdup("?");
 	strings[STRING_VALUE] = ft_strdup("0");
 	env->exit_value = 0;
-	env->env_vars[i] = (t_env_var){(t_str){0}, (t_str){0}, (t_str){0}};
-	if (init_t_str(&env->env_vars[i].name, strings[STRING_NAME])
+	env->env_vars[*i] = (t_env_var){(t_str){0}, (t_str){0}, (t_str){0}};
+	if (init_t_str(&env->env_vars[*i].name, strings[STRING_NAME])
 		!= EXIT_SUCCESS
-		|| init_t_str(&env->env_vars[i].value, strings[STRING_VALUE])
+		|| init_t_str(&env->env_vars[*i].value, strings[STRING_VALUE])
 		!= EXIT_SUCCESS)
 		return (strings_clean(strings, -EXIT_FAILURE));
 	i++;
+	return (EXIT_SUCCESS);
+}
+
+int	init_env_vars(t_env *env, char **raw_env)
+{
+	int		i;
+	int		separator_index;
+	char	*strings[MAX_STRINGS];
+
+	if (init_env_vars_int(env, raw_env, strings, &i) != EXIT_SUCCESS)
+		return (-EXIT_FAILURE);
 	while (i < env->env_vars_max)
 	{
 		separator_index = ft_strchr_index(raw_env[i - 1], '=');
