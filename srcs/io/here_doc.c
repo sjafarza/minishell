@@ -38,7 +38,7 @@ static int	get_next_line(char **line)
 	return (ret);
 }
 
-static void    gnl_next(char **line, int *fds)
+static void    gnl_next(char **line, int fds)
 {
         write(fds, *line, ft_strlen(*line));
         free(*line);
