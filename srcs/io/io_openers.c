@@ -26,10 +26,20 @@ int		open_input_simple(t_cell_io *io_cell)
 
 int		open_input_double(t_cell_io *io_cell)
 {
+	int	chek;
+	int	ret;
 
 	(void)io_cell;
+	chek = 0;
 	//GNL? Other ?
-	return (here_doc(io_cell));
+	ret = here_doc(io_cell, &chek);
+	if (chek == 1)
+		{
+			printf("msh: avertissement : « here-document » à la ligne * délimité par la fin du fichier (au lieu de « * »)\n");
+			exit(1) ;
+		}
+
+	return (ret);
 	//return (EXIT_SUCCESS);
 }
 

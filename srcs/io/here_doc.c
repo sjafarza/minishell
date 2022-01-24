@@ -12,7 +12,7 @@
 
 #include "../../inc/minishell.h"
 
-static int	get_next_line(char **line)
+static int	get_next_line(char **line, int	**chek)
 {
 	char	*input;
 	char	buf;
@@ -35,33 +35,37 @@ static int	get_next_line(char **line)
 		input[i] = '\n';
 	input[++i] = '\0';
 	*line = input;
+	if (ret == 0)
+		**chek = 1;
 	return (ret);
 }
 
 static int    gnl_next(char **line,char *s, int fds)
 {
-	if (ft_strncmp(*line, s, ft_strlen(s) == 0
-		&& ft_strlen(s) == (ft_strlen(*line) - 1)))
+	(void)fds;
+	if ((ft_strncmp(*line, s, ft_strlen(s)) == 0)
+		&& (ft_strlen(s) == (ft_strlen(*line) - 1)))
 	{
 		free(*line);
 		return(EXIT_SUCCESS);
 	}
-        write(fds, *line, ft_strlen(*line));
         free(*line);
 		return (-EXIT_FAILURE);
 }
 
-int    here_doc(t_cell_io *io_cell)
+int    here_doc(t_cell_io *io_cell, int *chek)
 {
-        //int     infile_fd;
-        char    *line;
-
-        /*infile_fd = open(io_cell->arg, O_RDONLY, 0777);
-        if (infile_fd == -EXIT_FAILURE)
-		return (-EXIT_FAILURE);*/
-        while (get_next_line(&line) == 1)
-                        if(gnl_next(&line, io_cell->arg, 1) == EXIT_SUCCESS)
-							break ;
+	char    *line;
+	
+	signal(SIGQUIT, ft_sig_ctr_backslash2);
+	signal(SIGINT, ft_sig_ctr_c);
+	write(1,"> ", 2);
+    while (get_next_line(&line, &chek) == 1)
+	{
+		write(1,"> ", 2);
+		if(gnl_next(&line, io_cell->arg, 1) == EXIT_SUCCESS)
+			break ;
+	}
 	if (dup2(1, STDIN_FILENO) != -1)
                 return (EXIT_SUCCESS);
         return (-EXIT_FAILURE);        

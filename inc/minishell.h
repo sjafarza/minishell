@@ -325,7 +325,7 @@ int		execute_io_stack(t_env *env, t_stack *io_stack);
 
 int		open_input_simple(t_cell_io *io_cell);
 int		open_input_double(t_cell_io *io_cell);
-int    here_doc(t_cell_io *io_cell);
+int    here_doc(t_cell_io *io_cell, int	*chek);
 int		open_output_simple(t_cell_io *io_cell);
 int		open_output_double(t_cell_io *io_cell);
 static const t_io_opener g_io_opener_dictionary[MAX_IO_TYPES] = {
