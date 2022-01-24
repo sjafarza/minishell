@@ -26,14 +26,11 @@ int		open_input_simple(t_cell_io *io_cell)
 
 int		open_input_double(t_cell_io *io_cell)
 {
-	int	ac;
 
 	(void)io_cell;
 	//GNL? Other ?
-	// 1) io_cell == la arg aprés <<
-	ac = ft_strlen(io_cell);
-	here_doc(&(io_cell));
-	return (EXIT_SUCCESS);
+	return (here_doc(io_cell));
+	//return (EXIT_SUCCESS);
 }
 
 int		open_output_simple(t_cell_io *io_cell)

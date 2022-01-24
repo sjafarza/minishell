@@ -12,7 +12,7 @@
 
 #include "../../inc/minishell.h"
 
-int	get_next_line(char **line)
+static int	get_next_line(char **line)
 {
 	char	*input;
 	char	buf;
@@ -38,13 +38,13 @@ int	get_next_line(char **line)
 	return (ret);
 }
 
-void    gnl_next(char **line, int *fds)
+static void    gnl_next(char **line, int *fds)
 {
         write(fds, *line, ft_strlen(*line));
         free(*line);
 }
 
-void    here_doc(t_cell_io *io_cell)
+int    here_doc(t_cell_io *io_cell)
 {
         int     infile_fd;
         char    *line;
@@ -54,5 +54,7 @@ void    here_doc(t_cell_io *io_cell)
 		return (-EXIT_FAILURE);
         while (get_next_line(&line) == 1)
                         gnl_next(&line, infile_fd);        
-	return (dup2(infile_fd, STDIN_FILENO));
+	if (dup2(infile_fd, STDIN_FILENO) != -1)
+                return (EXIT_SUCCESS);
+        return (-EXIT_FAILURE);        
 }
