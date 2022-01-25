@@ -12,7 +12,7 @@
 
 #include "../../inc/minishell.h"
 
-static int	get_next_line(char **line, int	**chek)
+/*static int	get_next_line(char **line, int	**chek)
 {
 	char	*input;
 	char	buf;
@@ -38,7 +38,7 @@ static int	get_next_line(char **line, int	**chek)
 	if (ret == 0)
 		**chek = 1;
 	return (ret);
-}
+}*/
 
 static int    gnl_next(char **line,char *s, int fds)
 {
@@ -56,16 +56,21 @@ static int    gnl_next(char **line,char *s, int fds)
 int    here_doc(t_cell_io *io_cell, int *chek)
 {
 	char    *line;
-	
+	(void)chek;
 	signal(SIGQUIT, ft_sig_ctr_backslash2);
-	signal(SIGINT, ft_sig_ctr_c);
-	write(1,"> ", 2);
-    while (get_next_line(&line, &chek) == 1)
+	signal(SIGINT, ft_sig_ctr_c2);
+	//write(1,"> ", 2);
+	line = readline("> ");
+    //while (get_next_line(&line, &chek) == 1)
+	while (line)
 	{
-		write(1,"> ", 2);
+		//write(1,"> ", 2);
 		if(gnl_next(&line, io_cell->arg, 1) == EXIT_SUCCESS)
 			break ;
+	line = readline("> ");		
 	}
+	if (!line)
+		return (2);
 	if (dup2(1, STDIN_FILENO) != -1)
                 return (EXIT_SUCCESS);
         return (-EXIT_FAILURE);        

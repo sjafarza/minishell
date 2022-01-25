@@ -12,7 +12,16 @@
 
 #include "../inc/minishell.h"
 
-// ctrl+c = SIGINT  , ctrl+\ = SIGQUIT , ctrl+D = exit
+// ctrl+c = SIGINT *  , ctrl+\ = SIGQUIT , ctrl+D = exit
+
+void	ft_sig_ctr_c2(int sig)
+{
+	(void)sig;
+	rl_replace_line("", 1);
+	write (1, "\033[8D\033[0K", 8);
+	g_status = 130;
+	exit(1);
+}
 
 void	ft_sig_ctr_c(int sig)
 {
@@ -41,7 +50,7 @@ void	ft_sig_handler(int sig)
 	{
 	
 		write (1, "\033[2D\033[0K", 8);
-		//g_status = 0;
+		//g_status = 131;
 	}
 	if (sig == SIGINT )
 	{

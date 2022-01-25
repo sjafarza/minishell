@@ -393,6 +393,7 @@ int	ft_strchr_index_until_i(const char *s, int c, int i_max);
 
 void	ft_sig_handler(int sig);
 void	ft_sig_ctr_c(int sig);
+void	ft_sig_ctr_c2(int sig);
 void	ft_sig_ctr_backslash(int sig);
 void	ft_sig_ctr_backslash2(int sig);
 void	handel_ctr_c();
