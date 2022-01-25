@@ -6,7 +6,7 @@
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/11 17:47:17 by saray             #+#    #+#             */
-/*   Updated: 2022/01/25 14:41:01 by scarboni         ###   ########.fr       */
+/*   Updated: 2022/01/25 20:58:13 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,12 +27,10 @@
 #  define BUFFER_SIZE 42
 # endif
 
-int      str_len(char const *s, char c);
-void    ft_del_emptyspace(char *s);
+int		str_len(char const *s, char c);
 int		ft_is_blank(char c);
 char	*ft_strcat(const char *s1, const char *s2);
 char	*ft_strcat_with_n(const char *s1, const char *s2);
 char	*ft_str_insert(const char *s1, int i, const char *s2);
-
 
 #endif

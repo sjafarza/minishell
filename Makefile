@@ -6,7 +6,7 @@
 #    By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/09/28 22:36:55 by saray             #+#    #+#              #
-#    Updated: 2022/01/24 23:52:08 by saray            ###   ########.fr        #
+#    Updated: 2022/01/25 20:57:44 by scarboni         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -42,7 +42,6 @@ SRC_FILES		= $(BASE)
 MINILIB = 	ft_strchr_index.c \
 			ft_is_blank.c \
 			ft_strcat.c \
-			ft_del_EmptySpace.c \
 
 SRC_FILES	+=	$(addprefix $(MINILIB_PATH), $(MINILIB))
 

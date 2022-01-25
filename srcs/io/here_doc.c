@@ -6,7 +6,7 @@
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/24 00:04:01 by saray             #+#    #+#             */
-/*   Updated: 2022/01/25 16:29:51 by scarboni         ###   ########.fr       */
+/*   Updated: 2022/01/25 21:02:39 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static int	gnl_next(char **line, char *s, int outfile_fd)
 int	here_doc(t_cell_io *io_cell)
 {
 	char	*line;
-	int	outfile_fd;
+	int		outfile_fd;
 
 	outfile_fd = open(TMP_FILE_PATH, O_WRONLY | O_CREAT | O_TRUNC, 0777);
 	if (outfile_fd == -EXIT_FAILURE)
