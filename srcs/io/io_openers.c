@@ -6,7 +6,7 @@
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/22 18:54:29 by scarboni          #+#    #+#             */
-/*   Updated: 2022/01/25 16:33:54 by scarboni         ###   ########.fr       */
+/*   Updated: 2022/01/25 20:37:44 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,9 @@ int	open_file_and_redirect(char *path)
 	infile_fd = open(path, O_RDONLY, 0777);
 	if (infile_fd == -EXIT_FAILURE)
 		return (-EXIT_FAILURE);
-	return (dup2(infile_fd, STDIN_FILENO));
+	if (dup2(infile_fd, STDIN_FILENO) == STDIN_FILENO)
+		return (EXIT_SUCCESS);
+	return (-EXIT_FAILURE);
 }
 
 int	open_input_simple(t_cell_io *io_cell)
@@ -49,7 +51,9 @@ int	open_output_simple(t_cell_io *io_cell)
 	outfile_fd = open(io_cell->arg, O_WRONLY | O_CREAT | O_TRUNC, 0777);
 	if (outfile_fd == -EXIT_FAILURE)
 		return (-EXIT_FAILURE);
-	return (dup2(outfile_fd, STDOUT_FILENO));
+	if (dup2(outfile_fd, STDOUT_FILENO) == STDOUT_FILENO)
+		return (EXIT_SUCCESS);
+	return (-EXIT_FAILURE);
 }
 
 int	open_output_double(t_cell_io *io_cell)
@@ -59,5 +63,7 @@ int	open_output_double(t_cell_io *io_cell)
 	outfile_fd = open(io_cell->arg, O_WRONLY | O_CREAT | O_APPEND, 0777);
 	if (outfile_fd == -EXIT_FAILURE)
 		return (-EXIT_FAILURE);
-	return (dup2(outfile_fd, STDOUT_FILENO));
+	if (dup2(outfile_fd, STDOUT_FILENO) == STDOUT_FILENO)
+		return (EXIT_SUCCESS);
+	return (-EXIT_FAILURE);
 }
