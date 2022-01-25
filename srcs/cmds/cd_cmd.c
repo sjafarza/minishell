@@ -6,7 +6,7 @@
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/11 22:13:42 by saray             #+#    #+#             */
-/*   Updated: 2022/01/23 13:00:13 by scarboni         ###   ########.fr       */
+/*   Updated: 2022/01/25 14:41:34 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ int	cd_cmd(t_env *env, const char *cmd, const char **args)
 	if (args_len > 2)
 	{
 		printf("%s: cd: trop d'arguments\n", PROMPT_STR);
-		//return (EXIT_SUCCESS);
 		return (0);
 	}
 	if (env->pipex_stack.total_item > 1)
@@ -53,7 +52,6 @@ int	cd_cmd(t_env *env, const char *cmd, const char **args)
 	if (args_len == 1)
 	{
 		if (go_back_to_var(env, HOME_STR) == -EXIT_FAILURE)
-			//return (EXIT_SUCCESS);
 			return (0);
 	}
 	else
@@ -61,19 +59,14 @@ int	cd_cmd(t_env *env, const char *cmd, const char **args)
 		if (ft_strncmp(args[1], "-", 2) == 0)
 		{
 			if (go_back_to_var(env, OLDPWD_STR) == -EXIT_FAILURE)
-				//return (EXIT_SUCCESS);
 				return (0);
 		}
 		else if (ft_strlen(args[1]) == 0)
-			//return (EXIT_SUCCESS);
 			return (0);
 		else if (go_to(args[1]) == -EXIT_FAILURE)
-			//return (EXIT_SUCCESS);
 			return (1);
 	}
 	if (init_cwd(env) != EXIT_SUCCESS)
-		//return (-EXIT_FAILURE);
 		return (1);
-	//return (EXIT_SUCCESS);
 	return (0);
 }

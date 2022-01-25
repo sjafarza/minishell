@@ -6,7 +6,7 @@
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/03 10:47:48 by sjafarza          #+#    #+#             */
-/*   Updated: 2022/01/22 20:33:35 by scarboni         ###   ########.fr       */
+/*   Updated: 2022/01/25 14:41:42 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ int	echo_cmd(t_env *env, const char *cmd, const char **args)
 		++i;
 	}
 	if (is_n == true)
-		//return (EXIT_SUCCESS);
 		return (0);
 	printf("\n");
 	return (EXIT_SUCCESS);

@@ -6,7 +6,7 @@
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/11 18:04:14 by saray             #+#    #+#             */
-/*   Updated: 2022/01/21 15:55:44 by scarboni         ###   ########.fr       */
+/*   Updated: 2022/01/25 14:42:06 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,5 @@ int	pwd_cmd(t_env *env, const char *cmd, const char **args)
 	(void)args;
 	(void)env;
 	printf("%s\n", env->cwd);
-	//return (EXIT_SUCCESS);
 	return (0);
 }

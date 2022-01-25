@@ -312,7 +312,6 @@ int			add_env_var(t_env *env, char *var);
 int			check_parsing(const t_parser dictionnary[MAX_PARSER], t_line line_handle, t_tmp_parsed *tmp_parsed, t_parse_utils p_utils);
 int			is_sequence_equal_to_parser_code(int type_code, char *seq);
 int			add_new_env_by_value_name_raw(t_env *env, char *name, char *value, char *raw);
-//int			is_valid_as_env_var_name(const char *s);
 int			produce_name_value(char *var, char **name, char **value);
 char    	**get_raw_env_array(t_env *env);
 char		**init_array_with_one_str(char *s);

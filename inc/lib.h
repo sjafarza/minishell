@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lib.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sjafarza <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/11 17:47:17 by saray             #+#    #+#             */
-/*   Updated: 2021/12/02 08:19:53 by scarboni         ###   ########.fr       */
+/*   Updated: 2022/01/25 14:41:01 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@
 # endif
 
 int      str_len(char const *s, char c);
-//void    ft_del_emptyspace(char **s);
 void    ft_del_emptyspace(char *s);
 int		ft_is_blank(char c);
 char	*ft_strcat(const char *s1, const char *s2);

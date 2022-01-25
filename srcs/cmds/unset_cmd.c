@@ -6,7 +6,7 @@
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/04 16:12:52 by sjafarza          #+#    #+#             */
-/*   Updated: 2022/01/23 18:29:01 by saray            ###   ########.fr       */
+/*   Updated: 2022/01/25 14:43:22 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,11 +39,8 @@ int	unset_cmd(t_env *env, const char *cmd, const char **args)
 
 	(void)cmd;
 	if (env->pipex_stack.total_item > 1)
-		//return (EXIT_SUCCESS);
 		return (0);
-		
 	if (!args[1])
-		//return (-EXIT_FAILURE);
 		return (1);
 	i = 0;
 	while (args[++i])
@@ -57,14 +54,11 @@ int	unset_cmd(t_env *env, const char *cmd, const char **args)
 				free_array(env->paths);
 			env->paths = ft_split("", ':');
 			if (!env->paths)
-				//return (-EXIT_FAILURE);
-				return (0);
+				return (1);
 		}
 		r = del_env_var(env, (char *)args[i]);
 		if (r != EXIT_SUCCESS)
-			//return (-EXIT_FAILURE);
 			return (1);
 	}
-	//return (EXIT_SUCCESS);
 	return (0);
 }
