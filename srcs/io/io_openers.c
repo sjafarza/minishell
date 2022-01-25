@@ -6,15 +6,13 @@
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/22 18:54:29 by scarboni          #+#    #+#             */
-/*   Updated: 2022/01/23 22:15:03 by scarboni         ###   ########.fr       */
+/*   Updated: 2022/01/25 12:57:49 by saray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-
-
-int		open_input_simple(t_cell_io *io_cell)
+int	open_input_simple(t_cell_io *io_cell)
 {
 	int				infile_fd;
 
@@ -24,29 +22,22 @@ int		open_input_simple(t_cell_io *io_cell)
 	return (dup2(infile_fd, STDIN_FILENO));
 }
 
-int		open_input_double(t_cell_io *io_cell)
+int	open_input_double(t_cell_io *io_cell)
 {
-	int	chek;
 	int	ret;
 
 	(void)io_cell;
-	chek = 0;
-	//GNL? Other ?
-	ret = here_doc(io_cell, &chek);
-	if (/*chek == 1*/ret == 2)
-			{
-			printf("msh: avertissement : « here-document » à la ligne * délimité par la fin du fichier (au lieu de « * »)\n");
-			chek = 0;
-			//return (EXIT_MINISHELL);
-			//exit(1) ;
-			return (-EXIT_FAILURE);
-		}
-
+	ret = here_doc(io_cell);
+	if (ret == 2)
+	{
+		write(1, "msh:avertissement :«here-document» à la ligne * ", 51);
+		printf("délimitépar fin du fichier(au lieu de « %s »)\n", io_cell->arg);
+		return (-EXIT_FAILURE);
+	}
 	return (ret);
-	//return (EXIT_SUCCESS);
 }
 
-int		open_output_simple(t_cell_io *io_cell)
+int	open_output_simple(t_cell_io *io_cell)
 {
 	int	outfile_fd;
 
@@ -56,7 +47,7 @@ int		open_output_simple(t_cell_io *io_cell)
 	return (dup2(outfile_fd, STDOUT_FILENO));
 }
 
-int		open_output_double(t_cell_io *io_cell)
+int	open_output_double(t_cell_io *io_cell)
 {
 	int	outfile_fd;
 

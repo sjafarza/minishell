@@ -6,7 +6,7 @@
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/22 18:54:29 by scarboni          #+#    #+#             */
-/*   Updated: 2022/01/19 15:28:45 by scarboni         ###   ########.fr       */
+/*   Updated: 2022/01/25 13:02:27 by saray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 static void	free_cell_io(void *v_cell)
 {
-	t_cell_io *cell;
+	t_cell_io	*cell;
 
-	cell = (t_cell_io*)v_cell;
+	cell = (t_cell_io *)v_cell;
 	if (cell->arg)
 		free(cell->arg);
 	free(cell);
@@ -56,7 +56,7 @@ static void	print_io_stack_int(void *v_content)
 {
 	t_cell_io	*content;
 
-	content = (t_cell_io*)v_content;
+	content = (t_cell_io *)v_content;
 	printf("PRINT CELL %s:%d\n", content->arg, content->type);
 }
 
