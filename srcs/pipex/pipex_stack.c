@@ -6,7 +6,7 @@
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/22 18:54:29 by scarboni          #+#    #+#             */
-/*   Updated: 2022/01/23 22:13:31 by scarboni         ###   ########.fr       */
+/*   Updated: 2022/01/25 23:17:16 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 static void	free_cell_pipex(void *v_cell)
 {
-	t_cell_pipex *cell;
+	t_cell_pipex	*cell;
 
-	cell = (t_cell_pipex*)v_cell;
+	cell = (t_cell_pipex *)v_cell;
 	if (cell->args)
 		free_array(cell->args);
 	clear_io_stack(&(cell->io_stack));
@@ -62,10 +62,10 @@ int	add_back_pipex_stack(t_env *env, char **args, t_stack io_stack)
 
 static void	print_pipex_stack_int(void *v_content)
 {
-	int		i;
+	int				i;
 	t_cell_pipex	*content;
 
-	content = (t_cell_pipex*)v_content;
+	content = (t_cell_pipex *)v_content;
 	i = 0;
 	printf("PRINT CELL :\n");
 	while (content->args[i])

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strcat.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sjafarza <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/05 10:38:18 by scarboni          #+#    #+#             */
-/*   Updated: 2021/12/02 08:19:42 by scarboni         ###   ########.fr       */
+/*   Updated: 2022/01/25 23:18:35 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,8 @@ char	*ft_strcat(const char *s1, const char *s2)
 
 char	*ft_strcat_with_n(const char *s1, const char *s2)
 {
-	char *tmp;
-	char *dst;
+	char	*tmp;
+	char	*dst;
 
 	tmp = ft_strcat(s1, "\n");
 	if (!tmp)
