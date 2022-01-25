@@ -331,7 +331,9 @@ int			extract_next_arg(t_env *env, t_line line_handle, t_tmp_parsed tmp_parsed,
 /* 									IO  									  */
 /* ************************************************************************** */
 
+# define EXIT_CTRL_D	2
 # define MAX_IO_TYPES 4
+# define TMP_FILE_PATH	"/tmp/minishell_tmp"
 
 typedef struct s_io_opener{
 	int		type;
@@ -344,7 +346,7 @@ int		add_back_io_stack(t_stack *io_stack, char *arg, int type);
 void	print_io_stack(t_stack *io_stack);
 
 int		execute_io_stack(t_env *env, t_stack *io_stack);
-
+int		open_file_and_redirect(char *path);
 int		open_input_simple(t_cell_io *io_cell);
 int		open_input_double(t_cell_io *io_cell);
 int    here_doc(t_cell_io *io_cell);
