@@ -1,16 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse_type_arg.c                                   :+:      :+:    :+:   */
+/*   parse_type_arg_2.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 09:42:12 by saray             #+#    #+#             */
-/*   Updated: 2022/01/26 20:58:54 by scarboni         ###   ########.fr       */
+/*   Updated: 2022/01/26 21:20:33 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
+
+int	get_arg_for_w1a_int(t_line *line_handle, t_tmp_parsed *tmp_parsed,
+	t_parse_utils p_utils, int start)
+{
+	(*tmp_parsed->arg)[tmp_parsed->ac + 1] = NULL;
+	if ((*p_utils.i) == start)
+	{
+		(*tmp_parsed->arg)[tmp_parsed->ac] = NULL;
+		return (-EXIT_FAILURE);
+	}
+	(*tmp_parsed->arg)[tmp_parsed->ac] = ft_substr(*line_handle->line, start,
+			(*p_utils.i) - start);
+	if (!(*tmp_parsed->arg)[tmp_parsed->ac])
+	{
+		free_array(*tmp_parsed->arg);
+		*tmp_parsed->arg = NULL;
+		return (-EXIT_FAILURE);
+	}
+	tmp_parsed->ac++;
+	return (EXIT_SUCCESS);
+}
 
 int	get_arg_for_w1a(t_line *line_handle, t_tmp_parsed *tmp_parsed,
 	t_parse_utils p_utils, const t_parser g_parser_dict[MAX_PARSER])
@@ -37,42 +58,14 @@ int	get_arg_for_w1a(t_line *line_handle, t_tmp_parsed *tmp_parsed,
 			return (ret);
 		(*p_utils.i)++;
 	}
-	(*tmp_parsed->arg)[tmp_parsed->ac + 1] = NULL;
-	if ((*p_utils.i) == start)
-	{
-		(*tmp_parsed->arg)[tmp_parsed->ac] = NULL;
-		return (-EXIT_FAILURE);
-	}
-	(*tmp_parsed->arg)[tmp_parsed->ac] = ft_substr(*line_handle->line, start,
-			(*p_utils.i) - start);
-	if (!(*tmp_parsed->arg)[tmp_parsed->ac])
-	{
-		free_array(*tmp_parsed->arg);
-		*tmp_parsed->arg = NULL;
-		return (-EXIT_FAILURE);
-	}
-	tmp_parsed->ac++;
-	return (EXIT_SUCCESS);
+	return (get_arg_for_w1a_int(line_handle, tmp_parsed, p_utils, start));
 }
 
-
-int	parse_type_w1a_only_int(t_line *line_handle, t_tmp_parsed *tmp_parsed,
+int	parse_type_w1a_only_int_int(t_line *line_handle, t_tmp_parsed *tmp_parsed,
 	t_parse_utils p_utils, const t_parser g_parser_dict[MAX_PARSER])
 {
 	int	ret;
 
-	if (tmp_parsed->ac != 0 || (*tmp_parsed->high_level_start) != (*p_utils.i))
-		return (PARSE_CUT);
-	*tmp_parsed->type = *p_utils.parse_i;
-	(*p_utils.i) += g_parser_dictionary[*p_utils.parse_i].code.len;
-	if (!(*line_handle->line)[(*p_utils.i)])
-		return (-EXIT_FAILURE);
-	*tmp_parsed->arg = malloc(sizeof(char *) * 3);
-	if (!(*tmp_parsed->arg))
-		return (-EXIT_FAILURE);
-	(*tmp_parsed->arg)[tmp_parsed->ac] = ft_strdup(
-			g_parser_dictionary_for_w1a[*p_utils.parse_i].code.str);
-	(*tmp_parsed->arg)[tmp_parsed->ac + 1] = NULL;
 	if (!(*tmp_parsed->arg)[tmp_parsed->ac])
 	{
 		free(*tmp_parsed->arg);
@@ -90,16 +83,21 @@ int	parse_type_w1a_only_int(t_line *line_handle, t_tmp_parsed *tmp_parsed,
 	return (ALREADY_FILLED);
 }
 
-int	parse_type_w1a_only_double_input(t_line *line_handle, t_tmp_parsed *tmp_parsed,
-	t_parse_utils p_utils)
+int	parse_type_w1a_only_int(t_line *line_handle, t_tmp_parsed *tmp_parsed,
+	t_parse_utils p_utils, const t_parser g_parser_dict[MAX_PARSER])
 {
-	return (parse_type_w1a_only_int(line_handle, tmp_parsed,
-	p_utils, g_parser_dictionary_for_w1a_double_input));
-}
-
-int	parse_type_w1a_only(t_line *line_handle, t_tmp_parsed *tmp_parsed,
-	t_parse_utils p_utils)
-{
-	return (parse_type_w1a_only_int(line_handle, tmp_parsed,
-	p_utils, g_parser_dictionary_for_w1a));
+	if (tmp_parsed->ac != 0 || (*tmp_parsed->high_level_start) != (*p_utils.i))
+		return (PARSE_CUT);
+	*tmp_parsed->type = *p_utils.parse_i;
+	(*p_utils.i) += g_parser_dictionary[*p_utils.parse_i].code.len;
+	if (!(*line_handle->line)[(*p_utils.i)])
+		return (-EXIT_FAILURE);
+	*tmp_parsed->arg = malloc(sizeof(char *) * 3);
+	if (!(*tmp_parsed->arg))
+		return (-EXIT_FAILURE);
+	(*tmp_parsed->arg)[tmp_parsed->ac] = ft_strdup(
+			g_parser_dictionary_for_w1a[*p_utils.parse_i].code.str);
+	(*tmp_parsed->arg)[tmp_parsed->ac + 1] = NULL;
+	return (parse_type_w1a_only_int_int(line_handle, tmp_parsed,
+			p_utils, g_parser_dict));
 }

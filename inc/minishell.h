@@ -6,7 +6,7 @@
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/11 17:47:17 by saray             #+#    #+#             */
-/*   Updated: 2022/01/26 20:34:58 by scarboni         ###   ########.fr       */
+/*   Updated: 2022/01/26 21:21:24 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -226,6 +226,10 @@ int			parse_dollar_for_double_quotes(t_line *line_handle,
 # define TYPE_DOLLAR			7
 # define TYPE_CMD				8
 # define MAX_PARSER				8
+
+int			parse_type_w1a_only_int(t_line *line_handle,
+			t_tmp_parsed *tmp_parsed, t_parse_utils p_utils,
+			const t_parser g_parser_dict[MAX_PARSER]);
 
 static const
 	t_parser g_parser_dictionary[MAX_PARSER] = {

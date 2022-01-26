@@ -6,7 +6,7 @@
 #    By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/09/28 22:36:55 by saray             #+#    #+#              #
-#    Updated: 2022/01/25 20:57:44 by scarboni         ###   ########.fr        #
+#    Updated: 2022/01/26 21:22:00 by scarboni         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -82,7 +82,8 @@ DATAS 	 = 	add_env_var.c \
 			parse_line_2.c \
 			parse_quotes.c \
 			parse_standard.c \
-			parse_type_arg.c \
+			parse_type_arg_1.c \
+			parse_type_arg_2.c \
 			print_vars.c \
 			replace_in_str.c \
 			produce_name_value.c
