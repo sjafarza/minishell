@@ -6,14 +6,14 @@
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 09:42:12 by saray             #+#    #+#             */
-/*   Updated: 2022/01/24 22:53:19 by scarboni         ###   ########.fr       */
+/*   Updated: 2022/01/26 20:58:54 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
 int	get_arg_for_w1a(t_line *line_handle, t_tmp_parsed *tmp_parsed,
-	t_parse_utils p_utils)
+	t_parse_utils p_utils, const t_parser g_parser_dict[MAX_PARSER])
 {
 	int	parse_i;
 	int	ret;
@@ -26,7 +26,7 @@ int	get_arg_for_w1a(t_line *line_handle, t_tmp_parsed *tmp_parsed,
 		is_valid((*line_handle->line)[*p_utils.i]))
 	{
 		parse_i = 0;
-		ret = check_parsing(g_parser_dictionary_for_w1a, *line_handle,
+		ret = check_parsing(g_parser_dict, *line_handle,
 				tmp_parsed, (t_parse_utils){p_utils.env, p_utils.i, &parse_i,
 				p_utils.do_not_parse_until});
 		if (ret == PARSE_CUT)
@@ -55,8 +55,9 @@ int	get_arg_for_w1a(t_line *line_handle, t_tmp_parsed *tmp_parsed,
 	return (EXIT_SUCCESS);
 }
 
-int	parse_type_w1a_only(t_line *line_handle, t_tmp_parsed *tmp_parsed,
-	t_parse_utils p_utils)
+
+int	parse_type_w1a_only_int(t_line *line_handle, t_tmp_parsed *tmp_parsed,
+	t_parse_utils p_utils, const t_parser g_parser_dict[MAX_PARSER])
 {
 	int	ret;
 
@@ -81,10 +82,24 @@ int	parse_type_w1a_only(t_line *line_handle, t_tmp_parsed *tmp_parsed,
 	tmp_parsed->ac++;
 	*p_utils.i = go_to_next_needed_i((*line_handle->line), &is_not_valid,
 			(*p_utils.i));
-	ret = get_arg_for_w1a(line_handle, tmp_parsed, p_utils);
+	ret = get_arg_for_w1a(line_handle, tmp_parsed, p_utils, g_parser_dict);
 	if (ret != EXIT_SUCCESS)
 		return (ret);
 	if ((*p_utils.i) > (*line_handle->i))
 		*line_handle->i = (*p_utils.i);
 	return (ALREADY_FILLED);
+}
+
+int	parse_type_w1a_only_double_input(t_line *line_handle, t_tmp_parsed *tmp_parsed,
+	t_parse_utils p_utils)
+{
+	return (parse_type_w1a_only_int(line_handle, tmp_parsed,
+	p_utils, g_parser_dictionary_for_w1a_double_input));
+}
+
+int	parse_type_w1a_only(t_line *line_handle, t_tmp_parsed *tmp_parsed,
+	t_parse_utils p_utils)
+{
+	return (parse_type_w1a_only_int(line_handle, tmp_parsed,
+	p_utils, g_parser_dictionary_for_w1a));
 }

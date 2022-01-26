@@ -6,7 +6,7 @@
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/11 17:47:17 by saray             #+#    #+#             */
-/*   Updated: 2022/01/26 20:29:32 by scarboni         ###   ########.fr       */
+/*   Updated: 2022/01/26 20:34:58 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -202,6 +202,8 @@ int			parse_type_without_arg(t_line *line_handle,
 				t_tmp_parsed *tmp_parsed, t_parse_utils p_utils);
 int			parse_type_w1a_only(t_line *line_handle, t_tmp_parsed *tmp_parsed,
 				t_parse_utils p_utils);
+int			parse_type_w1a_only_double_input(t_line *line_handle,
+				t_tmp_parsed *tmp_parsed, t_parse_utils p_utils);
 int			parse_type(t_line *line_handle, t_tmp_parsed *tmp_parsed,
 				t_parse_utils p_utils);
 int			parse_dollar(t_line *line_handle, t_tmp_parsed *tmp_parsed,
@@ -227,7 +229,7 @@ int			parse_dollar_for_double_quotes(t_line *line_handle,
 
 static const
 	t_parser g_parser_dictionary[MAX_PARSER] = {
-	(t_parser){(t_str){"<<", 2}, &parse_type_w1a_only},
+	(t_parser){(t_str){"<<", 2}, &parse_type_w1a_only_double_input},
 	(t_parser){(t_str){">>", 2}, &parse_type_w1a_only},
 	(t_parser){(t_str){"|", 1}, &parse_type_without_arg},
 	(t_parser){(t_str){"<", 1}, &parse_type_w1a_only},
@@ -245,7 +247,7 @@ int			jump_parsing(t_line *line_handle, t_tmp_parsed *tmp_parsed,
 				t_parse_utils pqu);
 
 static const
-	t_parser g_parser_dictionary_for_w1a[MAX_PARSER] = {
+	t_parser g_parser_dictionary_for_w1a_double_input[MAX_PARSER] = {
 	(t_parser){(t_str){"<<", 2}, &cut_parsing},
 	(t_parser){(t_str){">>", 2}, &cut_parsing},
 	(t_parser){(t_str){"|", 1}, &cut_parsing},
@@ -254,6 +256,18 @@ static const
 	(t_parser){(t_str){"\"", 1}, &parse_double_quote},
 	(t_parser){(t_str){"\'", 1}, &parse_simple_quote},
 	(t_parser){(t_str){"$", 1}, &jump_parsing}
+};
+
+static const
+	t_parser g_parser_dictionary_for_w1a[MAX_PARSER] = {
+	(t_parser){(t_str){"<<", 2}, &cut_parsing},
+	(t_parser){(t_str){">>", 2}, &cut_parsing},
+	(t_parser){(t_str){"|", 1}, &cut_parsing},
+	(t_parser){(t_str){"<", 1}, &cut_parsing},
+	(t_parser){(t_str){">", 1}, &cut_parsing},
+	(t_parser){(t_str){"\"", 1}, &parse_double_quote},
+	(t_parser){(t_str){"\'", 1}, &parse_simple_quote},
+	(t_parser){(t_str){"$", 1}, &parse_dollar}
 };
 
 static const
