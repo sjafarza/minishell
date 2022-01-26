@@ -6,7 +6,7 @@
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/11 17:47:17 by saray             #+#    #+#             */
-/*   Updated: 2022/01/25 23:10:53 by scarboni         ###   ########.fr       */
+/*   Updated: 2022/01/26 20:29:32 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -253,7 +253,7 @@ static const
 	(t_parser){(t_str){">", 1}, &cut_parsing},
 	(t_parser){(t_str){"\"", 1}, &parse_double_quote},
 	(t_parser){(t_str){"\'", 1}, &parse_simple_quote},
-	(t_parser){(t_str){"$", 1}, &parse_dollar}
+	(t_parser){(t_str){"$", 1}, &jump_parsing}
 };
 
 static const
