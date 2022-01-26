@@ -370,7 +370,7 @@ int			extract_next_arg(t_env *env, t_line line_handle,
 
 typedef struct s_io_opener{
 	int		type;
-	int		(*fun)(t_cell_io *io_cell);	
+	int		(*fun)(t_env *env, t_cell_io *io_cell);	
 }	t_io_opener;
 
 void		clear_io_stack(t_stack *io_stack);
@@ -379,11 +379,12 @@ void		print_io_stack(t_stack *io_stack);
 
 int			execute_io_stack(t_env *env, t_stack *io_stack);
 int			open_file_and_redirect(char *path);
-int			open_input_simple(t_cell_io *io_cell);
-int			open_input_double(t_cell_io *io_cell);
-int			here_doc(t_cell_io *io_cell);
-int			open_output_simple(t_cell_io *io_cell);
-int			open_output_double(t_cell_io *io_cell);
+int			open_input_simple(t_env *env, t_cell_io *io_cell);
+int			open_input_double(t_env *env, t_cell_io *io_cell);
+int			here_doc(t_env *env, t_cell_io *io_cell);
+int			open_output_simple(t_env *env, t_cell_io *io_cell);
+int			open_output_double(t_env *env, t_cell_io *io_cell);
+int 		replace_line_env(t_env *env, char *line);
 
 static const
 	t_io_opener g_io_opener_dictionary[MAX_IO_TYPES] = {

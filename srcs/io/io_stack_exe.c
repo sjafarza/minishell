@@ -27,7 +27,7 @@ static int	execute_io_stack_int(t_env *env, t_list_double *io_node)
 		g_io_opener_dictionary[id_io_type_action].type != io_cell->type)
 		id_io_type_action++;
 	if (g_io_opener_dictionary[id_io_type_action].type != io_cell->type \
-		|| g_io_opener_dictionary[id_io_type_action].fun(io_cell)
+		|| g_io_opener_dictionary[id_io_type_action].fun(env, io_cell)
 		!= EXIT_SUCCESS)
 		return (-EXIT_FAILURE);
 	return (execute_io_stack_int(env, io_node->next));

@@ -98,7 +98,8 @@ SRC_FILES	+=	$(addprefix $(PIPEX_PATH), $(PIPEX))
 IO 	 = 				io_openers.c \
 					io_stack_exe.c \
 					io_stack.c \
-					here_doc.c
+					here_doc.c \
+					replace_line_env.c
 
 SRC_FILES	+=	$(addprefix $(IO_PATH), $(IO))
 

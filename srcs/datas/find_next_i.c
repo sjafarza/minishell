@@ -28,6 +28,7 @@ int	is_valid(int c)
 
 int	go_to_next_needed_i(char *line, int (*keep_going)(int), int i)
 {
+
 	while (keep_going(line[i]))
 		i++;
 	return (i);

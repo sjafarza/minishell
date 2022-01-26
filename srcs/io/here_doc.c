@@ -12,8 +12,10 @@
 
 #include "../../inc/minishell.h"
 
-static int	gnl_next(char **line, char *s, int outfile_fd)
+static int	gnl_next(t_env	*env, char **line, char *s, int outfile_fd)
 {
+	int	ret;
+
 	if ((ft_strncmp(*line, s, ft_strlen(s)) == 0)
 		&& (ft_strlen(s) == (ft_strlen(*line))))
 	{
@@ -21,6 +23,7 @@ static int	gnl_next(char **line, char *s, int outfile_fd)
 		*line = NULL;
 		return (EXIT_SUCCESS);
 	}
+	ret = replace_line_env(env, (*line));
 	write(outfile_fd, *line, ft_strlen(*line));
 	write(outfile_fd, "\n", 1);
 	free(*line);
@@ -28,11 +31,13 @@ static int	gnl_next(char **line, char *s, int outfile_fd)
 	return (-EXIT_FAILURE);
 }
 
-int	here_doc(t_cell_io *io_cell)
+int	here_doc(t_env *env, t_cell_io *io_cell)
 {
 	char	*line;
 	int		outfile_fd;
+	//int		ret;
 
+	(void)env;
 	outfile_fd = open(TMP_FILE_PATH, O_WRONLY | O_CREAT | O_TRUNC, 0777);
 	if (outfile_fd == -EXIT_FAILURE)
 		return (-EXIT_FAILURE);
@@ -41,7 +46,7 @@ int	here_doc(t_cell_io *io_cell)
 	line = readline("> ");
 	while (line)
 	{
-		if (gnl_next(&line, io_cell->arg, outfile_fd) == EXIT_SUCCESS)
+		if (gnl_next(env, &line, io_cell->arg, outfile_fd) == EXIT_SUCCESS)
 			break ;
 		line = readline("> ");
 		if (!line)

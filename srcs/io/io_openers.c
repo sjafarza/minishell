@@ -24,18 +24,19 @@ int	open_file_and_redirect(char *path)
 	return (-EXIT_FAILURE);
 }
 
-int	open_input_simple(t_cell_io *io_cell)
+int	open_input_simple(t_env *env, t_cell_io *io_cell)
 {
+	(void)env;
 	return (open_file_and_redirect(io_cell->arg));
 }
 
 #define WARNING_CTR_D	"msh:avertissement :«here-document» à la ligne * "
 
-int	open_input_double(t_cell_io *io_cell)
+int	open_input_double(t_env *env, t_cell_io *io_cell)
 {
 	int	ret;
 
-	ret = here_doc(io_cell);
+	ret = here_doc(env, io_cell);
 	if (ret == EXIT_CTRL_D)
 	{
 		write(1, WARNING_CTR_D, ft_strlen(WARNING_CTR_D));
@@ -44,10 +45,11 @@ int	open_input_double(t_cell_io *io_cell)
 	return (open_file_and_redirect(TMP_FILE_PATH));
 }
 
-int	open_output_simple(t_cell_io *io_cell)
+int	open_output_simple(t_env *env, t_cell_io *io_cell)
 {
 	int	outfile_fd;
 
+	(void)env;
 	outfile_fd = open(io_cell->arg, O_WRONLY | O_CREAT | O_TRUNC, 0777);
 	if (outfile_fd == -EXIT_FAILURE)
 		return (-EXIT_FAILURE);
@@ -56,10 +58,11 @@ int	open_output_simple(t_cell_io *io_cell)
 	return (-EXIT_FAILURE);
 }
 
-int	open_output_double(t_cell_io *io_cell)
+int	open_output_double(t_env *env, t_cell_io *io_cell)
 {
 	int	outfile_fd;
 
+	(void)env;
 	outfile_fd = open(io_cell->arg, O_WRONLY | O_CREAT | O_APPEND, 0777);
 	if (outfile_fd == -EXIT_FAILURE)
 		return (-EXIT_FAILURE);
