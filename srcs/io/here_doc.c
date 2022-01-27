@@ -26,8 +26,9 @@ static int	gnl_next(t_env	*env, char **line, char *s, int outfile_fd)
 	if ((ft_strchr((const char *)(*line), '$')) != NULL)
 	{
 		printf("find it \n");
-		substitute_line_env(env, (*line));
+		substitute_line_env(env, &(*line));
 	}
+	//printf("**** fin line in gnl = %s\n", *line);
 	write(outfile_fd, *line, ft_strlen(*line));
 	write(outfile_fd, "\n", 1);
 	free(*line);

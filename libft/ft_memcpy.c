@@ -16,10 +16,12 @@ void	*ft_memcpy(void *dst, const void *src, size_t len)
 {
 	if (!dst && !src)
 		return (NULL);
+		
 	while (len > 0)
 	{
 		len--;
 		((unsigned char *)dst)[len] = ((unsigned char *)src)[len];
 	}
+	
 	return (dst);
 }
