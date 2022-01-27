@@ -86,6 +86,7 @@ DATAS 	 = 	add_env_var.c \
 			parse_type_arg_2.c \
 			print_vars.c \
 			replace_in_str.c \
+			replace_in_io.c \
 			produce_name_value.c
 
 SRC_FILES	+=	$(addprefix $(DATAS_PATH), $(DATAS))
