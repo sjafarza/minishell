@@ -6,7 +6,7 @@
 #    By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/09/28 22:36:55 by saray             #+#    #+#              #
-#    Updated: 2022/01/26 21:22:00 by scarboni         ###   ########.fr        #
+#    Updated: 2022/01/27 14:29:55 by scarboni         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -103,7 +103,8 @@ IO 	 = 				io_openers.c \
 
 SRC_FILES	+=	$(addprefix $(IO_PATH), $(IO))
 
-PARSED_GROUPS 	 = 	parsed_groups_stack_exe.c \
+PARSED_GROUPS 	 = 	parsed_groups_stack_exe_1.c \
+					parsed_groups_stack_exe_2.c \
 					parsed_groups_stack.c
 
 SRC_FILES	+=	$(addprefix $(PARSED_GROUPS_PATH), $(PARSED_GROUPS))

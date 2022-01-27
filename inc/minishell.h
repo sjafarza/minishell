@@ -6,7 +6,7 @@
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/11 17:47:17 by saray             #+#    #+#             */
-/*   Updated: 2022/01/27 14:04:44 by scarboni         ###   ########.fr       */
+/*   Updated: 2022/01/27 14:31:34 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -414,6 +414,7 @@ int			execute_parsed_groups_stack(t_env *env);
 void		clear_parsed_groups_stack(t_env *env);
 int			add_back_parsed_groups_stack(t_env *env, char **args, int type);
 void		print_parsed_group_stack(t_env *env);
+char		**gather_splitted_args_for_cmd(t_list_double *parsed_group);
 
 /* ************************************************************************** */
 /* 									LIB   									  */

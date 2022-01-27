@@ -6,7 +6,7 @@
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/11 19:03:13 by saray             #+#    #+#             */
-/*   Updated: 2022/01/22 21:48:53 by scarboni         ###   ########.fr       */
+/*   Updated: 2022/01/27 14:35:49 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,5 +69,5 @@ int	main(int ac, char **av, char **env_bash)
 	if (line)
 		free(line);
 	free_t_env(&env);
-	return (1);
+	return (0);
 }
