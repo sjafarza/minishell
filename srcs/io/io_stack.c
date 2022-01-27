@@ -6,7 +6,7 @@
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/22 18:54:29 by scarboni          #+#    #+#             */
-/*   Updated: 2022/01/25 13:02:27 by saray            ###   ########.fr       */
+/*   Updated: 2022/01/27 20:03:46 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ static void	free_cell_io(void *v_cell)
 	t_cell_io	*cell;
 
 	cell = (t_cell_io *)v_cell;
+	if (cell->fd >= 0)
+		close(cell->fd);
 	if (cell->arg)
 		free(cell->arg);
 	free(cell);
@@ -39,6 +41,7 @@ int	add_back_io_stack(t_stack *io_stack, char *arg, int type)
 		free(content);
 		return (-EXIT_FAILURE);
 	}
+	content->fd = -1;
 	content->arg = arg;
 	content->type = type;
 	io_stack->tail = ft_lstdbnew(content);

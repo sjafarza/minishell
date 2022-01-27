@@ -6,7 +6,7 @@
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 09:42:12 by saray             #+#    #+#             */
-/*   Updated: 2022/01/25 23:18:52 by scarboni         ###   ########.fr       */
+/*   Updated: 2022/01/27 19:54:11 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,6 @@ int	bash_cmd(t_env *env, const char *cmd, const char **args)
 	ret = execve(full_cmd, (char *const *)args, raw_env);
 	free(full_cmd);
 	free_array(raw_env);
-	// close(env->pipes_handles[id]);
 	if (ret < 0)
 		return (EXEC_ERROR_CODE);
 	return (ret);

@@ -6,7 +6,7 @@
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/22 18:54:29 by scarboni          #+#    #+#             */
-/*   Updated: 2022/01/27 19:41:30 by scarboni         ###   ########.fr       */
+/*   Updated: 2022/01/27 19:59:25 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,20 @@
 
 #define NO_CMD 42
 
-int	start_child(t_env *env, t_cell_pipex *current_cell, int id_cmd)
+int	start_child(t_env *env, t_list_double *action, int id_cmd)
 {
-	pid_t	child_pid;
-	int		exit_value;
+	pid_t			child_pid;
+	int				exit_value;
+	t_cell_pipex	*current_cell;
 
 	child_pid = fork();
 	if (child_pid < 0)
 		return (-EXIT_FAILURE);
+	current_cell = (t_cell_pipex*)action->content;
 	if (child_pid == 0)
 	{
+		if (action->next)
+		{}
 		// dup2(current_cell->pipe_to_next[ID_CURRENT_NODE_SIDE], STDOUT_FILENO);
 		// close(current_cell->pipe_to_next[ID_NEXT_NODE_SIDE]);
 		exit_value = execute_io_stack(env, &(current_cell->io_stack));
@@ -57,12 +61,14 @@ int	start_child(t_env *env, t_cell_pipex *current_cell, int id_cmd)
 	// dup2(next->pipex_cell->pipe_to_next[ID_NEXT_NODE_SIDE], STDIN_FILENO);
 	// close(next->pipex_cell->pipe_to_next[ID_CURRENT_NODE_SIDE]);
 
-int	start_child_before_or_after(t_env *env, t_cell_pipex *current_cell)
+int	start_child_before_or_after(t_env *env, t_list_double *action)
 {
-	pid_t	child_pid;
-	int		exit_value;
-	int		id_cmd;
-	
+	pid_t			child_pid;
+	int				exit_value;
+	int				id_cmd;
+	t_cell_pipex	*current_cell;
+
+	current_cell = (t_cell_pipex *)action->content;
 	if (current_cell->args[0])
 		id_cmd = select_right_cmd(current_cell->args[0],
 			(const char **)current_cell->args);
@@ -71,7 +77,7 @@ int	start_child_before_or_after(t_env *env, t_cell_pipex *current_cell)
 	if (id_cmd == -EXIT_FAILURE)
 		return (-EXIT_FAILURE);	
 	if (id_cmd == NO_CMD || g_cmd_dictionary[id_cmd].must_be_in_child)
-		return (start_child(env, current_cell, id_cmd));
+		return (start_child(env, action, id_cmd));
 	exit_value = g_cmd_dictionary[id_cmd].fun(env, current_cell->args[0],
 		(const char **)current_cell->args);
 	child_pid = fork();
@@ -91,7 +97,7 @@ static pid_t	execute_pipex_stack_int(t_env *env, t_list_double *action)
 	pid_t				last_pid;
 	if (!action)
 		return (-EXIT_FAILURE);
-	last_pid = start_child_before_or_after(env, action->content);
+	last_pid = start_child_before_or_after(env, action);
 	if (!action->next)
 		return (last_pid);
 	//print_vars(env);

@@ -6,7 +6,7 @@
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/11 17:47:17 by saray             #+#    #+#             */
-/*   Updated: 2022/01/27 19:44:03 by scarboni         ###   ########.fr       */
+/*   Updated: 2022/01/27 19:56:38 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ typedef struct s_cell_parsed_group{
 typedef struct s_cell_io{
 	char	*arg;
 	int		type;
+	int		fd;
 }	t_cell_io;
 
 typedef struct s_stack
@@ -381,7 +382,7 @@ int			add_back_io_stack(t_stack *io_stack, char *arg, int type);
 void		print_io_stack(t_stack *io_stack);
 
 int			execute_io_stack(t_env *env, t_stack *io_stack);
-int			open_file_and_prep_redirect(t_env *env, char *path);
+int			open_file_and_prep_redirect(t_env *env, char *path, int *fd);
 int			open_input_simple(t_env *env, t_cell_io *io_cell);
 int			open_input_double(t_env *env, t_cell_io *io_cell);
 int			here_doc(t_env *env, t_cell_io *io_cell);
