@@ -14,7 +14,7 @@
 
 static int	gnl_next(t_env	*env, char **line, char *s, int outfile_fd)
 {
-	int	ret;
+	//int	ret;
 
 	if ((ft_strncmp(*line, s, ft_strlen(s)) == 0)
 		&& (ft_strlen(s) == (ft_strlen(*line))))
@@ -23,7 +23,8 @@ static int	gnl_next(t_env	*env, char **line, char *s, int outfile_fd)
 		*line = NULL;
 		return (EXIT_SUCCESS);
 	}
-	ret = replace_line_env(env, (*line));
+	if (ft_strchr((const char *)(*line), '$'))
+		replace_line_env(env, (*line));
 	write(outfile_fd, *line, ft_strlen(*line));
 	write(outfile_fd, "\n", 1);
 	free(*line);
