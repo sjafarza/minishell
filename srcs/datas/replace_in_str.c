@@ -47,5 +47,6 @@ int size_after_max_i)
 	}
 	ft_memcpy(new_str.str + new_i, (*line_handler.line) + (*line_handler.i)
 		+ end_var_name + 1, size_after_max_i + 1);
+	printf("chek print in replace , line= %s\n", new_str.str);	
 	return (return_and_clean(line_handler, new_str, new_i, EXIT_SUCCESS));
 }
