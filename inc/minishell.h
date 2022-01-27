@@ -6,7 +6,7 @@
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/11 17:47:17 by saray             #+#    #+#             */
-/*   Updated: 2022/01/27 14:31:34 by scarboni         ###   ########.fr       */
+/*   Updated: 2022/01/27 19:44:03 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,7 @@ typedef struct s_env {
 	t_stack		pipex_stack;
 	t_stack		parsed_groups_stack;
 	int			exit_value;
+	int			final_input_fd;
 }	t_env;
 
 /* ************************************************************************** */
@@ -380,7 +381,7 @@ int			add_back_io_stack(t_stack *io_stack, char *arg, int type);
 void		print_io_stack(t_stack *io_stack);
 
 int			execute_io_stack(t_env *env, t_stack *io_stack);
-int			open_file_and_redirect(char *path);
+int			open_file_and_prep_redirect(t_env *env, char *path);
 int			open_input_simple(t_env *env, t_cell_io *io_cell);
 int			open_input_double(t_env *env, t_cell_io *io_cell);
 int			here_doc(t_env *env, t_cell_io *io_cell);

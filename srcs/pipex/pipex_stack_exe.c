@@ -6,7 +6,7 @@
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/22 18:54:29 by scarboni          #+#    #+#             */
-/*   Updated: 2022/01/27 14:41:31 by scarboni         ###   ########.fr       */
+/*   Updated: 2022/01/27 19:41:30 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,14 @@ int	start_child(t_env *env, t_cell_pipex *current_cell, int id_cmd)
 		{
 			free_t_env(env);
 			exit(exit_value);
+		}
+		if (env->final_input_fd >= 0)
+		{
+			if (dup2(env->final_input_fd, STDIN_FILENO) != STDIN_FILENO)
+			{
+				free_t_env(env);
+				exit(1);
+			}
 		}
 		if (id_cmd == NO_CMD)
 			exit_value = EXIT_SUCCESS;
