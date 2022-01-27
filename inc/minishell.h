@@ -384,7 +384,7 @@ int			open_input_double(t_env *env, t_cell_io *io_cell);
 int			here_doc(t_env *env, t_cell_io *io_cell);
 int			open_output_simple(t_env *env, t_cell_io *io_cell);
 int			open_output_double(t_env *env, t_cell_io *io_cell);
-int 		replace_line_env(t_env *env, char *line);
+int 		substitute_line_env(t_env *env, char *line);
 
 static const
 	t_io_opener g_io_opener_dictionary[MAX_IO_TYPES] = {
