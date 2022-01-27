@@ -6,7 +6,7 @@
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/11 17:47:17 by saray             #+#    #+#             */
-/*   Updated: 2022/01/26 21:25:28 by scarboni         ###   ########.fr       */
+/*   Updated: 2022/01/27 14:04:44 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -384,7 +384,7 @@ int			open_input_double(t_env *env, t_cell_io *io_cell);
 int			here_doc(t_env *env, t_cell_io *io_cell);
 int			open_output_simple(t_env *env, t_cell_io *io_cell);
 int			open_output_double(t_env *env, t_cell_io *io_cell);
-int 		substitute_line_env(t_env *env, char *line);
+int			substitute_line_env(t_env *env, char *line);
 
 static const
 	t_io_opener g_io_opener_dictionary[MAX_IO_TYPES] = {
