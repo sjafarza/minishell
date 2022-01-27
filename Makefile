@@ -6,7 +6,7 @@
 #    By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/09/28 22:36:55 by saray             #+#    #+#              #
-#    Updated: 2022/01/27 14:29:55 by scarboni         ###   ########.fr        #
+#    Updated: 2022/01/27 14:40:26 by scarboni         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -91,7 +91,8 @@ DATAS 	 = 	add_env_var.c \
 SRC_FILES	+=	$(addprefix $(DATAS_PATH), $(DATAS))
 
 PIPEX 	 = 	pipex_stack_exe.c \
-			pipex_stack.c
+			pipex_stack.c \
+			print_pipex_stack.c
 
 SRC_FILES	+=	$(addprefix $(PIPEX_PATH), $(PIPEX))
 
