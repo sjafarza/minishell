@@ -6,7 +6,7 @@
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/05 10:38:18 by scarboni          #+#    #+#             */
-/*   Updated: 2021/08/10 19:59:24 by scarboni         ###   ########.fr       */
+/*   Updated: 2022/01/27 14:47:16 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ void	*reverse_ft_memcpy(void *dst, const void *src, size_t len)
 		((unsigned char *)dst)[i] = ((unsigned char *)src)[i];
 		i++;
 	}
-	
 	return (dst);
 }
 
