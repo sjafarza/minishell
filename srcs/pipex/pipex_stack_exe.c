@@ -6,13 +6,85 @@
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/22 18:54:29 by scarboni          #+#    #+#             */
-/*   Updated: 2022/01/27 19:59:25 by scarboni         ###   ########.fr       */
+/*   Updated: 2022/01/28 15:26:50 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
 #define NO_CMD 42
+
+void	try_dup2_or_die(t_env *env, int fd1, int fd2)
+{
+	int	res;
+
+	res = dup2(fd1, fd2);
+	if (fd1 < fd2)
+		if (res != fd1)	
+		{
+			free_t_env(env);
+			exit(1);
+		}
+	if (res != fd2)
+	{
+		free_t_env(env);
+		exit(1);
+	}
+}
+
+#define ID_TO_PLUG	0
+#define ID_TO_CLOSE	1
+
+int	connect_ends_of_processes(t_env *env, t_cell_pipex *host_pipe_cell, int ids[2], int target_fd)
+{
+	if (!host_pipe_cell)
+		return (-EXIT_FAILURE);
+	try_dup2_or_die(env, host_pipe_cell->pipe_to_next[ids[ID_TO_PLUG]], target_fd);
+	close(ids[ID_TO_CLOSE]);
+	return (EXIT_SUCCESS);
+}
+
+void	close_pipe_after_use(t_list_double *action)
+{
+	t_cell_pipex	*cell;
+
+	if (action->prev)
+	{
+		cell = (t_cell_pipex*)action->prev->content;
+		close(cell->pipe_to_next[ID_CURRENT_NODE_SIDE]);
+	}
+	cell = (t_cell_pipex*)action->content;
+	if (action->next)
+		close(cell->pipe_to_next[ID_CURRENT_NODE_SIDE]);
+}
+
+void	prepare_both_ends_of_processes(t_env *env, t_list_double *action)
+{
+	t_cell_pipex	*cell;
+
+	if (action->prev)
+	{
+		cell = (t_cell_pipex*)action->prev->content;
+		if (!cell)
+		{
+			free_t_env(env);
+			exit(1);
+		}
+		env->final_input_fd = cell->pipe_to_next[ID_NEXT_NODE_SIDE];
+		close(cell->pipe_to_next[ID_CURRENT_NODE_SIDE]);
+	}
+	cell = (t_cell_pipex*)action->content;
+	if (action->next)
+	{
+		if(connect_ends_of_processes(env, 
+		cell, (int[2]){ID_CURRENT_NODE_SIDE, ID_NEXT_NODE_SIDE}, STDOUT_FILENO) 
+		!= EXIT_SUCCESS)
+		{
+			free_t_env(env);
+			exit(1);
+		}
+	}
+}
 
 int	start_child(t_env *env, t_list_double *action, int id_cmd)
 {
@@ -26,10 +98,7 @@ int	start_child(t_env *env, t_list_double *action, int id_cmd)
 	current_cell = (t_cell_pipex*)action->content;
 	if (child_pid == 0)
 	{
-		if (action->next)
-		{}
-		// dup2(current_cell->pipe_to_next[ID_CURRENT_NODE_SIDE], STDOUT_FILENO);
-		// close(current_cell->pipe_to_next[ID_NEXT_NODE_SIDE]);
+		prepare_both_ends_of_processes(env, action);
 		exit_value = execute_io_stack(env, &(current_cell->io_stack));
 		if (exit_value != EXIT_SUCCESS)
 		{
@@ -37,13 +106,7 @@ int	start_child(t_env *env, t_list_double *action, int id_cmd)
 			exit(exit_value);
 		}
 		if (env->final_input_fd >= 0)
-		{
-			if (dup2(env->final_input_fd, STDIN_FILENO) != STDIN_FILENO)
-			{
-				free_t_env(env);
-				exit(1);
-			}
-		}
+			try_dup2_or_die(env, env->final_input_fd, STDIN_FILENO);
 		if (id_cmd == NO_CMD)
 			exit_value = EXIT_SUCCESS;
 		else
@@ -52,14 +115,9 @@ int	start_child(t_env *env, t_list_double *action, int id_cmd)
 		free_t_env(env);
 		exit(exit_value);
 	}
-	// close(current_cell->pipe_to_next[ID_CURRENT_NODE_SIDE]);
 	current_cell->child_pid = child_pid;
 	return (child_pid);
 }
-	// dup2(pipex_cell->pipe_to_next[ID_CURRENT_NODE_SIDE], STDOUT_FILENO);
-	// close(pipex_cell->pipe_to_next[ID_NEXT_NODE_SIDE]);
-	// dup2(next->pipex_cell->pipe_to_next[ID_NEXT_NODE_SIDE], STDIN_FILENO);
-	// close(next->pipex_cell->pipe_to_next[ID_CURRENT_NODE_SIDE]);
 
 int	start_child_before_or_after(t_env *env, t_list_double *action)
 {
@@ -100,17 +158,38 @@ static pid_t	execute_pipex_stack_int(t_env *env, t_list_double *action)
 	last_pid = start_child_before_or_after(env, action);
 	if (!action->next)
 		return (last_pid);
-	//print_vars(env);
 	return (execute_pipex_stack_int(env, action->next));
+}
+
+t_list_double	*get_relevant_pipex_elem(t_env *env, int pid)
+{
+	t_list_double	*curent_elem;
+	t_cell_pipex	*cell;
+
+	curent_elem = env->pipex_stack.head;
+	while (curent_elem)
+	{
+		cell = curent_elem->content;
+		if (cell->child_pid == pid)
+			return (curent_elem);
+		curent_elem = curent_elem->next;
+	}
+	return (NULL);
 }
 
 int	ft_wait(int last_pid, t_env *env)
 {
-	int		w_ret;
-	int		d_status;
-	char	*str_exit_value;
+	int				w_ret;
+	int				d_status;
+	char			*str_exit_value;
+	t_list_double	*exited_pipex_elem;
 
 	w_ret = waitpid(-1, &d_status, WUNTRACED);
+	exited_pipex_elem = get_relevant_pipex_elem(env, w_ret);
+	if (exited_pipex_elem)
+		close_pipe_after_use(exited_pipex_elem);
+	else 
+		printf("wtf\n");
 	// if (w_ret == c1)
 	// 	close(env->pipes_handles[ID_C1]);
 	if (w_ret == last_pid)

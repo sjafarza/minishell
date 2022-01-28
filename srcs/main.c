@@ -6,7 +6,7 @@
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/11 19:03:13 by saray             #+#    #+#             */
-/*   Updated: 2022/01/27 14:35:49 by scarboni         ###   ########.fr       */
+/*   Updated: 2022/01/28 15:23:31 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ int	main(int ac, char **av, char **env_bash)
 	line = NULL;
 	word = NULL;
 	env = (t_env){0};
+	env.final_input_fd = -1;
 	g_status = 0;
 
 	//1- recover vaiable env & all of path in PATH

@@ -6,7 +6,7 @@
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/11 17:47:17 by saray             #+#    #+#             */
-/*   Updated: 2022/01/27 19:56:38 by scarboni         ###   ########.fr       */
+/*   Updated: 2022/01/28 15:27:14 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -402,8 +402,8 @@ static const
 /* 									PIPEX  									  */
 /* ************************************************************************** */
 
-# define ID_CURRENT_NODE_SIDE	0
-# define ID_NEXT_NODE_SIDE		1
+# define ID_CURRENT_NODE_SIDE	1
+# define ID_NEXT_NODE_SIDE		0
 
 void		clear_pipex_stack(t_env *env);
 int			add_back_pipex_stack(t_env *env, char **args, t_stack io_stack);
