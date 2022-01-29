@@ -6,7 +6,7 @@
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/11 17:47:17 by saray             #+#    #+#             */
-/*   Updated: 2022/01/28 15:27:14 by scarboni         ###   ########.fr       */
+/*   Updated: 2022/01/29 15:36:23 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,8 @@ typedef struct s_env {
 	t_stack		pipex_stack;
 	t_stack		parsed_groups_stack;
 	int			exit_value;
-	int			final_input_fd;
+	int			*final_input_fd;
+	int			*final_output_fd;
 }	t_env;
 
 /* ************************************************************************** */

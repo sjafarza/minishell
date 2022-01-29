@@ -6,7 +6,7 @@
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/11 19:03:13 by saray             #+#    #+#             */
-/*   Updated: 2022/01/28 15:23:31 by scarboni         ###   ########.fr       */
+/*   Updated: 2022/01/29 15:40:33 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ int	main(int ac, char **av, char **env_bash)
 	line = NULL;
 	word = NULL;
 	env = (t_env){0};
-	env.final_input_fd = -1;
 	g_status = 0;
 
 	//1- recover vaiable env & all of path in PATH
@@ -49,15 +48,22 @@ int	main(int ac, char **av, char **env_bash)
 		// word = ft_split(line , ' ');
 		// select_right_cmd(&env, word[0], (const char**) word);
 		char *line_to_edit = ft_strdup(line);
-		printf("RESULT %d\n", extract_parsed_groups(&env, &line_to_edit));
+		// printf("RESULT %d\n", extract_parsed_groups(&env, &line_to_edit));
+		// print_parsed_group_stack(&env);
+		if (extract_parsed_groups(&env, &line_to_edit) == EXIT_SUCCESS 
+		&& execute_parsed_groups_stack(&env) == EXIT_SUCCESS 
+		&& execute_pipex_stack(&env) == EXIT_SUCCESS)
+		{
+			
+		}
+
 		free(line_to_edit);
 		line_to_edit = NULL;
 		free(line);
 		line = NULL;
-		print_parsed_group_stack(&env);
-		printf("RESULT exec parsed %d\n",execute_parsed_groups_stack(&env));
-		print_pipex_stack(&env);
-		execute_pipex_stack(&env);
+		// printf("RESULT exec parsed %d\n",execute_parsed_groups_stack(&env));
+		// print_pipex_stack(&env);
+		// execute_pipex_stack(&env);
 		clear_parsed_groups_stack(&env);
 		clear_pipex_stack(&env);
 		if (env.exit_value == EXIT_MINISHELL)

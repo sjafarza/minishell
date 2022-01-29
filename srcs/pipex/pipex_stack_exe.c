@@ -6,7 +6,7 @@
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/22 18:54:29 by scarboni          #+#    #+#             */
-/*   Updated: 2022/01/28 15:26:50 by scarboni         ###   ########.fr       */
+/*   Updated: 2022/01/29 15:43:19 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,18 +30,6 @@ void	try_dup2_or_die(t_env *env, int fd1, int fd2)
 		free_t_env(env);
 		exit(1);
 	}
-}
-
-#define ID_TO_PLUG	0
-#define ID_TO_CLOSE	1
-
-int	connect_ends_of_processes(t_env *env, t_cell_pipex *host_pipe_cell, int ids[2], int target_fd)
-{
-	if (!host_pipe_cell)
-		return (-EXIT_FAILURE);
-	try_dup2_or_die(env, host_pipe_cell->pipe_to_next[ids[ID_TO_PLUG]], target_fd);
-	close(ids[ID_TO_CLOSE]);
-	return (EXIT_SUCCESS);
 }
 
 void	close_pipe_after_use(t_list_double *action)
@@ -70,19 +58,14 @@ void	prepare_both_ends_of_processes(t_env *env, t_list_double *action)
 			free_t_env(env);
 			exit(1);
 		}
-		env->final_input_fd = cell->pipe_to_next[ID_NEXT_NODE_SIDE];
+		env->final_input_fd = &(cell->pipe_to_next[ID_NEXT_NODE_SIDE]);
 		close(cell->pipe_to_next[ID_CURRENT_NODE_SIDE]);
 	}
 	cell = (t_cell_pipex*)action->content;
 	if (action->next)
 	{
-		if(connect_ends_of_processes(env, 
-		cell, (int[2]){ID_CURRENT_NODE_SIDE, ID_NEXT_NODE_SIDE}, STDOUT_FILENO) 
-		!= EXIT_SUCCESS)
-		{
-			free_t_env(env);
-			exit(1);
-		}
+		env->final_output_fd = &(cell->pipe_to_next[ID_CURRENT_NODE_SIDE]);
+		close(cell->pipe_to_next[ID_NEXT_NODE_SIDE]);
 	}
 }
 
@@ -105,8 +88,10 @@ int	start_child(t_env *env, t_list_double *action, int id_cmd)
 			free_t_env(env);
 			exit(exit_value);
 		}
-		if (env->final_input_fd >= 0)
-			try_dup2_or_die(env, env->final_input_fd, STDIN_FILENO);
+		if (env->final_input_fd && *env->final_input_fd  >= 0)
+			try_dup2_or_die(env, *env->final_input_fd, STDIN_FILENO);
+		if (env->final_output_fd && *env->final_output_fd >= 0)
+			try_dup2_or_die(env, *env->final_output_fd, STDOUT_FILENO);
 		if (id_cmd == NO_CMD)
 			exit_value = EXIT_SUCCESS;
 		else

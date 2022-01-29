@@ -6,7 +6,7 @@
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/22 18:54:29 by scarboni          #+#    #+#             */
-/*   Updated: 2022/01/25 13:05:55 by saray            ###   ########.fr       */
+/*   Updated: 2022/01/29 14:04:30 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,6 @@ static int	execute_io_stack_int(t_env *env, t_list_double *io_node)
 int	execute_io_stack(t_env *env, t_stack *io_stack)
 {
 	if (execute_io_stack_int(env, io_stack->head) == EXIT_SUCCESS)
-	{
-		clear_io_stack(io_stack);
 		return (EXIT_SUCCESS);
-	}
-	clear_io_stack(io_stack);
 	return (1);
 }
