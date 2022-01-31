@@ -6,7 +6,7 @@
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/22 18:54:29 by scarboni          #+#    #+#             */
-/*   Updated: 2022/01/29 16:05:57 by scarboni         ###   ########.fr       */
+/*   Updated: 2022/01/31 17:53:33 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,6 @@ int	open_output_simple(t_env *env, t_cell_io *io_cell)
 		return (-EXIT_FAILURE);
 	ft_close_and_replace(&env->final_output_fd, &(io_cell->fd));
 	return (EXIT_SUCCESS);
-	// if (dup2(io_cell->fd, STDOUT_FILENO) == STDOUT_FILENO)
-	// 	return (EXIT_SUCCESS);
-	// return (-EXIT_FAILURE);
 }
 
 int	open_output_double(t_env *env, t_cell_io *io_cell)

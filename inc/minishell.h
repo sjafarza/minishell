@@ -6,7 +6,7 @@
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/11 17:47:17 by saray             #+#    #+#             */
-/*   Updated: 2022/01/31 15:17:08 by scarboni         ###   ########.fr       */
+/*   Updated: 2022/01/31 18:12:52 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -381,7 +381,6 @@ typedef struct s_io_opener{
 void		ft_close_and_replace(int **dst_fd, int *src_fd);
 void		clear_io_stack(t_stack *io_stack);
 int			add_back_io_stack(t_stack *io_stack, char *arg, int type);
-int			add_front_io_stack(t_stack *io_stack, char *arg, int type);
 void		print_io_stack(t_stack *io_stack);
 
 int			execute_io_stack(t_env *env, t_stack *io_stack);
@@ -391,7 +390,7 @@ int			open_input_double(t_env *env, t_cell_io *io_cell);
 int			here_doc(t_env *env, t_cell_io *io_cell);
 int			open_output_simple(t_env *env, t_cell_io *io_cell);
 int			open_output_double(t_env *env, t_cell_io *io_cell);
-int 		substitute_line_env(t_env *env, char **line);
+int			substitute_line_env(t_env *env, char **line);
 
 static const
 	t_io_opener g_io_opener_dictionary[MAX_IO_TYPES] = {
@@ -408,6 +407,11 @@ static const
 # define ID_CURRENT_NODE_SIDE	1
 # define ID_NEXT_NODE_SIDE		0
 
+int			start_child_before_or_after(t_env *env, t_list_double *action);
+void		close_pipes_until(t_list_double *current, t_list_double *stop);
+int			prepare_both_ends_of_processes(t_env *env, t_list_double *action);
+void		close_pipe_after_use(t_list_double *action);
+void		try_dup2_or_die(t_env *env, int fd1, int fd2);
 void		clear_pipex_stack(t_env *env);
 int			add_back_pipex_stack(t_env *env, char **args, t_stack io_stack);
 void		print_pipex_stack(t_env *env);
