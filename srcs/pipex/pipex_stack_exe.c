@@ -6,7 +6,7 @@
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/22 18:54:29 by scarboni          #+#    #+#             */
-/*   Updated: 2022/01/29 15:43:19 by scarboni         ###   ########.fr       */
+/*   Updated: 2022/01/31 17:49:06 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,14 +39,20 @@ void	close_pipe_after_use(t_list_double *action)
 	if (action->prev)
 	{
 		cell = (t_cell_pipex*)action->prev->content;
-		close(cell->pipe_to_next[ID_CURRENT_NODE_SIDE]);
+		if (cell->pipe_to_next[ID_NEXT_NODE_SIDE] != -1)
+			close(cell->pipe_to_next[ID_NEXT_NODE_SIDE]);
+		cell->pipe_to_next[ID_NEXT_NODE_SIDE] = -1;
 	}
 	cell = (t_cell_pipex*)action->content;
 	if (action->next)
-		close(cell->pipe_to_next[ID_CURRENT_NODE_SIDE]);
+	{
+		if (cell->pipe_to_next[ID_CURRENT_NODE_SIDE] != -1)
+			close(cell->pipe_to_next[ID_CURRENT_NODE_SIDE]);
+		cell->pipe_to_next[ID_CURRENT_NODE_SIDE] = -1;
+	}
 }
 
-void	prepare_both_ends_of_processes(t_env *env, t_list_double *action)
+int	prepare_both_ends_of_processes(t_env *env, t_list_double *action)
 {
 	t_cell_pipex	*cell;
 
@@ -59,14 +65,36 @@ void	prepare_both_ends_of_processes(t_env *env, t_list_double *action)
 			exit(1);
 		}
 		env->final_input_fd = &(cell->pipe_to_next[ID_NEXT_NODE_SIDE]);
+		if (cell->pipe_to_next[ID_CURRENT_NODE_SIDE] == -1)
+			return (-EXIT_FAILURE);
 		close(cell->pipe_to_next[ID_CURRENT_NODE_SIDE]);
 	}
 	cell = (t_cell_pipex*)action->content;
 	if (action->next)
 	{
 		env->final_output_fd = &(cell->pipe_to_next[ID_CURRENT_NODE_SIDE]);
+		if (cell->pipe_to_next[ID_NEXT_NODE_SIDE] == -1)
+			return (-EXIT_FAILURE);
 		close(cell->pipe_to_next[ID_NEXT_NODE_SIDE]);
 	}
+	return (EXIT_SUCCESS);
+}
+
+void	close_pipes_until(t_list_double *current, t_list_double *stop)
+{
+	t_cell_pipex	*current_cell;
+
+	if (!current | !stop | current == stop)
+		return ;
+	
+	current_cell = (t_cell_pipex*)current->content;
+	if (current_cell->pipe_to_next[ID_NEXT_NODE_SIDE] != -1)
+		close(current_cell->pipe_to_next[ID_NEXT_NODE_SIDE]);
+	if (current_cell->pipe_to_next[ID_CURRENT_NODE_SIDE] != -1)
+		close(current_cell->pipe_to_next[ID_CURRENT_NODE_SIDE]);
+	current_cell->pipe_to_next[ID_NEXT_NODE_SIDE] = -1;
+	current_cell->pipe_to_next[ID_CURRENT_NODE_SIDE] = -1;
+	close_pipes_until(current->next, stop);
 }
 
 int	start_child(t_env *env, t_list_double *action, int id_cmd)
@@ -75,13 +103,28 @@ int	start_child(t_env *env, t_list_double *action, int id_cmd)
 	int				exit_value;
 	t_cell_pipex	*current_cell;
 
+	current_cell = (t_cell_pipex*)action->content;
+	close_pipes_until(env->pipex_stack.head, action->prev);
+	if (action != env->pipex_stack.tail)
+	{
+		if (pipe(current_cell->pipe_to_next) == -EXIT_FAILURE)
+		{
+			printf("PIPEING FAILURE !!! \n");
+			return (-EXIT_FAILURE);
+		}
+	else 
+		printf("PIPE ALIVE\n");
+	}
 	child_pid = fork();
 	if (child_pid < 0)
 		return (-EXIT_FAILURE);
-	current_cell = (t_cell_pipex*)action->content;
 	if (child_pid == 0)
 	{
-		prepare_both_ends_of_processes(env, action);
+		if (prepare_both_ends_of_processes(env, action) != EXIT_SUCCESS)
+		{
+			free_t_env(env);
+			exit(1);
+		}
 		exit_value = execute_io_stack(env, &(current_cell->io_stack));
 		if (exit_value != EXIT_SUCCESS)
 		{
@@ -100,6 +143,10 @@ int	start_child(t_env *env, t_list_double *action, int id_cmd)
 		free_t_env(env);
 		exit(exit_value);
 	}
+	// close(current_cell->pipe_to_next[ID_NEXT_NODE_SIDE]);
+	// current_cell->pipe_to_next[ID_NEXT_NODE_SIDE] = -1;
+	// close(current_cell->pipe_to_next[ID_CURRENT_NODE_SIDE]);
+	// current_cell->pipe_to_next[ID_CURRENT_NODE_SIDE] = -1;
 	current_cell->child_pid = child_pid;
 	return (child_pid);
 }
