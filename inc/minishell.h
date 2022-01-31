@@ -6,7 +6,7 @@
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/11 17:47:17 by saray             #+#    #+#             */
-/*   Updated: 2022/01/29 15:36:23 by scarboni         ###   ########.fr       */
+/*   Updated: 2022/01/31 15:17:08 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -378,8 +378,10 @@ typedef struct s_io_opener{
 	int		(*fun)(t_env *env, t_cell_io *io_cell);	
 }	t_io_opener;
 
+void		ft_close_and_replace(int **dst_fd, int *src_fd);
 void		clear_io_stack(t_stack *io_stack);
 int			add_back_io_stack(t_stack *io_stack, char *arg, int type);
+int			add_front_io_stack(t_stack *io_stack, char *arg, int type);
 void		print_io_stack(t_stack *io_stack);
 
 int			execute_io_stack(t_env *env, t_stack *io_stack);

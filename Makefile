@@ -6,7 +6,7 @@
 #    By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/09/28 22:36:55 by saray             #+#    #+#              #
-#    Updated: 2022/01/27 14:40:26 by scarboni         ###   ########.fr        #
+#    Updated: 2022/01/29 16:07:34 by scarboni         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -97,7 +97,8 @@ PIPEX 	 = 	pipex_stack_exe.c \
 
 SRC_FILES	+=	$(addprefix $(PIPEX_PATH), $(PIPEX))
 
-IO 	 = 				io_openers.c \
+IO 	 = 				ft_close_and_replace.c \
+					io_openers.c \
 					io_stack_exe.c \
 					io_stack.c \
 					here_doc.c \

@@ -6,7 +6,7 @@
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/22 18:54:29 by scarboni          #+#    #+#             */
-/*   Updated: 2022/01/27 20:03:46 by scarboni         ###   ########.fr       */
+/*   Updated: 2022/01/31 15:10:09 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,31 @@ void	clear_io_stack(t_stack *io_stack)
 	ft_lstdbclear(&(io_stack->head), &free_cell_io);
 	io_stack->total_item = 0;
 	io_stack->tail = NULL;
+}
+
+int	add_front_io_stack(t_stack *io_stack, char *arg, int type)
+{
+	t_cell_io		*content;
+	t_list_double	*node;
+
+	content = (t_cell_io *)malloc(sizeof(t_cell_io));
+	if (!content)
+	{
+		free(content);
+		return (-EXIT_FAILURE);
+	}
+	content->fd = -1;
+	content->arg = arg;
+	content->type = type;
+	node = ft_lstdbnew(content);
+	if (!node)
+	{
+		free(content);
+		return (-EXIT_FAILURE);
+	}
+	ft_lstdbadd_front(&(io_stack->head), node);
+	io_stack->total_item++;
+	return (EXIT_SUCCESS);
 }
 
 int	add_back_io_stack(t_stack *io_stack, char *arg, int type)

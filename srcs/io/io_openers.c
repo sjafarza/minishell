@@ -6,22 +6,11 @@
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/22 18:54:29 by scarboni          #+#    #+#             */
-/*   Updated: 2022/01/29 15:44:32 by scarboni         ###   ########.fr       */
+/*   Updated: 2022/01/29 16:05:57 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
-
-void	ft_close_and_replace(int **dst_fd, int *src_fd)
-{
-	if (*dst_fd)
-	{
-		if (**dst_fd >= 0)
-			close(**dst_fd);
-		**dst_fd = -1;
-	}
-	*dst_fd = src_fd;
-}
 
 int	open_file_and_prep_redirect(t_env *env, char *path, int *fd)
 {
