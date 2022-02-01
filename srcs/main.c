@@ -6,7 +6,7 @@
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/11 19:03:13 by saray             #+#    #+#             */
-/*   Updated: 2022/02/01 16:43:06 by scarboni         ###   ########.fr       */
+/*   Updated: 2022/02/01 21:29:54 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,18 +40,23 @@ void	init(int ac, char **av, t_env *env, char **env_bash)
 
 void	loop(t_env *env, char *line)
 {
+	int ret;
+
 	if (line && ft_isprint(line[0]) && !ft_is_blank(line[0]))
 		add_history(line);
-	if (!(extract_parsed_groups(env, &line) == EXIT_SUCCESS))
-		printf("Error in parsing\n");
-	else
+	ret = extract_parsed_groups(env, &line);
+	if (!(ret == EXIT_SUCCESS))
+		printf("Error in parsing %d\n", ret);
+	if (env->parsed_groups_stack.total_item > 0)
 	{
-		if (!(execute_parsed_groups_stack(env) == EXIT_SUCCESS))
-			printf("Error in parsing\n");
+		ret = execute_parsed_groups_stack(env);
+		if (!(ret == EXIT_SUCCESS))
+			printf("Error in parsing %d\n", ret);
 		else
 		{
-			if (!(execute_pipex_stack(env) == EXIT_SUCCESS))
-				printf("Error in execution\n");
+			ret = execute_pipex_stack(env);
+			if (!(ret == EXIT_SUCCESS))
+				printf("Error in execution %d\n", ret);
 		}
 	}
 	free(line);
@@ -80,8 +85,6 @@ int	main(int ac, char **av, char **env_bash)
 		line = readline("mshell$ ");
 	}
 	printf("exit\n");
-	if (line)
-		free(line);
 	free_t_env(&env);
-	return (0);
+	return (env.exit_cmd_value);
 }

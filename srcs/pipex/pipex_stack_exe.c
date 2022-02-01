@@ -6,7 +6,7 @@
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/22 18:54:29 by scarboni          #+#    #+#             */
-/*   Updated: 2022/01/31 18:11:51 by scarboni         ###   ########.fr       */
+/*   Updated: 2022/02/01 21:30:00 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ int	ft_wait(int last_pid, t_env *env)
 		if (WIFEXITED(d_status))
 		{
 			env->exit_value = WEXITSTATUS(d_status);
+			g_status = env->exit_value;
 			str_exit_value = ft_itoa(env->exit_value);
 			if (!str_exit_value)
 				return (-EXIT_FAILURE);

@@ -6,19 +6,19 @@
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/11 22:13:42 by saray             #+#    #+#             */
-/*   Updated: 2022/02/01 15:44:38 by scarboni         ###   ########.fr       */
+/*   Updated: 2022/02/01 20:43:40 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
-#define CD_ERROR_NO_FOLDER_OR_FILE_FMT	"%s: cd: %s: Aucun fichier ou dossier\
- de ce type\n"
+#define CMD_NAME	"cd"
 
 int	go_to(const char *target_folder)
 {	
 	if (chdir(target_folder) == -EXIT_FAILURE)
 	{
-		printf(CD_ERROR_NO_FOLDER_OR_FILE_FMT, PROMPT_STR, target_folder);
+		print_cmd_error(CMD_NAME, target_folder, ": Aucun fichier ou dossier",
+				NULL);
 		return (-EXIT_FAILURE);
 	}
 	return (EXIT_SUCCESS);
@@ -32,8 +32,8 @@ int	go_back_to_var(t_env *env, const char *var_name_target_folder, int silent)
 	if (!var)
 	{
 		if (silent == false)
-			printf("%s: cd: << %s >> non défini\n", PROMPT_STR,
-				var_name_target_folder);
+			print_cmd_error(CMD_NAME, "<< ", var_name_target_folder,
+				" >> non défini");
 		return (-EXIT_FAILURE);
 	}
 	return (go_to(var->value.str));
@@ -46,7 +46,7 @@ static int	cd_cmd_leave_early(t_env *env, int args_len, const char *cmd,
 	if (args_len > 2)
 	{
 		if (silent == false)
-			printf("%s: cd: trop d'arguments\n", PROMPT_STR);
+			print_cmd_error(CMD_NAME, "trop d'arguments", NULL, NULL);
 		return (1);
 	}
 	if (env->pipex_stack.total_item > 1)

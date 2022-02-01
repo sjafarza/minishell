@@ -6,7 +6,7 @@
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/10 09:13:46 by saray             #+#    #+#             */
-/*   Updated: 2022/02/01 16:36:02 by scarboni         ###   ########.fr       */
+/*   Updated: 2022/02/01 20:48:31 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@
 #define ARG				0
 #define MSG				1
 #define CONST_MAX		2
+
+#define CMD_NAME	"export"
 
 static int	strings_clean(char *strings[MAX_STRINGS], int code,
 	const char *str[CONST_MAX], int silent)
@@ -35,7 +37,7 @@ static int	strings_clean(char *strings[MAX_STRINGS], int code,
 		i++;
 	}
 	if (silent == false && str && str[MSG] && str[ARG])
-		printf("mshell:export:(%s): %s\n", str[ARG], str[MSG]);
+		print_cmd_error(CMD_NAME, str[ARG], " -> ", str[MSG]);
 	return (code);
 }
 

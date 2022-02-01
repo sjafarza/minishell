@@ -6,7 +6,7 @@
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/11 17:47:17 by saray             #+#    #+#             */
-/*   Updated: 2022/02/01 15:32:28 by scarboni         ###   ########.fr       */
+/*   Updated: 2022/02/01 21:23:23 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,7 @@ typedef struct s_env {
 	int			exit_value;
 	int			*final_input_fd;
 	int			*final_output_fd;
+	int			exit_cmd_value;
 }	t_env;
 
 /* ************************************************************************** */
@@ -142,6 +143,8 @@ typedef struct s_cmd{
 	int		max_args_len;
 }	t_cmd;
 
+void		print_cmd_error(const char *cmd_name, const char *e1,
+				const char *e2, const char *e3);
 int			echo_cmd(t_env *env, const char *cmd, const char **args,
 				int silent);
 int			exit_cmd(t_env *env, const char *cmd, const char **args,
@@ -174,7 +177,7 @@ static const
 	(t_cmd){(t_str){CODE_EXPORT, LEN_EXPORT}, &export_sans_arg_cmd, true, 1},
 	(t_cmd){(t_str){CODE_UNSET, LEN_UNSET}, &unset_cmd, false, ANY_SIZE},
 	(t_cmd){(t_str){CODE_ENV, LEN_ENV}, &env_cmd, true, ANY_SIZE},
-	(t_cmd){(t_str){CODE_EXIT, LEN_EXIT}, &exit_cmd, true, ANY_SIZE}
+	(t_cmd){(t_str){CODE_EXIT, LEN_EXIT}, &exit_cmd, false, ANY_SIZE}
 };
 
 /* ************************************************************************** */

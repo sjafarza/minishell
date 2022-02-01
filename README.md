@@ -1,0 +1,1 @@
+nm -u pour voir fonctions externes

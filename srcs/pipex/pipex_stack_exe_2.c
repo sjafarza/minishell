@@ -6,7 +6,7 @@
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/22 18:54:29 by scarboni          #+#    #+#             */
-/*   Updated: 2022/02/01 16:15:28 by scarboni         ###   ########.fr       */
+/*   Updated: 2022/02/01 21:31:42 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,9 @@ int	start_child_before_or_after(t_env *env, t_list_double *action)
 		return (start_child(env, action, id_cmd));
 	exit_value = start_child(env, action, id_cmd);
 	if (env->pipex_stack.total_item == 1)
+	{
 		g_cmd_dictionary[id_cmd].fun(env, current_cell->args[0],
 				(const char **)current_cell->args, true);
+	}
 	return (exit_value);
 }

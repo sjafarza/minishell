@@ -6,24 +6,25 @@
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/04 16:12:52 by sjafarza          #+#    #+#             */
-/*   Updated: 2022/02/01 15:46:41 by scarboni         ###   ########.fr       */
+/*   Updated: 2022/02/01 20:58:08 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-static int	is_valid_as_env_var_name(const char *args, int silent)
+#define CMD_NAME	"unset"
+
+static int	is_valid_as_env_var_name(char *arg, int silent)
 {
 	int	j;
 
 	j = 0;
-	while (args[j])
+	while (arg[j])
 	{
-		if (!ft_is_valid_for_env_var_name(args[j++]))
+		if (!ft_is_valid_for_env_var_name(arg[j++]))
 		{
 			if (silent != true)
-				printf("mshell: unset:( %s ):\
-						 not valid identifier\n", args);
+				print_cmd_error(CMD_NAME, "(", arg, "): not valid identifier");
 			return (true);
 		}
 	}
@@ -55,7 +56,7 @@ int	unset_cmd(t_env *env, const char *cmd, const char **args, int silent)
 	i = 0;
 	while (args[++i])
 	{
-		if (is_valid_as_env_var_name(args[i], silent))
+		if (is_valid_as_env_var_name((char *)args[i], silent))
 		{
 			error = true;
 			continue ;

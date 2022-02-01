@@ -6,7 +6,7 @@
 #    By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/09/28 22:36:55 by saray             #+#    #+#              #
-#    Updated: 2022/02/01 14:03:47 by scarboni         ###   ########.fr        #
+#    Updated: 2022/02/01 20:37:30 by scarboni         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -45,7 +45,8 @@ MINILIB = 	ft_strchr_index.c \
 
 SRC_FILES	+=	$(addprefix $(MINILIB_PATH), $(MINILIB))
 
-CMDS 	 = 	bash_cmd.c \
+CMDS 	 = 	print_cmd_error.c \
+			bash_cmd.c \
 			echo_cmd.c \
 			exit_cmd.c \
 			env_cmd.c \
@@ -131,13 +132,12 @@ $(OBJ_PATHS_INIT)	:
 
 $(NAME): $(OBJ) $(addprefix $(LIBFTPATH),$(LIBFT_AR))
 	@echo "\033[0;32m\n\nCompiling minishell..."
-	@$(CC) $(CFLAGS) -o $(NAME) $(OBJ) $(LDFLAGS)  
+	$(CC) $(CFLAGS) -o $(NAME) $(OBJ) $(LDFLAGS)  
 	@echo "\n\033[0mDone !"
 
 
 $(OBJ_PATH)%.o: $(SRC_PATH)%.c $(HEADERS_FILES)
-	@printf "\033[0;33mGenerating minishell objects... %-10.10s\r" $@
-	@${CC} ${CFLAGS}   -c $< -o $@ 
+	${CC} ${CFLAGS}   -c $< -o $@ 
 
 clean:
 	@echo "\033[0;31m\nDeleting objects..."
