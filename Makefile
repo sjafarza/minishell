@@ -6,7 +6,7 @@
 #    By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/09/28 22:36:55 by saray             #+#    #+#              #
-#    Updated: 2022/01/31 18:09:42 by scarboni         ###   ########.fr        #
+#    Updated: 2022/02/01 14:03:47 by scarboni         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -86,7 +86,6 @@ DATAS 	 = 	add_env_var.c \
 			parse_type_arg_2.c \
 			print_vars.c \
 			replace_in_str.c \
-			replace_in_io.c \
 			produce_name_value.c
 
 SRC_FILES	+=	$(addprefix $(DATAS_PATH), $(DATAS))
@@ -103,8 +102,7 @@ IO 	 = 				ft_close_and_replace.c \
 					io_openers.c \
 					io_stack_exe.c \
 					io_stack.c \
-					here_doc.c \
-					substitute_line_env.c
+					here_doc.c
 
 SRC_FILES	+=	$(addprefix $(IO_PATH), $(IO))
 

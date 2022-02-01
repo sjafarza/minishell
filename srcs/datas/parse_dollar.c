@@ -6,14 +6,11 @@
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 09:42:12 by saray             #+#    #+#             */
-/*   Updated: 2022/01/24 22:51:23 by scarboni         ###   ########.fr       */
+/*   Updated: 2022/02/01 13:48:32 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
-
-#define REPLACED 0
-#define NOT_REPLACED -22
 
 int	parse_dollar_int(t_line *line_handle,
 t_tmp_parsed *tmp_parsed, t_parse_utils p_utils)
@@ -52,7 +49,6 @@ t_tmp_parsed *tmp_parsed, t_parse_utils p_utils)
 	return (res);
 }
 
-//A voir pour gerer les inners quotes...
 int	parse_dollar(t_line *line_handle, t_tmp_parsed *tmp_parsed,
 t_parse_utils p_utils)
 {

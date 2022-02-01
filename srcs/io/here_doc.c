@@ -6,7 +6,7 @@
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/24 00:04:01 by saray             #+#    #+#             */
-/*   Updated: 2022/01/25 21:02:39 by scarboni         ###   ########.fr       */
+/*   Updated: 2022/02/01 14:05:44 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,12 @@
 
 static int	gnl_next(t_env	*env, char **line, char *s, int outfile_fd)
 {
-	//int	ret;
+	int		i;
+	t_line	line_handle;
 
+	i = 0;
+	line_handle.line = line;
+	line_handle.i = &i;
 	if ((ft_strncmp(*line, s, ft_strlen(s)) == 0)
 		&& (ft_strlen(s) == (ft_strlen(*line))))
 	{
@@ -23,12 +27,13 @@ static int	gnl_next(t_env	*env, char **line, char *s, int outfile_fd)
 		*line = NULL;
 		return (EXIT_SUCCESS);
 	}
-	if ((ft_strchr((const char *)(*line), '$')) != NULL)
+	while ((*line)[i])
 	{
-		printf("find it \n");
-		substitute_line_env(env, &(*line));
+		if ((*line)[i] == '$')
+			parse_dollar_for_double_quotes(&line_handle, NULL,
+				(t_parse_utils){env, &i, NULL, NULL});
+		i++;
 	}
-	//printf("**** fin line in gnl = %s\n", *line);
 	write(outfile_fd, *line, ft_strlen(*line));
 	write(outfile_fd, "\n", 1);
 	free(*line);
@@ -40,9 +45,7 @@ int	here_doc(t_env *env, t_cell_io *io_cell)
 {
 	char	*line;
 	int		outfile_fd;
-	//int		ret;
 
-	(void)env;
 	outfile_fd = open(TMP_FILE_PATH, O_WRONLY | O_CREAT | O_TRUNC, 0777);
 	if (outfile_fd == -EXIT_FAILURE)
 		return (-EXIT_FAILURE);

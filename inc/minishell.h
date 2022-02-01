@@ -6,7 +6,7 @@
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/11 17:47:17 by saray             #+#    #+#             */
-/*   Updated: 2022/02/01 12:56:48 by scarboni         ###   ########.fr       */
+/*   Updated: 2022/02/01 14:03:07 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,9 @@
 # define OLDPWD_LEN 6
 # define HOME_STR "HOME"
 # define HOME_LEN 4
+
+# define REPLACED 0
+# define NOT_REPLACED -22
 
 int		g_status;
 
@@ -332,8 +335,6 @@ char		*make_value(char *value);
 int			find_in_env(t_env *env, char *var);
 int			replace_in_str_one_var(t_env *env, t_line line_handler, int max_i,
 				int size_after_max_i);
-int			replace_in_io(t_env *env, t_line line_handler, int max_i,
-				int size_after_max_i);				
 int			extract_parsed_groups(t_env *env, char **line);
 int			is_not_valid(int c);
 int			is_valid(int c);
@@ -390,7 +391,6 @@ int			open_input_double(t_env *env, t_cell_io *io_cell);
 int			here_doc(t_env *env, t_cell_io *io_cell);
 int			open_output_simple(t_env *env, t_cell_io *io_cell);
 int			open_output_double(t_env *env, t_cell_io *io_cell);
-int			substitute_line_env(t_env *env, char **line);
 
 static const
 	t_io_opener g_io_opener_dictionary[MAX_IO_TYPES] = {
