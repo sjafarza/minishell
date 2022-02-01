@@ -6,13 +6,14 @@
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/18 19:51:37 by sjafarza          #+#    #+#             */
-/*   Updated: 2022/02/01 15:37:36 by scarboni         ###   ########.fr       */
+/*   Updated: 2022/02/01 16:15:12 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-int	export_sans_arg_cmd(t_env *env, const char *cmd, const char **args, int silent)
+int	export_sans_arg_cmd(t_env *env, const char *cmd, const char **args,
+	int silent)
 {
 	int	i;
 

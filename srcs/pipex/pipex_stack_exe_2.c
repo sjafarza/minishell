@@ -6,7 +6,7 @@
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/22 18:54:29 by scarboni          #+#    #+#             */
-/*   Updated: 2022/02/01 15:57:38 by scarboni         ###   ########.fr       */
+/*   Updated: 2022/02/01 16:15:28 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,6 @@ int	start_child(t_env *env, t_list_double *action, int id_cmd)
 
 int	start_child_before_or_after(t_env *env, t_list_double *action)
 {
-	// pid_t			child_pid;
 	int				exit_value;
 	int				id_cmd;
 	t_cell_pipex	*current_cell;
