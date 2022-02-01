@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sjafarza <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/21 20:27:41 by saray             #+#    #+#             */
-/*   Updated: 2021/12/04 09:16:09 by sjafarza         ###   ########.fr       */
+/*   Updated: 2022/02/01 14:12:18 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ void	ft_sig_ctr_backslash2(int sig)
 	g_status = 0;
 }
 
-
 void	ft_sig_ctr_backslash(int sig)
 {
 	(void)sig;
@@ -48,11 +47,10 @@ void	ft_sig_handler(int sig)
 {
 	if (sig == SIGQUIT)
 	{
-	
 		write (1, "\033[2D\033[0K", 8);
-		//g_status = 131;
+		g_status = 131;
 	}
-	if (sig == SIGINT )
+	if (sig == SIGINT)
 	{
 		rl_on_new_line();
 		write(STDOUT_FILENO, "\n", 1);
@@ -61,5 +59,3 @@ void	ft_sig_handler(int sig)
 		g_status = 130;
 	}
 }
-
-

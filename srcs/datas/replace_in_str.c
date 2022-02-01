@@ -6,7 +6,7 @@
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 09:42:12 by saray             #+#    #+#             */
-/*   Updated: 2022/02/01 13:41:43 by scarboni         ###   ########.fr       */
+/*   Updated: 2022/02/01 14:10:32 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,6 @@ int size_after_max_i)
 		ft_memcpy(new_str.str + (*line_handler.i), var->value.str,
 			var->value.len);
 	}
-	printf("%d;%s;%d;%d;%d\n",new_i, (*line_handler.line), (*line_handler.i)
-		, end_var_name + 1, size_after_max_i + 1);
 	ft_memcpy(new_str.str + new_i, (*line_handler.line) + (*line_handler.i)
 		+ end_var_name + 1, size_after_max_i + 1);
 	return (return_and_clean(line_handler, new_str, new_i, EXIT_SUCCESS));
