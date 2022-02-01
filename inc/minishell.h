@@ -6,7 +6,7 @@
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/11 17:47:17 by saray             #+#    #+#             */
-/*   Updated: 2022/01/31 18:12:52 by scarboni         ###   ########.fr       */
+/*   Updated: 2022/02/01 12:56:48 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -409,7 +409,7 @@ static const
 
 int			start_child_before_or_after(t_env *env, t_list_double *action);
 void		close_pipes_until(t_list_double *current, t_list_double *stop);
-int			prepare_both_ends_of_processes(t_env *env, t_list_double *action);
+void		prepare_both_ends_of_processes(t_env *env, t_list_double *action);
 void		close_pipe_after_use(t_list_double *action);
 void		try_dup2_or_die(t_env *env, int fd1, int fd2);
 void		clear_pipex_stack(t_env *env);
