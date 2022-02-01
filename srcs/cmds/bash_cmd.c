@@ -6,7 +6,7 @@
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 09:42:12 by saray             #+#    #+#             */
-/*   Updated: 2022/02/01 14:17:40 by scarboni         ###   ########.fr       */
+/*   Updated: 2022/02/01 15:20:57 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ char	*get_full_cmd(t_env *env, const char *cmd)
 #define COMMAND_NOT_FOUND_CODE 1
 #define EXEC_ERROR_CODE 127
 
-int	bash_cmd(t_env *env, const char *cmd, const char **args)
+int	bash_cmd(t_env *env, const char *cmd, const char **args, int silent)
 {
 	char	*full_cmd;
 	int		ret;
@@ -91,7 +91,8 @@ int	bash_cmd(t_env *env, const char *cmd, const char **args)
 	full_cmd = get_full_cmd(env, cmd);
 	if (!full_cmd)
 	{
-		printf(COMMAND_NOT_FOUND_MSG, cmd);
+		if (silent == false)
+			printf(COMMAND_NOT_FOUND_MSG, cmd);
 		return (COMMAND_NOT_FOUND_CODE);
 	}
 	raw_env = get_raw_env_array(env);

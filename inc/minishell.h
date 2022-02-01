@@ -6,7 +6,7 @@
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/11 17:47:17 by saray             #+#    #+#             */
-/*   Updated: 2022/02/01 14:03:07 by scarboni         ###   ########.fr       */
+/*   Updated: 2022/02/01 15:32:28 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,20 +137,29 @@ typedef struct s_cell
 
 typedef struct s_cmd{
 	t_str	code;
-	int		(*fun)(t_env *env, const char *cmd, const char **args);
+	int		(*fun)(t_env *env, const char *cmd, const char **args, int silent);
 	int		must_be_in_child;
 	int		max_args_len;
 }	t_cmd;
 
-int			echo_cmd(t_env *env, const char *cmd, const char **args);
-int			exit_cmd(t_env *env, const char *cmd, const char **args);
-int			env_cmd(t_env *env, const char *cmd, const char **args);
-int			unset_cmd(t_env *env, const char *cmd, const char **args);
-int			export_cmd(t_env *env, const char *cmd, const char **args);
-int			export_sans_arg_cmd(t_env *env, const char *cmd, const char **args);
-int			pwd_cmd(t_env *env, const char *cmd, const char **args);
-int			cd_cmd(t_env *env, const char *cmd, const char **args);
-int			bash_cmd(t_env *env, const char *cmd, const char **args);
+int			echo_cmd(t_env *env, const char *cmd, const char **args,
+				int silent);
+int			exit_cmd(t_env *env, const char *cmd, const char **args,
+				int silent);
+int			env_cmd(t_env *env, const char *cmd, const char **args,
+				int silent);
+int			unset_cmd(t_env *env, const char *cmd, const char **args,
+				int silent);
+int			export_cmd(t_env *env, const char *cmd, const char **args,
+				int silent);
+int			export_sans_arg_cmd(t_env *env, const char *cmd, const char **args,
+				int silent);
+int			pwd_cmd(t_env *env, const char *cmd, const char **args,
+				int silent);
+int			cd_cmd(t_env *env, const char *cmd, const char **args,
+				int silent);
+int			bash_cmd(t_env *env, const char *cmd, const char **args,
+				int silent);
 int			select_right_cmd(const char *cmd, const char **args);
 
 # define ANY_SIZE	-1

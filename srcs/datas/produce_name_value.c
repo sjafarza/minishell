@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   produce_name_value.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: saray <saray.jafarzade@gmail.com>          +#+  +:+       +#+        */
+/*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/23 20:38:33 by saray             #+#    #+#             */
-/*   Updated: 2022/01/23 20:38:37 by saray            ###   ########.fr       */
+/*   Updated: 2022/02/01 16:11:18 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,12 @@ int	produce_name_value(char *var, char **name, char **value)
 	*value = NULL;
 	indx = ft_strchr_index((const char *)var, '=');
 	if (indx < 0)
-		return (-EXIT_FAILURE);
+	{
+		*name = ft_strdup(var);
+		if (*name == NULL)
+			return (-EXIT_FAILURE);
+		return (EXIT_SUCCESS);
+	}
 	*name = ft_substr(var, 0, indx);
 	if (*name == NULL)
 		return (-EXIT_FAILURE);

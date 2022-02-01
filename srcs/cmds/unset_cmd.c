@@ -6,13 +6,13 @@
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/04 16:12:52 by sjafarza          #+#    #+#             */
-/*   Updated: 2022/01/27 15:33:06 by scarboni         ###   ########.fr       */
+/*   Updated: 2022/02/01 15:46:41 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-static int	is_valid_as_env_var_name(const char *args)
+static int	is_valid_as_env_var_name(const char *args, int silent)
 {
 	int	j;
 
@@ -21,8 +21,9 @@ static int	is_valid_as_env_var_name(const char *args)
 	{
 		if (!ft_is_valid_for_env_var_name(args[j++]))
 		{
-			printf("minshell: unset:( %s ):\
-					 not valid identifier\n", args);
+			if (silent != true)
+				printf("mshell: unset:( %s ):\
+						 not valid identifier\n", args);
 			return (true);
 		}
 	}
@@ -42,19 +43,19 @@ int	update_path_if_needed(t_env *env, int i, const char **args)
 	return (EXIT_SUCCESS);
 }
 
-int	unset_cmd(t_env *env, const char *cmd, const char **args)
+int	unset_cmd(t_env *env, const char *cmd, const char **args, int silent)
 {
 	int	i;
 	int	error;
 
 	(void)cmd;
 	error = false;
-	if (env->pipex_stack.total_item > 1 || !args[1])
+	if (!args[1])
 		return (0);
 	i = 0;
 	while (args[++i])
 	{
-		if (is_valid_as_env_var_name(args[i]))
+		if (is_valid_as_env_var_name(args[i], silent))
 		{
 			error = true;
 			continue ;

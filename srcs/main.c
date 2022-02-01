@@ -6,7 +6,7 @@
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/11 19:03:13 by saray             #+#    #+#             */
-/*   Updated: 2022/02/01 13:14:41 by scarboni         ###   ########.fr       */
+/*   Updated: 2022/02/01 16:03:30 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,10 +42,18 @@ void	loop(t_env *env, char *line)
 {
 	if (line && ft_isprint(line[0]) && !ft_is_blank(line[0]))
 		add_history(line);
-	if (!(extract_parsed_groups(env, &line) == EXIT_SUCCESS
-			&& execute_parsed_groups_stack(env) == EXIT_SUCCESS
-			&& execute_pipex_stack(env) == EXIT_SUCCESS))
+	if (!(extract_parsed_groups(env, &line) == EXIT_SUCCESS))
 		printf("Error in parsing\n");
+	else
+	{
+		if (!(execute_parsed_groups_stack(env) == EXIT_SUCCESS))
+			printf("Error in parsing\n");
+		else
+		{
+			if (!(execute_pipex_stack(env) == EXIT_SUCCESS))
+				printf("Error in execution\n");
+		}
+	}
 	free(line);
 	line = NULL;
 	clear_parsed_groups_stack(env);

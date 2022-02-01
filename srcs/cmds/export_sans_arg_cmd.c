@@ -6,19 +6,21 @@
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/18 19:51:37 by sjafarza          #+#    #+#             */
-/*   Updated: 2022/01/25 14:42:01 by scarboni         ###   ########.fr       */
+/*   Updated: 2022/02/01 15:37:36 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-int	export_sans_arg_cmd(t_env *env, const char *cmd, const char **args)
+int	export_sans_arg_cmd(t_env *env, const char *cmd, const char **args, int silent)
 {
 	int	i;
 
 	(void)cmd;
 	if (args[1])
 		return (1);
+	if (silent == true)
+		return (0);
 	i = 0;
 	while (i < env->env_vars_max)
 	{

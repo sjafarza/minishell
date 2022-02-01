@@ -6,7 +6,7 @@
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/22 18:54:29 by scarboni          #+#    #+#             */
-/*   Updated: 2022/02/01 13:01:08 by scarboni         ###   ########.fr       */
+/*   Updated: 2022/02/01 15:57:38 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,8 @@ int	start_child(t_env *env, t_list_double *action, int id_cmd)
 			exit_value = EXIT_SUCCESS;
 		else
 			exit_value = g_cmd_dictionary[id_cmd].fun(env,
-					current_cell->args[0], (const char**)current_cell->args);
+					current_cell->args[0],
+					(const char**)current_cell->args, false);
 		clean_exit(env, exit_value);
 	}
 	current_cell->child_pid = child_pid;
@@ -65,7 +66,7 @@ int	start_child(t_env *env, t_list_double *action, int id_cmd)
 
 int	start_child_before_or_after(t_env *env, t_list_double *action)
 {
-	pid_t			child_pid;
+	// pid_t			child_pid;
 	int				exit_value;
 	int				id_cmd;
 	t_cell_pipex	*current_cell;
@@ -80,13 +81,9 @@ int	start_child_before_or_after(t_env *env, t_list_double *action)
 		return (-EXIT_FAILURE);
 	if (id_cmd == NO_CMD || g_cmd_dictionary[id_cmd].must_be_in_child)
 		return (start_child(env, action, id_cmd));
-	exit_value = g_cmd_dictionary[id_cmd].fun(env, current_cell->args[0],
-			(const char **)current_cell->args);
-	child_pid = fork();
-	if (child_pid < 0)
-		return (-EXIT_FAILURE);
-	if (child_pid == 0)
-		clean_exit(env, exit_value);
-	current_cell->child_pid = child_pid;
-	return (child_pid);
+	exit_value = start_child(env, action, id_cmd);
+	if (env->pipex_stack.total_item == 1)
+		g_cmd_dictionary[id_cmd].fun(env, current_cell->args[0],
+				(const char **)current_cell->args, true);
+	return (exit_value);
 }
