@@ -6,7 +6,7 @@
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 09:42:12 by saray             #+#    #+#             */
-/*   Updated: 2022/02/01 20:56:22 by scarboni         ###   ########.fr       */
+/*   Updated: 2022/02/01 21:45:29 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ char	*get_full_cmd(t_env *env, const char *cmd)
 	return (get_full_cmd_from_path(env, cmd));
 }
 
-#define COMMAND_NOT_FOUND_MSG "Command not found: "
+#define COMMAND_NOT_FOUND_MSG ": Command not found: "
 #define COMMAND_NOT_FOUND_CODE 1
 #define EXEC_ERROR_CODE 127
 
