@@ -6,7 +6,7 @@
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/24 00:04:01 by saray             #+#    #+#             */
-/*   Updated: 2022/02/01 14:05:44 by scarboni         ###   ########.fr       */
+/*   Updated: 2022/02/01 14:16:29 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,10 +55,10 @@ int	here_doc(t_env *env, t_cell_io *io_cell)
 	while (line)
 	{
 		if (gnl_next(env, &line, io_cell->arg, outfile_fd) == EXIT_SUCCESS)
-			break ;
+			return (EXIT_SUCCESS);
 		line = readline("> ");
 		if (!line)
 			return (EXIT_CTRL_D);
 	}
-	return (-EXIT_FAILURE);
+	return (EXIT_CTRL_D);
 }

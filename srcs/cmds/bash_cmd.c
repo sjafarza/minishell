@@ -6,7 +6,7 @@
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 09:42:12 by saray             #+#    #+#             */
-/*   Updated: 2022/01/27 19:54:11 by scarboni         ###   ########.fr       */
+/*   Updated: 2022/02/01 14:17:40 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,6 @@ int	bash_cmd(t_env *env, const char *cmd, const char **args)
 		printf(COMMAND_NOT_FOUND_MSG, cmd);
 		return (COMMAND_NOT_FOUND_CODE);
 	}
-	printf("FULL_CMD : %s\n", full_cmd);
 	raw_env = get_raw_env_array(env);
 	ret = execve(full_cmd, (char *const *)args, raw_env);
 	free(full_cmd);
