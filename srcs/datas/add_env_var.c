@@ -6,7 +6,7 @@
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/10 09:59:06 by saray             #+#    #+#             */
-/*   Updated: 2022/01/23 21:20:37 by scarboni         ###   ########.fr       */
+/*   Updated: 2022/02/02 15:00:52 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,9 @@ static	int	move_env(t_env *env, t_env_var *tm_env_var)
 	return (EXIT_SUCCESS);
 }
 
-static int	chek_path_len(t_env *env, char *name)
+static int	if_path_then_update(t_env *env, char *name)
 {
-	if ((ft_strlen(name) == PATH_LEN) && \
-			(ft_strncmp(name, PATH_STR, PATH_LEN) == 0))
+	if (ft_strncmp(name, PATH_STR, PATH_LEN + 1) == 0)
 		return (init_path(env));
 	return (EXIT_SUCCESS);
 }
@@ -69,7 +68,7 @@ int	add_new_env_by_value_name_raw(t_env *env,
 		}
 		init_t_str(&env->env_vars[tmp_env_vars_max - 1].raw, raw);
 		env->env_vars_max = tmp_env_vars_max;
-		return (chek_path_len(env, name));
+		return (if_path_then_update(env, name));
 	}
 	return (-EXIT_FAILURE);
 }

@@ -6,7 +6,7 @@
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/03 13:55:54 by sjafarza          #+#    #+#             */
-/*   Updated: 2022/02/01 21:41:30 by scarboni         ###   ########.fr       */
+/*   Updated: 2022/02/02 15:10:17 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int	exit_cmd(t_env *env, const char *cmd, const char **args, int silent)
 		{
 			if (silent == false)
 				print_cmd_error(CMD_NAME, args[1],
-						" : argument numérique nécessaire", NULL);
+					" : argument numérique nécessaire", NULL);
 			env->exit_cmd_value = 2;
 			return (EXIT_MINISHELL);
 		}

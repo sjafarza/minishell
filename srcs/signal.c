@@ -6,7 +6,7 @@
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/21 20:27:41 by saray             #+#    #+#             */
-/*   Updated: 2022/02/01 22:00:59 by scarboni         ###   ########.fr       */
+/*   Updated: 2022/02/02 15:09:56 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,6 @@ void	ft_sig_handler(int sig)
 	if (sig == SIGQUIT)
 	{
 		write (1, "\033[2D\033[0K", 8);
-		// g_status = 131;
 	}
 	if (sig == SIGINT)
 	{

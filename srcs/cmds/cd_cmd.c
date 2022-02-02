@@ -6,7 +6,7 @@
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/11 22:13:42 by saray             #+#    #+#             */
-/*   Updated: 2022/02/01 20:43:40 by scarboni         ###   ########.fr       */
+/*   Updated: 2022/02/02 15:10:08 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	go_to(const char *target_folder)
 	if (chdir(target_folder) == -EXIT_FAILURE)
 	{
 		print_cmd_error(CMD_NAME, target_folder, ": Aucun fichier ou dossier",
-				NULL);
+			NULL);
 		return (-EXIT_FAILURE);
 	}
 	return (EXIT_SUCCESS);

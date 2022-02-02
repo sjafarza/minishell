@@ -6,7 +6,7 @@
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/11 19:03:13 by saray             #+#    #+#             */
-/*   Updated: 2022/02/01 21:29:54 by scarboni         ###   ########.fr       */
+/*   Updated: 2022/02/02 15:09:48 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	init(int ac, char **av, t_env *env, char **env_bash)
 
 void	loop(t_env *env, char *line)
 {
-	int ret;
+	int	ret;
 
 	if (line && ft_isprint(line[0]) && !ft_is_blank(line[0]))
 		add_history(line);
