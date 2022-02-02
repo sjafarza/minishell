@@ -31,3 +31,5 @@ export PATH=/home/user42/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/us
 export E=e HO=ho
 
 $E'c'"$HO"
+
+echo $USER$"?$?"
