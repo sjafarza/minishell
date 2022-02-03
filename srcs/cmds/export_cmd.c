@@ -6,7 +6,7 @@
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/10 09:13:46 by saray             #+#    #+#             */
-/*   Updated: 2022/02/02 15:08:33 by scarboni         ###   ########.fr       */
+/*   Updated: 2022/02/03 08:57:16 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ int	export_cmd(t_env *env, const char *cmd, const char **args, int silent)
 
 	(void)cmd;
 	i = 0;
-	ft_memset(strings, (int) NULL, sizeof(char *) * MAX_STRINGS);
+	ft_memset(strings, 0, sizeof(char *) * MAX_STRINGS);
 	while (args[++i])
 	{
 		if (prepare_var_elements(args[i], strings, silent)

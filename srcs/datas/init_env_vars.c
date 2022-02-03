@@ -6,7 +6,7 @@
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 09:42:12 by saray             #+#    #+#             */
-/*   Updated: 2022/01/24 23:25:31 by scarboni         ###   ########.fr       */
+/*   Updated: 2022/02/03 08:57:34 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int	init_env_vars_int(t_env *env, char **raw_env, char *strings[MAX_STRINGS],
 	int *i)
 {
 	(*i) = 0;
-	ft_memset(strings, (int) NULL, sizeof(char *) * MAX_STRINGS);
+	ft_memset(strings, 0, sizeof(char *) * MAX_STRINGS);
 	env->env_vars_max = get_array_size(raw_env);
 	if (env->env_vars_max == NO_ARRAY || env->env_vars_max == 0)
 		return (-EXIT_FAILURE);
