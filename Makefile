@@ -6,7 +6,7 @@
 #    By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/09/28 22:36:55 by saray             #+#    #+#              #
-#    Updated: 2022/02/01 20:37:30 by scarboni         ###   ########.fr        #
+#    Updated: 2022/02/03 10:31:32 by scarboni         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,6 +36,7 @@ LIBFT_PATH			= libft/
 
 BASE =		main.c \
 			signal.c \
+			signal_1.c \
 
 SRC_FILES		= $(BASE)
 
