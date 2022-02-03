@@ -6,7 +6,7 @@
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/11 19:03:13 by saray             #+#    #+#             */
-/*   Updated: 2022/02/03 10:37:16 by scarboni         ###   ########.fr       */
+/*   Updated: 2022/02/03 10:40:12 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,6 @@ int	main(int ac, char **av, char **env_bash)
 
 	line = NULL;
 	init(ac, av, &env, env_bash);
-	printf("THE FUCK aft %p\n", (void *)g_status);
 	signal(SIGQUIT, ft_sig_handler);
 	signal(SIGINT, ft_sig_handler);
 	line = readline("mshell$ ");
