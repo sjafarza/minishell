@@ -6,7 +6,7 @@
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/11 19:03:13 by saray             #+#    #+#             */
-/*   Updated: 2022/02/02 15:09:48 by scarboni         ###   ########.fr       */
+/*   Updated: 2022/02/03 10:03:43 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,10 @@ void	init(int ac, char **av, t_env *env, char **env_bash)
 {
 	(void)ac;
 	(void)av;
-	g_status = 0;
 	*env = (t_env){0};
+	printf("THE FUCK bef %p\n", (void *)g_status);
+	g_status = &env->exit_value;
+	printf("THE FUCK aft %p\n", (void *)g_status);
 	if (init_env_vars(env, env_bash) != EXIT_SUCCESS)
 	{
 		printf("AN ERROR OCCURED\n");
@@ -42,7 +44,7 @@ void	loop(t_env *env, char *line)
 {
 	int	ret;
 
-	if (line && ft_isprint(line[0]) && !ft_is_blank(line[0]))
+	if (line)
 		add_history(line);
 	ret = extract_parsed_groups(env, &line);
 	if (!(ret == EXIT_SUCCESS))
@@ -65,6 +67,7 @@ void	loop(t_env *env, char *line)
 	clear_pipex_stack(env);
 }
 
+
 int	main(int ac, char **av, char **env_bash)
 {
 	char	*line;
@@ -79,7 +82,10 @@ int	main(int ac, char **av, char **env_bash)
 	{
 		loop(&env, line);
 		if (env.exit_value == EXIT_MINISHELL)
-			break ;
+		{
+			free_t_env(&env);
+			return (env.exit_cmd_value);
+		}
 		signal(SIGINT, ft_sig_handler);
 		signal(SIGQUIT, ft_sig_ctr_backslash);
 		line = readline("mshell$ ");
@@ -87,4 +93,50 @@ int	main(int ac, char **av, char **env_bash)
 	printf("exit\n");
 	free_t_env(&env);
 	return (env.exit_cmd_value);
+}
+
+void	ft_sig_ctr_c2(int sig)
+{
+	(void)sig;
+	rl_replace_line("", 1);
+	write (1, "\033[8D\033[0K", 8);
+	*g_status = 130;
+	exit(1);
+}
+
+
+void	ft_sig_ctr_c(int sig)
+{
+	(void)sig;
+	rl_replace_line("", 1);
+	*g_status = 130;
+}
+
+void	ft_sig_ctr_backslash2(int sig)
+{
+	(void)sig;
+	*g_status = 0;
+}
+
+void	ft_sig_ctr_backslash(int sig)
+{
+	(void)sig;
+	write (1, "\033[2D\033[0K", 8);
+	*g_status = 0;
+}
+
+void	ft_sig_handler(int sig)
+{
+	if (sig == SIGQUIT)
+	{
+		write (1, "\033[2D\033[0K", 8);
+	}
+	if (sig == SIGINT)
+	{
+		rl_on_new_line();
+		write(STDOUT_FILENO, "\n", 1);
+		rl_replace_line("", 0);
+		rl_redisplay();
+		*g_status = 130;
+	}
 }

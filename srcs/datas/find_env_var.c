@@ -6,7 +6,7 @@
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 09:42:12 by saray             #+#    #+#             */
-/*   Updated: 2022/01/23 22:31:58 by scarboni         ###   ########.fr       */
+/*   Updated: 2022/02/03 09:41:25 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,8 @@ static int	if_question_mark_update(t_env *env, t_env_var *var)
 	char	*str_exit_value;
 
 	if (var->name.len == 1 && ft_strncmp(var->name.str, "?", 1) == 0
-		&& g_status != env->exit_value)
+		&& atoi(var->value.str) != env->exit_value)
 	{
-		env->exit_value = g_status;
 		str_exit_value = ft_itoa(env->exit_value);
 		if (!str_exit_value)
 			return (-EXIT_FAILURE);

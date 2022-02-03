@@ -6,19 +6,20 @@
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/11 22:13:42 by saray             #+#    #+#             */
-/*   Updated: 2022/02/02 15:10:08 by scarboni         ###   ########.fr       */
+/*   Updated: 2022/02/03 09:54:12 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 #define CMD_NAME	"cd"
 
-int	go_to(const char *target_folder)
+int	go_to(const char *target_folder, int silent)
 {	
 	if (chdir(target_folder) == -EXIT_FAILURE)
 	{
-		print_cmd_error(CMD_NAME, target_folder, ": Aucun fichier ou dossier",
-			NULL);
+		if (silent == false)
+			print_cmd_error(CMD_NAME, target_folder,
+				": Aucun fichier ou dossier", NULL);
 		return (-EXIT_FAILURE);
 	}
 	return (EXIT_SUCCESS);
@@ -36,7 +37,7 @@ int	go_back_to_var(t_env *env, const char *var_name_target_folder, int silent)
 				" >> non défini");
 		return (-EXIT_FAILURE);
 	}
-	return (go_to(var->value.str));
+	return (go_to(var->value.str, silent));
 }
 
 static int	cd_cmd_leave_early(t_env *env, int args_len, const char *cmd,
@@ -75,7 +76,7 @@ int	cd_cmd(t_env *env, const char *cmd, const char **args, int silent)
 		}
 		else if (ft_strlen(args[1]) == 0)
 			return (0);
-		else if (go_to(args[1]) == -EXIT_FAILURE)
+		else if (go_to(args[1], silent) == -EXIT_FAILURE)
 			return (1);
 	}
 	if (init_cwd(env) != EXIT_SUCCESS)

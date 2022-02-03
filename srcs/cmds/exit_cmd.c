@@ -6,7 +6,7 @@
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/03 13:55:54 by sjafarza          #+#    #+#             */
-/*   Updated: 2022/02/02 15:10:17 by scarboni         ###   ########.fr       */
+/*   Updated: 2022/02/03 09:54:42 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,5 +60,7 @@ int	exit_cmd(t_env *env, const char *cmd, const char **args, int silent)
 		}
 	}
 	env->exit_cmd_value = value;
+	if (silent == false)
+		printf("exit\n");
 	return (EXIT_MINISHELL);
 }

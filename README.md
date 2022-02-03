@@ -33,3 +33,5 @@ export E=e HO=ho
 $E'c'"$HO"
 
 echo $USER$"?$?"
+
+export PATH=/mnt/nfs/homes/scarboni/bin:/mnt/nfs/homes/scarboni/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
