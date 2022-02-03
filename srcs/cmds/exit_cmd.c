@@ -6,7 +6,7 @@
 /*   By: scarboni <scarboni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/03 13:55:54 by sjafarza          #+#    #+#             */
-/*   Updated: 2022/02/03 09:54:42 by scarboni         ###   ########.fr       */
+/*   Updated: 2022/02/03 10:52:41 by scarboni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,12 +42,6 @@ int	exit_cmd(t_env *env, const char *cmd, const char **args, int silent)
 
 	(void)cmd;
 	value = 0;
-	if (array_len(args) > 2)
-	{
-		if (silent == false)
-			print_cmd_error(CMD_NAME, "trop d'arguments", NULL, NULL);
-		return (1);
-	}
 	if (args[1])
 	{
 		if (parse_value(args[1], &value) != EXIT_SUCCESS)
@@ -58,6 +52,12 @@ int	exit_cmd(t_env *env, const char *cmd, const char **args, int silent)
 			env->exit_cmd_value = 2;
 			return (EXIT_MINISHELL);
 		}
+	}
+	if (array_len(args) > 2)
+	{
+		if (silent == false)
+			print_cmd_error(CMD_NAME, "trop d'arguments", NULL, NULL);
+		return (1);
 	}
 	env->exit_cmd_value = value;
 	if (silent == false)
